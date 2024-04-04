@@ -69,7 +69,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
   gem 'factory_bot_rails'
   gem 'rspec-rails'
-  gem 'airborne'
+  # gem 'airborne'
   gem 'faker'
   gem 'pry'
   gem 'bullet'
