@@ -2,7 +2,7 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
   received(data) {
-    console.log('received')
+    console.log('received', data)
     // this.appendLine(data)
   },
 
