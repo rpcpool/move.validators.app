@@ -3,7 +3,12 @@ import consumer from "./consumer"
 consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
   received(data) {
     console.log('received', data)
-    // this.appendLine(data)
+    this.insertAptPrice(data['aptos']['usd'])
+  },
+
+  insertAptPrice(price) {
+    const element = document.querySelector("#apt-price")
+    element.textContent = `$ ${price}`
   },
 
   appendLine(data) {
