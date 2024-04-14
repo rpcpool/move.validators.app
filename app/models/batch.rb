@@ -12,4 +12,11 @@
 #  updated_at       :datetime         not null
 #
 class Batch < ApplicationRecord
+  before_create :create_uuid
+
+  private
+
+  def create_uuid
+    self.uuid = SecureRandom.uuid
+  end
 end
