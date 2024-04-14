@@ -18,11 +18,6 @@ module AptosLogic
 
   def epoch_get
     lambda do |p|
-      # epoch_json = solana_client_request(
-      #   p.payload[:config_urls],
-      #   :get_epoch_info
-      # )
-
       response = Faraday.get('https://api.mainnet.aptoslabs.com/v1')
       epoch_json = JSON(response.body)
 
@@ -38,19 +33,20 @@ module AptosLogic
       #   "git_hash": "4174fd615d442ccac6e5d77db00ba693d0d57108"
       # }
 
-      # epoch = EpochHistory.create(
-      #   network: p.payload[:network],
-      #   batch_uuid: p.payload[:batch_uuid],
-      #   epoch: epoch_json['epoch'],
-      #   current_slot: epoch_json['absoluteSlot'],
-      #   slot_index: epoch_json['slotIndex'],
-      #   slots_in_epoch: epoch_json['slotsInEpoch']
-      # )
+      epoch = EpochHistory.create(
+        network: p.payload[:network],
+        batch_uuid: p.payload[:batch_uuid],
+        epoch: epoch_json['epoch'],
+        ledger_version: epoch_json['ledger_version'],
+        oldest_ledger_version: epoch_json['oldest_ledger_version'],
+        ledger_timestamp: epoch_json['ledger_timestamp'],
+        node_role: epoch_json['node_role'],
+        oldest_block_height: epoch_json['oldest_block_height'],
+        block_height: epoch_json['block_height'],
+        git_hash: epoch_json['git_hash']
+      )
 
-      Pipeline.new(200, p.payload.merge(
-                          epoch: epoch.epoch,
-                          epoch_slot_index: epoch.slot_index
-                        ))
+      Pipeline.new(200, p.payload.merge(epoch: epoch.epoch))
     rescue ActiveRecord::ConnectionNotEstablished => e
       Appsignal.send_error(e)
       puts "#{e.class}\n#{e.message}"

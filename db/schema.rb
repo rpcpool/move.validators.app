@@ -10,13 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_14_145911) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_14_182309) do
   create_table "batches", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "gathered_at"
     t.string "network"
     t.datetime "scored_at"
     t.string "software_version"
     t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "epoch_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "batch_uuid"
+    t.string "network"
+    t.string "epoch"
+    t.string "ledger_version"
+    t.string "oldest_ledger_version"
+    t.string "ledger_timestamp"
+    t.string "node_role"
+    t.string "oldest_block_height"
+    t.string "block_height"
+    t.string "git_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
