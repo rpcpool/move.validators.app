@@ -2,7 +2,6 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
   received(data) {
-    console.log('received', data)
     this.insertAptPrice(parseFloat(data['aptos']['usd'].toFixed(2)))
     this.insert24HChange(data['aptos']['usd_24h_change'])
     this.insert24HVolume(data['aptos']['usd_24h_vol'])
@@ -31,8 +30,6 @@ consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
 
   insert24HVolume(change) {
     const el = document.querySelector('#apt-24h-volume')
-
     el.textContent = '$ ' + parseFloat((change / 1000000).toFixed(2)).toLocaleString() + 'M'
-
   }
 })
