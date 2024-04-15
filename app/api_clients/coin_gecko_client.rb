@@ -21,10 +21,11 @@ class CoinGeckoClient
     @api_client.status
   end
 
-  # Fetches the current price for a coin in the given coin or currency.
-  def price(ids = @coin)
+  def price
     begin
-      @api_client.price(ids, include_24hr_vol: true, include_24hr_change: true)
+      response = @api_client.price(@coin, include_24hr_vol: true, include_24hr_change: true)[@coin]
+
+
     rescue JSON::ParserError => e
       raise CoinGeckoResponseError
     end
