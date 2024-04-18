@@ -2,7 +2,7 @@ import consumer from "./consumer"
 
 consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
   received(data) {
-    this.insertAptPrice(parseFloat(data['aptos']['usd'].toFixed(2)))
+    this.insertAptPrice(parseFloat(data['aptos']['usd']))
     this.insert24HChange(data['aptos']['usd_24h_change'])
     this.insert24HVolume(data['aptos']['usd_24h_vol'])
   },
@@ -15,7 +15,7 @@ consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
   insert24HChange(change) {
     const el = document.querySelector('#apt-24h-change')
 
-    el.textContent = parseFloat(change.toFixed(2)) + '%'
+    el.textContent = parseFloat(change + '%')
 
     if (change > 0) {
       // positive, so green color
@@ -30,6 +30,6 @@ consumer.subscriptions.create({ channel: "FrontStatsChannel" }, {
 
   insert24HVolume(change) {
     const el = document.querySelector('#apt-24h-volume')
-    el.textContent = '$ ' + parseFloat((change / 1000000).toFixed(2)).toLocaleString() + 'M'
+    el.textContent = '$ ' + parseFloat((change / 1000000).toLocaleString()) + 'M'
   }
 })

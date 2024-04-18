@@ -27,11 +27,11 @@ describe CoinGeckoClient do
     end
 
     it 'returns a parsed usd_24h_change key' do
-      expect(subject.price['usd_24h_change']).to eq(249900273.968)
+      expect(subject.price['usd_24h_change']).to eq(3.00)
     end
 
     it 'returns a parsed usd_24h_vol key' do
-      expect(subject.price['usd_24h_vol'])
+      expect(subject.price['usd_24h_vol']).to eq(249900273.97)
     end
   end
 end
