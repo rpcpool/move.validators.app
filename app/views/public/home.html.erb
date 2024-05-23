@@ -1,1 +1,41 @@
-<h1>Hello world</h1>
+<div class="bg-white">
+  <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+    <h2 class="text-2xl font-bold tracking-tight text-primary hover:text-black sm:text-4xl">
+      <a href="#">
+        Looking for the best validator? <span class="underline">Click here!</span>
+      </a>
+    </h2>
+
+    <h1 class="mt-10 text-4xl font-bold tracking-tight sm:text-6xl">
+      Aptos Validator Metrics
+    </h1>
+
+    <div class="mt-20 flex items-center gap-x-6">
+      <a href="#" class="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
+      <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
+    <dl class="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
+      <%= render 'apt_price' %>
+
+      <div class="flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 sm:border-l">
+        <dt class="text-sm font-medium leading-6 text-gray-500">Overdue invoices</dt>
+        <dd class="text-xs font-medium text-rose-600">+54.02%</dd>
+        <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">$12,787.00</dd>
+      </div>
+      <div class="flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 lg:border-l">
+        <dt class="text-sm font-medium leading-6 text-gray-500">Outstanding invoices</dt>
+        <dd class="text-xs font-medium text-gray-700">-1.39%</dd>
+        <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">$245,988.00</dd>
+      </div>
+      <div class="flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 sm:border-l">
+        <dt class="text-sm font-medium leading-6 text-gray-500">Expenses</dt>
+        <dd class="text-xs font-medium text-rose-600">+10.18%</dd>
+        <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">$30,156.00</dd>
+      </div>
+    </dl>
+  </div>
+</div>

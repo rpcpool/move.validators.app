@@ -53,6 +53,7 @@ gem 'paper_trail'
 gem 'paranoia'
 gem 'whenever'
 gem 'faraday'
+gem 'coingecko_ruby'
 
 # Capistrano & deployments
 gem 'capistrano', '3.16.0'

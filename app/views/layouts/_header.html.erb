@@ -1,0 +1,37 @@
+<header class="bg-white">
+  <nav class="mx-auto flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <div class="flex lg:flex-1">
+      <a href="#" class="-m-1.5 p-1.5">
+        <span class="sr-only">www.move.validators.app</span>
+        <%= image_tag 'triton-logo.png', alt: 'Triton Logo', class: 'h-8 w-auto' %>
+      </a>
+    </div>
+
+    <div class="lg:flex lg:flex-1 lg:justify-end">
+      <a href="#" class="text-sm font-semibold leading-6 text-gray-900 mx-3">Validators</a>
+      <a href="#" class="text-sm font-semibold leading-6 text-gray-900 mx-3">Getting Started</a>
+      <a href="#" class="text-sm font-semibold leading-6 text-gray-900 mx-3">Support Triton One</a>
+      <button id="searchToggle" class="text-sm font-semibold leading-6 text-gray-900 mx-3">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="searchBar" class="hidden mx-auto max-w-7xl p-6 lg:px-8">
+    <form action="/search" method="get" class="flex">
+      <input type="text" name="query" placeholder="Validator name, account or data center" class="w-full p-2 text-gray-900 border border-gray-300 rounded-l-md focus:ring-indigo-500 focus:border-indigo-500">
+      <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-2 rounded-r-md">
+        Search
+      </button>
+    </form>
+  </div>
+</header>
+
+<script>
+  document.getElementById('searchToggle').addEventListener('click', function() {
+    const searchBar = document.getElementById('searchBar');
+    searchBar.classList.toggle('hidden');
+  });
+</script>
