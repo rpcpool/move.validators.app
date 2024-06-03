@@ -2,4 +2,4 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 // import Vue from "vue"
-import "./channels/front_stats_channel"
+import "./theme_toggle"

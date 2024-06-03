@@ -10,7 +10,7 @@ class CoinGeckoClient
 
   class CoinGeckoResponseError < StandardError; end
 
-  def initialize(coin: "aptos", currency: "apt")
+  def initialize(coin: "aptos", currency: "usd")
     @api_client = CoingeckoRuby::Client.new
     @coin = coin
     @currency = currency
@@ -23,17 +23,28 @@ class CoinGeckoClient
 
   def price
     begin
-      response = @api_client.price(@coin, include_24hr_vol: true, include_24hr_change: true)[@coin]
+      response = @api_client.price(@coin, currency: @currency, include_market_cap: true, include_24hr_vol: true, include_24hr_change: true)[@coin]
+
+      if response.nil?
+        return {
+          usd: 0,
+          usd_24h_vol: 0.00,
+          usd_24h_change: 0.00
+        }
+      end
 
       {
         usd: response['usd'],
-        usd_24h_vol: response['usd_24h_vol'].round(2),
-        usd_24h_change: response['usd_24h_change'].round(2)
+        usd_24h_vol: response['usd_24h_vol']&.round(2),
+        usd_24h_change: response['usd_24h_change']&.round(2)
       }.with_indifferent_access
     rescue JSON::ParserError => e
-      raise CoinGeckoResponseError
+      raise CoinGeckoResponseError, "JSON parsing error: #{e.message}"
+    rescue StandardError => e
+      raise CoinGeckoResponseError, "Unexpected error: #{e.message}"
     end
   end
+
 
   # ohlc - open, high, low, close
   def ohlc(days: 1)

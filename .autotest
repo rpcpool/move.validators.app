@@ -1,0 +1,7 @@
+require 'autotest/restart'
+require 'autotest/fsevent'
+#require 'autotest/growl'
+
+Autotest.add_hook :initialize do |at|
+  %w{.git .DS_Store}.each { |exception| at.add_exception(exception) }
+end

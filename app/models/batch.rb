@@ -14,6 +14,12 @@
 class Batch < ApplicationRecord
   before_create :create_uuid
 
+  validates :gathered_at, presence: true
+  validates :network, presence: true
+  validates :scored_at, presence: true
+  validates :software_version, presence: true
+  validates :uuid, presence: true
+
   private
 
   def create_uuid

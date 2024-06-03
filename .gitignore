@@ -43,3 +43,6 @@
 
 # Ignore npm_modules everywhere
 node_modules/
+
+# Ignore solargraph config
+.solargraph.yml

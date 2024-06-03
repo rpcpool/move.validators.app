@@ -17,4 +17,16 @@
 #  updated_at            :datetime         not null
 #
 class EpochHistory < ApplicationRecord
+
+  validates :batch_uuid, presence: true
+  validates :network, presence: true
+  validates :epoch, presence: true
+  validates :ledger_version, presence: true
+  validates :oldest_ledger_version, presence: true
+  validates :ledger_timestamp, presence: true
+  validates :node_role, presence: true
+  validates :oldest_block_height, presence: true
+  validates :block_height, presence: true
+  validates :git_hash, presence: true
+
 end
