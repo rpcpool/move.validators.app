@@ -1,0 +1,58 @@
+<div class="w-full min-h-[48rem]">
+
+  <div class="border-b pb-5">
+    <div class="sm:flex sm:items-baseline sm:justify-between">
+      <div class="sm:w-0 sm:flex-1">
+        <h1 id="message-heading" class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-200"><%= t('public.validators.title') %></h1>
+        <p class="mt-1 truncate text-sm text-gray-500"><%= t('public.validators.subtitle') %></p>
+      </div>
+    </div>
+  </div>
+
+  <%= render partial: "validators/validator_stats", locals: {stats:@stats} %>
+
+<!--
+  <ul role="list" class="divide-y divide-gray-100 my-8">
+  <%# @validators.each do |validator| %>
+    <%#= render partial: "validators/validator_row", locals: { validator: validator } %>
+  <%# end %>
+</ul>
+ -->
+
+<div class="mt-8 mb-16 flow-root">
+  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead>
+          <tr>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-300 sm:pl-3">
+                <div><%= t('public.validators.table.headings.name') %> (<%= t('public.validators.table.headings.commission') %> %)</div>
+                <div><%= t('public.validators.table.headings.locations') %></div>
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">
+                <%= t('public.validators.table.headings.staking_address') %>
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">
+                <%= t('public.validators.table.headings.operator_address') %>
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">
+                <%= t('public.validators.table.headings.voting_power') %>
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">
+                <%= t('public.validators.table.headings.performance') %>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="">
+            <% @validators.each do |validator| %>
+              <%= render partial: "validators/validator_row", locals: { validator: validator } %>
+            <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%= paginate @validators %>
+ </div>
+
+</div>

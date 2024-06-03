@@ -1,0 +1,6 @@
+testnet:
+  gathered_at: 2024-04-14 08:59:11
+  network: "testnet"
+  scored_at: 2024-04-14 08:59:11
+  software_version: "1.0.0"
+  uuid: <%= SecureRandom.uuid %>

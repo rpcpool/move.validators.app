@@ -1,0 +1,11 @@
+testnet_epoch:
+  batch_uuid: <%= SecureRandom.uuid %>
+  network: "testnet"
+  epoch: 1
+  ledger_version: "1.0.0"
+  oldest_ledger_version: "1.0.0"
+  ledger_timestamp: 2024-04-14 08:59:11
+  node_role: "validator"
+  oldest_block_height: 1
+  block_height: 1000
+  git_hash: <%= SecureRandom.hex(20) %>

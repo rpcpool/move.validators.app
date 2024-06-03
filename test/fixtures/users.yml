@@ -1,0 +1,20 @@
+user_1:
+  username: <%= Faker::Internet.username %>
+  encrypted_password: <%= Devise::Encryptor.digest(User, '123456') %>
+  reset_password_token: <%= SecureRandom.hex(10) %>
+  reset_password_sent_at: <%= Time.now %>
+  remember_created_at: <%= Time.now %>
+  sign_in_count: 1
+  current_sign_in_at: <%= Time.now %>
+  last_sign_in_at: <%= Time.now %>
+  current_sign_in_ip: <%= Faker::Internet.ip_v4_address %>
+  last_sign_in_ip: <%= Faker::Internet.ip_v4_address %>
+  confirmation_token: <%= SecureRandom.hex(10) %>
+  confirmed_at: <%= Time.now %>
+  confirmation_sent_at: <%= Time.now %>
+  unconfirmed_email: nil
+  failed_attempts: 0
+  unlock_token: <%= SecureRandom.hex(10) %>
+  locked_at: nil
+  is_admin: false
+  api_token: <%= SecureRandom.hex(10) %>

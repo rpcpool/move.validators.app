@@ -1,0 +1,12 @@
+{
+  "name": "move-validators-app",
+  "version": "1.0.0",
+  "description": "This is the js portion of the move validators app.",
+  "scripts": {
+    "test": "node lib/test/run-tests.js"
+  },
+  "dependencies": {},
+  "keywords": [],
+  "author": "Jason Lee",
+  "license": "ISC"
+}
