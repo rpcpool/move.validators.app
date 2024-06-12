@@ -55,6 +55,7 @@ gem 'whenever'
 gem 'faraday'
 gem 'coingecko_ruby'
 gem 'kaminari'
+gem "image_processing", ">= 1.2"
 
 # Capistrano & deployments
 gem 'capistrano', '3.16.0'

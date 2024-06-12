@@ -64,11 +64,14 @@ en:
       stats:
         active_validators: "Active Validators"
         current_epoch: "Current Epoch"
+        avg_validator_staked: "Avg Validator Staked"
         total_aptos_staked: "Total Aptos Staked"
       table:
         headings:
           name: "Name"
           commission: "Commission"
+          index: "Validator Index"
+          address: "Address"
           staking_address: "Staking Address"
           operator_address: "Operator Address"
           voting_power: "Voting Power (APT)"

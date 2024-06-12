@@ -11,20 +11,20 @@
     }
 }
 
-input {
+input, select {
     @apply border border-gray-300 !important;
     @apply rounded-md;
     @apply px-4 !important;
     @apply py-2 !important;
 }
 
-.dark input {
+.dark input, .dark select {
     @apply bg-gray-800 !important;
     @apply text-gray-300 !important;
     @apply border border-gray-600 !important;
 }
 
-input:focus {
+input:focus, select:focus {
     @apply outline-none !important;
     @apply border-gray-400 !important;
 }
@@ -42,4 +42,25 @@ input:focus {
 
 .dark .primary-hover-bg:hover {
     @apply bg-gray-600 !important;
+}
+
+.btn {
+    @apply rounded-md;
+    @apply bg-primary;
+    @apply px-2.5;
+    @apply py-1.5;
+    @apply text-sm;
+    @apply font-semibold;
+    @apply text-white;
+    @apply shadow-sm;
+    /*@apply hover:bg-primary-500;*/
+    @apply focus-visible:outline;
+    @apply focus-visible:outline-2;
+    @apply focus-visible:outline-offset-2;
+    @apply focus-visible:outline-primary;
+}
+
+.btn-sm {
+    @apply px-2 !important;
+    @apply py-1 !important;
 }

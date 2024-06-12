@@ -1,43 +1,27 @@
-<!--
-<li class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 dark:hover:bg-gray-700 sm:px-6 lg:px-8 border-b">
-    <div class="flex min-w-0 gap-x-4">
-      <%#= image_tag validator[:avatar_url], class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
-      <div class="min-w-0 flex-auto">
-        <p class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">
-          <a href="#">
-            <span class="absolute inset-x-0 -top-px bottom-0"></span>
-            Name: <%#= validator[:name] %> (<%#= validator[:commission] %>%)
-          </a>
-        </p>
-        <p class="mt-1 flex text-xs leading-5 text-gray-500 dark:text-gray-300">
-          Location: <a href="#" class="relative truncate hover:underline"><%#= validator[:location] %></a>
-        </p>
-      </div>
-    </div>
-    <div class="flex shrink-0 items-center gap-x-4">
-      <div class="hidden sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900 dark:text-gray-200">Co-Founder / CEO</p>
-        <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-      </div>
-      <svg class="h-5 w-5 flex-none text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-      </svg>
-    </div>
-  </li>
- -->
-
 <tr class="even:bg-gray-50 even:dark:bg-gray-600 text-gray-900 dark:text-gray-200 cursor-pointer">
     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-3 rounded-l-lg">
         <div class="flex justify-start items-center space-x-2">
-            <div><%= image_tag validator[:avatar_url], class: "h-12 w-12 flex-none rounded-lg bg-gray-50" %></div>
-            <div>
+          <div>
+            <% if validator.avatar.attached? %>
+              <%= image_tag validator.avatar, class: "h-12 w-12 flex-none rounded-lg bg-gray-50" %>
+            <% else %>
+              <%= image_tag validator.avatar_url, class: "h-12 w-12 flex-none rounded-lg bg-gray-50" %>
+            <% end %>
+          </div>
+          <div>
                 <div><%= validator[:name] %> (<%= validator[:commission] %>%)</div>
                 <div class="relative truncate"><%= validator[:location].truncate(35) %></div>
+              <% unless validator[:domain].nil? %>
+                <div class="relative truncate text-xs"><%= validator[:domain] %></div>
+              <% end %>
             </div>
         </div>
     </td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:staking_address].ellipsize(6) %></td>
+    <td class="whitespace-nowrap px-3 py-4 text-sm text-center"><%= validator[:validator_index] %></td>
+    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:address].ellipsize(6) %></td>
     <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:operator_address].ellipsize(6) %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:voting_power] %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm rounded-r-lg"><%= validator[:performance] %>%</td>
+    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= octas_to_apt(validator.voting_power) %></td>
+    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:performance] %>%</td>
+    <td class="rounded-r-lg pr-4"><%= link_to 'Edit', edit_validator_path(validator), class: 'btn btn-primary dark:bg-primary-dark' %></td>
+
 </tr>

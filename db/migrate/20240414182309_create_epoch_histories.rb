@@ -1,9 +1,10 @@
+require_relative '../../lib/extensions/network_shardable/table_name_helper'
+
 class CreateEpochHistories < ActiveRecord::Migration[7.1]
   def change
-    create_table :epoch_histories do |t|
+      create_sharded_table :epoch_histories do |t|
       t.string :batch_uuid
-      t.string :network
-      t.string :epoch
+      t.integer :epoch
       t.string :ledger_version
       t.string :oldest_ledger_version
       t.string :ledger_timestamp
