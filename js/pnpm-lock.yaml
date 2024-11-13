@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@aptos-labs/aptos-cli':
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: ^1.0.2
+        version: 1.0.2
       '@aptos-labs/ts-sdk':
-        specifier: ^1.17.0
-        version: 1.18.0
+        specifier: ^1.32.1
+        version: 1.32.1
       country-code-lookup:
         specifier: ^0.1.3
         version: 0.1.3
@@ -36,20 +36,16 @@ importers:
 
 packages:
 
-  '@aptos-labs/aptos-cli@0.1.8':
-    resolution: {integrity: sha512-xSWDchqoDR4aR74xNoJZgOzIFtn+EKFGGFLG0vOb+6Ce8Jgg1Ui0Pqhvwbx6Z36dDxfKv0F4M7bnurvWpwAjXA==}
+  '@aptos-labs/aptos-cli@1.0.2':
+    resolution: {integrity: sha512-PYPsd0Kk3ynkxNfe3S4fanI3DiUICCoh4ibQderbvjPFL5A0oK6F4lPEO2t0MDsQySTk2t4vh99Xjy6Bd9y+aQ==}
     hasBin: true
 
-  '@aptos-labs/aptos-cli@0.2.0':
-    resolution: {integrity: sha512-6kljJFRsTLXCvgkNhBoOLhVyo7rmih+8+XAtdeciIXkZYwzwVS3TFPLMqBUO2HcY6gYtQQRmTG52R5ihyi/bXA==}
-    hasBin: true
-
-  '@aptos-labs/aptos-client@0.1.0':
-    resolution: {integrity: sha512-q3s6pPq8H2buGp+tPuIRInWsYOuhSEwuNJPwd2YnsiID3YSLihn2ug39ktDJAcSOprUcp7Nid8WK7hKqnUmSdA==}
+  '@aptos-labs/aptos-client@0.1.1':
+    resolution: {integrity: sha512-kJsoy4fAPTOhzVr7Vwq8s/AUg6BQiJDa7WOqRzev4zsuIS3+JCuIZ6vUd7UBsjnxtmguJJulMRs9qWCzVBt2XA==}
     engines: {node: '>=15.10.0'}
 
-  '@aptos-labs/ts-sdk@1.18.0':
-    resolution: {integrity: sha512-8nDYOH++PNV3ylj9VIBEgFQGl0bJ3AH1S3Sefsxd8vcJepBZBQN0dFt/tdewrFfLFLOCUa/+TjS8JoS/rd96nA==}
+  '@aptos-labs/ts-sdk@1.32.1':
+    resolution: {integrity: sha512-yFFZEGnHC3BZNioLTI7nlYfFF1FDISZ2X+vZCIjuxnplYV1KZpl6TlWEKN8ioVexFfn4eZa9mx9OfXGME6Jl2A==}
     engines: {node: '>=11.0.0'}
 
   '@noble/curves@1.4.0':
@@ -127,8 +123,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.6.2:
-    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
+  axios@1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -166,6 +162,10 @@ packages:
   combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
+
+  commander@12.1.0:
+    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+    engines: {node: '>=18'}
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -437,21 +437,21 @@ packages:
 
 snapshots:
 
-  '@aptos-labs/aptos-cli@0.1.8': {}
-
-  '@aptos-labs/aptos-cli@0.2.0': {}
-
-  '@aptos-labs/aptos-client@0.1.0':
+  '@aptos-labs/aptos-cli@1.0.2':
     dependencies:
-      axios: 1.6.2
+      commander: 12.1.0
+
+  '@aptos-labs/aptos-client@0.1.1':
+    dependencies:
+      axios: 1.7.4
       got: 11.8.6
     transitivePeerDependencies:
       - debug
 
-  '@aptos-labs/ts-sdk@1.18.0':
+  '@aptos-labs/ts-sdk@1.32.1':
     dependencies:
-      '@aptos-labs/aptos-cli': 0.1.8
-      '@aptos-labs/aptos-client': 0.1.0
+      '@aptos-labs/aptos-cli': 1.0.2
+      '@aptos-labs/aptos-client': 0.1.1
       '@noble/curves': 1.4.0
       '@noble/hashes': 1.4.0
       '@scure/bip32': 1.4.0
@@ -543,7 +543,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.6.2:
+  axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
@@ -597,6 +597,8 @@ snapshots:
   combined-stream@1.0.8:
     dependencies:
       delayed-stream: 1.0.0
+
+  commander@12.1.0: {}
 
   concat-map@0.0.1: {}
 

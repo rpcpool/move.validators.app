@@ -8,8 +8,8 @@
     "credentials:edit": "./bin/edit-env.sh"
   },
   "dependencies": {
-    "@aptos-labs/aptos-cli": "0.2.0",
-    "@aptos-labs/ts-sdk": "^1.17.0",
+    "@aptos-labs/aptos-cli": "^1.0.2",
+    "@aptos-labs/ts-sdk": "^1.32.1",
     "country-code-lookup": "^0.1.3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
