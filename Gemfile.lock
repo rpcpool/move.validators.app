@@ -458,7 +458,6 @@ DEPENDENCIES
   bullet
   bundler
   capistrano (= 3.16.0)
-  capistrano-bundler
   capistrano-passenger
   capistrano-rails
   capistrano-sidekiq
