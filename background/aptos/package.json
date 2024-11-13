@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "dependencies": {
-    "@aptos-labs/ts-sdk": "^1.12.2"
-  }
-}

@@ -10,8 +10,6 @@
   "dependencies": {
     "@aptos-labs/aptos-cli": "0.2.0",
     "@aptos-labs/ts-sdk": "^1.17.0",
-    "@tka85/dotenvenc": "^5.2.0",
-    "axios": "^1.7.7",
     "country-code-lookup": "^0.1.3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
