@@ -46,4 +46,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
+# set :bundle_bins, fetch(:bundle_bins, []).push('bundle')
+# set :bundle_path, -> { shared_path.join('bundle') }
+
 set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }

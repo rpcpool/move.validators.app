@@ -456,6 +456,7 @@ DEPENDENCIES
   bcrypt_pbkdf
   bootsnap
   bullet
+  bundler
   capistrano (= 3.16.0)
   capistrano-bundler
   capistrano-passenger
