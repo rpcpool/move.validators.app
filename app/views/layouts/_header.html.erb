@@ -1,28 +1,28 @@
 <header class="bg-white dark:bg-gray-950 sticky top-0 z-50 border-b border-gray-900/5 dark:border-gray-600">
-<nav class="mx-auto flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+  <nav class="mx-auto flex items-center justify-between p-6 lg:px-8" aria-label="Global">
     <div class="flex lg:flex-1">
       <%= link_to root_path, class: "-m-1.5 p-1.5" do %>
         <span class="sr-only">www.move.validators.app</span>
         <%= image_tag 'triton-logo.png', alt: 'Triton Logo', class: 'h-8 w-auto', id: 'logo', data: { light: asset_path('triton-logo.png'), dark: asset_path('triton-logo-light.png') } %>
-      <% end  %>
+      <% end %>
     </div>
 
     <div class="lg:flex lg:flex-1 lg:justify-end">
       <%= link_to t('public.header.validators'), validators_path, class: "text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 mx-3" %>
       <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 mx-3"><%= t('public.header.getting_started') %></a>
-      <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 mx-3"><%= t('public.header.suport_triton_one') %></a>
+      <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 mx-3"><%= t('public.header.support_triton_one') %></a>
       <button id="searchToggle" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 mx-3">
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
       </button>
       <!-- Light/Dark Mode Toggle -->
       <button id="themeToggle" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100 mx-3">
         <svg id="lightIcon" class="h-6 w-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1M12 20v1M4.22 4.22l.707.707M18.364 18.364l.707.707M1 12h1M22 12h1M4.22 19.78l.707-.707M18.364 5.636l.707-.707M12 5a7 7 0 110 14 7 7 0 010-14z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1M12 20v1M4.22 4.22l.707.707M18.364 18.364l.707.707M1 12h1M22 12h1M4.22 19.78l.707-.707M18.364 5.636l.707-.707M12 5a7 7 0 110 14 7 7 0 010-14z"/>
         </svg>
         <svg id="darkIcon" class="h-6 w-6 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
         </svg>
       </button>
     </div>

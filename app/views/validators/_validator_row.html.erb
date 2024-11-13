@@ -1,27 +1,21 @@
-<tr class="even:bg-gray-50 even:dark:bg-gray-600 text-gray-900 dark:text-gray-200 cursor-pointer">
-    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-3 rounded-l-lg">
-        <div class="flex justify-start items-center space-x-2">
-          <div>
-            <% if validator.avatar.attached? %>
-              <%= image_tag validator.avatar, class: "h-12 w-12 flex-none rounded-lg bg-gray-50" %>
-            <% else %>
-              <%= image_tag validator.avatar_url, class: "h-12 w-12 flex-none rounded-lg bg-gray-50" %>
-            <% end %>
-          </div>
-          <div>
-                <div><%= validator[:name] %> (<%= validator[:commission] %>%)</div>
-                <div class="relative truncate"><%= validator[:location].truncate(35) %></div>
-              <% unless validator[:domain].nil? %>
-                <div class="relative truncate text-xs"><%= validator[:domain] %></div>
-              <% end %>
-            </div>
-        </div>
-    </td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm text-center"><%= validator[:validator_index] %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:address].ellipsize(6) %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:operator_address].ellipsize(6) %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= octas_to_apt(validator.voting_power) %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator[:performance] %>%</td>
-    <td class="rounded-r-lg pr-4"><%= link_to 'Edit', edit_validator_path(validator), class: 'btn btn-primary dark:bg-primary-dark' %></td>
-
+<tr data-link="<%= validator_path(validator.address) %>" class="even:bg-gray-50 even:dark:bg-gray-600 text-gray-900 dark:text-gray-200">
+  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-3 rounded-l-lg hover:cursor-pointer">
+    <div class="flex justify-start items-center space-x-2">
+      <div>
+        <div><%= validator[:name] %> </div>
+        <div class="relative truncate"><%= validator.location.truncate(35) %></div>
+        <% unless validator[:domain].nil? %>
+          <div class="relative truncate text-xs"><%= validator.domain %></div>
+        <% end %>
+      </div>
+    </div>
+  </td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm text-center"><%= validator[:validator_index] %></td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm"><%= !validator.address.blank? ? validator.address.ellipsize(6) : '' %></td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm"><%= !validator.network_address.blank? ? validator.network_address.ellipsize(6) : '' %></td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm"><%= octas_to_apt(validator.active_stake) %></td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator.performance %>%</td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm rounded-r-lg">
+    <%= render partial: "validators/score", locals: { validator: validator } %>
+  </td>
 </tr>

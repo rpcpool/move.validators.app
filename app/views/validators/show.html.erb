@@ -1,0 +1,95 @@
+<div class="w-full min-h-[48rem] mb-16">
+
+  <div class="border-b flex justify-between items-center">
+    <div class="sm:flex sm:items-baseline sm:justify-between">
+      <div class="flex items-center sm:w-0 sm:flex-1">
+        <%= link_to validators_path, class: "mr-3 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" do %>
+          <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 36 40" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M24.5118 8.82165C25.1627 9.47253 25.1627 10.5278 24.5118 11.1787L15.6904 20.0002L24.5118 28.8217C25.1627 29.4725 25.1627 30.5278 24.5118 31.1787C23.861 31.8295 22.8057 31.8295 22.1548 31.1787L12.1548 21.1787C11.5039 20.5278 11.5039 19.4725 12.1548 18.8217L22.1548 8.82165C22.8057 8.17078 23.861 8.17078 24.5118 8.82165Z"></path>
+          </svg>
+        <% end %>
+        <div>
+          <h1 id="message-heading" class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-200"><%= t('public.validators.validator') %>
+            (<%= @validator.name %>)</h1>
+          <div class="mt-1 flex items-center space-x-2">
+            <p class="truncate text-sm text-gray-500 dark:text-gray-400"><%= @validator.address %></p>
+            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M13.3333 8.33333C13.3333 6.49238 14.8257 5 16.6666 5H29.1666C31.0076 5 32.5 6.49238 32.5 8.33333V24.1667C32.5 26.0076 31.0076 27.5 29.1666 27.5H16.6666C14.8257 27.5 13.3333 26.0076 13.3333 24.1667V8.33333ZM29.1666 8.33333L16.6666 8.33333V24.1667H29.1666V8.33333Z"></path>
+              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8.33332 14.1665C9.2538 14.1665 9.99999 14.9127 9.99999 15.8332V29.1665C9.99999 30.087 10.7462 30.8332 11.6667 30.8332H24.1667C25.0871 30.8332 25.8333 31.5794 25.8333 32.4998C25.8333 33.4203 25.0871 34.1665 24.1667 34.1665H11.6667C8.90523 34.1665 6.66666 31.9279 6.66666 29.1665V15.8332C6.66666 14.9127 7.41285 14.1665 8.33332 14.1665Z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overflow-hidden px-4 py-5 sm:p-6">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.date_started') %></dt>
+      <dd class="mt-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100"><%= display_utc(@validator.start_date) %>
+      </dd>
+    </div>
+  </div>
+
+  <div>
+    <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700">
+        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.active_stake') %></dt>
+        <dd class="mt-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+          <%= octas_to_apt(@validator.active_stake) %> APT
+        </dd>
+      </div>
+      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700">
+        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.balance') %></dt>
+        <dd class="mt-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+          <%= octas_to_apt(@validator.balance) %> APT
+        </dd>
+      </div>
+      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700">
+        <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.lifetime_rewards') %></dt>
+        <dd class="mt-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+          <%= octas_to_apt(@validator.rewards, 8) %> APT
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <%= render partial: "validators/validator_scores", locals: { validator: @validator } %>
+
+  <div class="mt-4">
+    <%= link_to "Analytics", analytics_validator_path(@validator.address),
+                class: "px-4 py-2 text-white bg-teal-500 rounded hover:bg-teal-600 cursor-pointer" %>
+  </div>
+
+  <div class="mt-8 flex justify-between items-center h-32"
+       data-controller="rewards-sparkline"
+       data-rewards-sparkline-rewards="<%= @rewards.map { |r| (r.amount.to_i / 100_000_000.0).round(2) }.to_json %>"
+       data-rewards-sparkline-sequences="<%= @rewards.map { |r| r.sequence }.to_json %>">
+    <div class="h-32">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-200">Rewards</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Total
+        Rewards: <%= number_with_precision(@total_rewards, precision: 8) %> APT</p>
+    </div>
+    <div class="w-[75%] h-32 flex flex-col items-center justify-center">
+      <canvas data-rewards-sparkline-target="sparkline"></canvas>
+      <div class="-mt-2 text-sm text-gray-500 dark:text-gray-400">Sequence</div>
+    </div>
+  </div>
+
+  <table class="min-w-full divide-y divide-gray-300 mt-2">
+    <thead>
+    <tr>
+      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Version Id
+      </th>
+      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Block</th>
+      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Age</th>
+      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Sequence</th>
+      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-300">Amount</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+    <%= render partial: "rewards_rows", locals: { rewards: @rewards } %>
+    </tbody>
+  </table>
+
+  <div class="mt-4">
+    <%= paginate @rewards %>
+  </div>
+</div>

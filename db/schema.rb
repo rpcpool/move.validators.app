@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_06_134615) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_13_004022) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,6 +49,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_06_134615) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "blocks_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "block_height", null: false
+    t.string "block_hash", null: false
+    t.datetime "block_timestamp", null: false
+    t.bigint "first_version", null: false
+    t.bigint "last_version", null: false
+    t.string "validator_address", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["block_hash"], name: "index_blocks_testnet_on_block_hash", unique: true
+    t.index ["block_height"], name: "index_blocks_testnet_on_block_height", unique: true
+    t.index ["first_version"], name: "index_blocks_testnet_on_first_version"
+    t.index ["last_version"], name: "index_blocks_testnet_on_last_version"
+    t.index ["validator_address"], name: "index_blocks_testnet_on_validator_address"
+  end
+
   create_table "epoch_histories_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "batch_uuid"
     t.integer "epoch"
@@ -73,6 +89,32 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_06_134615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["epoch"], name: "index_epochs_testnet_on_epoch", unique: true
+  end
+
+  create_table "transactions_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "txn_version"
+    t.string "txn_hash"
+    t.string "state_change_hash"
+    t.string "event_root_hash"
+    t.string "state_checkpoint_hash"
+    t.string "gas_used"
+    t.boolean "success"
+    t.string "vm_status"
+    t.string "accumulator_root_hash"
+    t.string "epoch"
+    t.string "round"
+    t.string "proposer"
+    t.bigint "timestamp"
+    t.json "txn_changes"
+    t.json "txn_events"
+    t.json "failed_proposer_indices"
+    t.json "previous_block_votes_bitvec"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "blocks_testnet_id"
+    t.index ["blocks_testnet_id"], name: "fk_rails_81e5829f0a"
+    t.index ["txn_hash"], name: "index_transactions_testnet_on_txn_hash", unique: true
+    t.index ["txn_version"], name: "index_transactions_testnet_on_txn_version", unique: true
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -107,16 +149,103 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_06_134615) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "validator_balances_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "validator_address", null: false
+    t.string "total_balance", null: false
+    t.string "staked_amount", null: false
+    t.string "available_amount", null: false
+    t.datetime "recorded_at", null: false
+    t.string "epoch", null: false
+    t.bigint "version", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["epoch"], name: "index_validator_balances_testnet_on_epoch"
+    t.index ["recorded_at"], name: "index_validator_balances_testnet_on_recorded_at"
+    t.index ["validator_address"], name: "index_validator_balances_testnet_on_validator_address"
+    t.index ["version"], name: "index_validator_balances_testnet_on_version"
+  end
+
+  create_table "validator_rewards_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "validator_address", null: false
+    t.bigint "version", null: false
+    t.bigint "sequence", null: false
+    t.string "amount", null: false
+    t.bigint "block_height", null: false
+    t.string "block_timestamp", null: false
+    t.datetime "reward_datetime", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reward_datetime"], name: "index_validator_rewards_testnet_on_reward_datetime"
+    t.index ["validator_address", "version"], name: "idx_on_validator_address_version_1d96c16337", unique: true
+    t.index ["validator_address"], name: "index_validator_rewards_testnet_on_validator_address"
+    t.index ["version"], name: "index_validator_rewards_testnet_on_version"
+  end
+
+  create_table "validator_stakes_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "validator_address", null: false
+    t.bigint "version", null: false
+    t.string "amount", null: false
+    t.datetime "recorded_at", null: false
+    t.string "epoch", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["epoch"], name: "index_validator_stakes_testnet_on_epoch"
+    t.index ["recorded_at"], name: "index_validator_stakes_testnet_on_recorded_at"
+    t.index ["validator_address", "version"], name: "idx_on_validator_address_version_b864e2f567", unique: true
+    t.index ["validator_address"], name: "index_validator_stakes_testnet_on_validator_address"
+    t.index ["version"], name: "index_validator_stakes_testnet_on_version"
+  end
+
+  create_table "validator_votes_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "validator_address", null: false
+    t.string "proposal_id", null: false
+    t.string "vote_status", null: false
+    t.datetime "recorded_at", null: false
+    t.string "epoch", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["epoch"], name: "index_validator_votes_testnet_on_epoch"
+    t.index ["proposal_id"], name: "index_validator_votes_testnet_on_proposal_id"
+    t.index ["recorded_at"], name: "index_validator_votes_testnet_on_recorded_at"
+    t.index ["validator_address", "proposal_id"], name: "idx_on_validator_address_proposal_id_c7e1376f72", unique: true
+    t.index ["validator_address"], name: "index_validator_votes_testnet_on_validator_address"
+  end
+
   create_table "validators_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "avatar_url"
     t.integer "validator_index"
     t.string "address"
     t.string "voting_power"
+    t.string "successful_blocks"
+    t.string "failed_blocks"
+    t.string "balance"
+    t.string "active_stake"
     t.string "consensus_public_key"
     t.string "fullnode_address"
     t.string "network_address"
     t.string "domain"
+    t.string "ip_address"
+    t.string "country"
+    t.string "country_code"
+    t.string "region"
+    t.string "timezone"
+    t.string "city"
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "lng", precision: 10, scale: 6
+    t.string "last_epoch_perf"
+    t.float "rewards_growth"
+    t.string "voting_record"
+    t.string "rewards"
+    t.string "start_date"
+    t.float "performance"
+    t.integer "blocks_purposed_day"
+    t.integer "blocks_purposed_week"
+    t.integer "blocks_purposed_month"
+    t.float "data_center_score"
+    t.float "voting_record_score"
+    t.float "last_epoch_score"
+    t.float "overall_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address"], name: "index_validators_testnet_on_address"
@@ -124,4 +253,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_06_134615) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "transactions_testnet", "blocks_testnet"
 end

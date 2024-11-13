@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= t('public.index.title') %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    <%= javascript_include_tag "theme_toggle", "data-turbo-track": "reload" %>
-  </head>
+<head>
+  <title><%= t('public.index.title') %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  <%= javascript_include_tag "theme_toggle", "data-turbo-track": "reload" %>
+</head>
 
-  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-  <%= render 'layouts/header' %>
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
+<%= render 'layouts/header' %>
 
-  <main class="relative container mx-auto mt-8 px-4 flex text-gray-900 dark:text-gray-100">
-    <div class="relative z-10 w-full">
-      <%= yield %>
-    </div>
-  </main>
+<main class="relative container mx-auto px-4 flex text-gray-900 dark:text-gray-100">
+  <div class="relative z-10 w-full">
+    <%= yield %>
+  </div>
+</main>
 
-    <%= render 'layouts/footer' %>
-  </body>
+<%= render 'layouts/footer' %>
+</body>
 </html>

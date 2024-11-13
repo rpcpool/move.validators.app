@@ -1,4 +1,3 @@
-require_relative '../../lib/extensions/network_shardable/table_name_helper'
 
 class CreateEpochHistories < ActiveRecord::Migration[7.1]
   def change

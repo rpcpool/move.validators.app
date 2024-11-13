@@ -10,3 +10,6 @@ pin "theme_toggle", to: "theme_toggle.js", preload: true
 
 pin "@rails/actioncable", to: "@rails--actioncable.js"
 pin_all_from "app/javascript/channels", under: "channels"
+
+pin "chart.js" # @4.4.4
+pin "@kurkle/color", to: "@kurkle--color.js" # @0.3.2

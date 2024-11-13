@@ -6,6 +6,14 @@ class EpochJob
 
     # {"currentEpoch"=>15501, "validatorsCount"=>15, "startingSlot"=>291229200, "blocksPerEpoch"=>3600, "currentHeight"=>291230310, "totalStaked"=>"20030166275865969", "averageValidatorStake"=>1335344418391064.5, "totalRewards"=>"4578353681602057344000"}
 
+    #            currentEpoch: data.epoch,
+    #             startingSlot: data.oldest_block_height,
+    #             blockHeight: data.block_height,
+    #             ledgerVersion: data.ledger_version,
+    #             blocksPerEpoch: "3600",
+    #             totalStaked: "20030166275865969",
+    #             averageValidatorStake: "1335344418391064.5",
+
     # Parse the epoch data
     current_epoch = epoch_data["currentEpoch"]
     # validators_count = epoch_data["validatorsCount"]
@@ -15,6 +23,7 @@ class EpochJob
     total_staked = epoch_data["totalStaked"].to_i
     average_validator_stake = epoch_data["averageValidatorStake"].to_f
     # total_rewards = epoch_data["totalRewards"].to_i
+    #
 
     # Find or initialize the epoch record
     epoch = Epoch.find_or_initialize_by(epoch: current_epoch)
@@ -28,9 +37,19 @@ class EpochJob
       total_stake: total_staked
     )
 
+    #  batch_uuid            :string(255)
+    #  block_height          :string(255)
+    #  epoch                 :integer
+    #  git_hash              :string(255)
+    #  ledger_timestamp      :string(255)
+    #  ledger_version        :string(255)
+    #  node_role             :string(255)
+    #  oldest_block_height   :string(255)
+    #  oldest_ledger_version :string(255)
+
     # Save the epoch record
     if epoch.save
-      puts "Epoch #{current_epoch} saved successfully."
+      puts "EpochJob: Epoch #{current_epoch} saved successfully."
     else
       puts "Failed to save epoch #{current_epoch}: #{epoch.errors.full_messages.join(', ')}"
     end

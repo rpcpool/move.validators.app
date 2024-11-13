@@ -1,0 +1,53 @@
+<div class="flex items-center justify-center">
+  <div class="flex items-center bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2"
+       style="min-width: 175px;" data-controller="score">
+
+    <!-- Score Section -->
+    <div class="text-teal-500 dark:text-teal-400 text-3xl font-bold mr-4">
+      <%= number_with_precision(validator.overall_score, precision: 2) %>
+    </div>
+
+    <!-- Attribute Bars Section -->
+    <div class="flex space-x-2">
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Voting Record"
+           data-value="<%= validator.voting_record %>">
+        <div class="bg-green-400 w-full" style="height: <%= validator.voting_record_percent %>%"></div>
+      </div>
+
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Last Epoch Blocks"
+           data-value="<%= validator.last_epoch_perf %>">
+        <div class="bg-red-400 w-full" style="height: <%= validator.last_epoch_perf %>%"></div>
+      </div>
+
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Start Date"
+           data-value="<%= format_date(validator.start_date) %>">
+        <div class="bg-yellow-400 w-full" style="height: <%= validator.start_date_score %>%"></div>
+      </div>
+
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Block Performance"
+           data-value="<%= validator.performance %>">
+        <div class="bg-indigo-400 w-full" style="height: <%= validator.performance %>%"></div>
+      </div>
+
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Data Center"
+           data-value="<%= validator.data_center_score %>">
+        <div class="bg-teal-400 w-full" style="height: <%= validator.data_center_score %>%"></div>
+      </div>
+    </div>
+
+    <!-- Tooltip for Hover -->
+    <div class="absolute hidden bg-white dark:bg-gray-700 text-gray-800 dark:text-white
+                p-2 border rounded shadow-lg text-sm" id="hover-info" data-score-target="info">
+    </div>
+  </div>
+</div>

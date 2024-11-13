@@ -7,9 +7,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-Array.new(16) do
-  Validator.create(
-    avatar_url: Faker::Avatar.image,
-    name: Faker::Company.name
-  )
-end
+# Array.new(16) do
+#   Validator.create(
+#     avatar_url: Faker::Avatar.image,
+#     name: Faker::Company.name
+#   )
+# end

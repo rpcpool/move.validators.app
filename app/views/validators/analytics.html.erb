@@ -1,0 +1,85 @@
+<%# app/views/validators/analytics.html.erb %>
+<div class="container mx-auto px-4 space-y-8 mb-8">
+
+  <div class="flex items-center mb-6 mt-8">
+    <%= link_to validator_path(@validator.address), class: "mr-3 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" do %>
+      <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 36 40" xmlns="http://www.w3.org/2000/svg">
+        <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M24.5118 8.82165C25.1627 9.47253 25.1627 10.5278 24.5118 11.1787L15.6904 20.0002L24.5118 28.8217C25.1627 29.4725 25.1627 30.5278 24.5118 31.1787C23.861 31.8295 22.8057 31.8295 22.1548 31.1787L12.1548 21.1787C11.5039 20.5278 11.5039 19.4725 12.1548 18.8217L22.1548 8.82165C22.8057 8.17078 23.861 8.17078 24.5118 8.82165Z"></path>
+      </svg>
+    <% end %>
+    <div>
+      <h1 class="text-2xl font-bold">Validator Analytics</h1>
+      <div class="flex items-center space-x-2">
+        <p class="truncate text-sm text-gray-500 dark:text-gray-400"><%= @validator.address %></p>
+        <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 cursor-pointer hover:text-gray-600 dark:hover:text-gray-300" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M13.3333 8.33333C13.3333 6.49238 14.8257 5 16.6666 5H29.1666C31.0076 5 32.5 6.49238 32.5 8.33333V24.1667C32.5 26.0076 31.0076 27.5 29.1666 27.5H16.6666C14.8257 27.5 13.3333 26.0076 13.3333 24.1667V8.33333ZM29.1666 8.33333L16.6666 8.33333V24.1667H29.1666V8.33333Z"></path>
+          <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8.33332 14.1665C9.2538 14.1665 9.99999 14.9127 9.99999 15.8332V29.1665C9.99999 30.087 10.7462 30.8332 11.6667 30.8332H24.1667C25.0871 30.8332 25.8333 31.5794 25.8333 32.4998C25.8333 33.4203 25.0871 34.1665 24.1667 34.1665H11.6667C8.90523 34.1665 6.66666 31.9279 6.66666 29.1665V15.8332C6.66666 14.9127 7.41285 14.1665 8.33332 14.1665Z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+    <div data-controller="analytics--rewards-history-chart"
+         data-analytics--rewards-history-chart-address-value="<%= @validator.address %>"
+         data-rewards="<%= @rewards_history.pluck(:amount).map { |amt| amt.to_f / 100_000_000 }.to_json %>"
+         data-dates="<%= @rewards_history.pluck(:reward_datetime).map { |d| d.strftime('%m/%d %H:%M') }.to_json %>">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Rewards History</h2>
+        <% if @available_time_ranges.any? %>
+          <select
+            data-analytics--rewards-history-chart-target="timeRange"
+            data-action="change->analytics--rewards-history-chart#updateTimeRange"
+            class="bg-white border border-gray-300 rounded-md py-1 px-3 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200"
+          >
+            <% @available_time_ranges.each do |range| %>
+              <option value="<%= range[:value] %>"><%= range[:label] %></option>
+            <% end %>
+          </select>
+        <% end %>
+      </div>
+      <div>
+        <canvas data-analytics--rewards-history-chart-target="chart" class="h-64"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+    <h2 class="text-lg font-semibold mb-4">Performance Metrics</h2>
+    <div
+      data-controller="analytics--performance-metrics-chart"
+      data-analytics--performance-metrics-chart-address-value="<%= @validator.address %>"
+    >
+      <canvas data-analytics--performance-metrics-chart-target="chart" class="h-64"></canvas>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+    <h2 class="text-lg font-semibold mb-4">Block Production</h2>
+    <div data-controller="analytics--block-production-chart">
+      <canvas data-analytics--block-production-chart-target="chart" class="h-64"></canvas>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+    <h2 class="text-lg font-semibold mb-4">Active Stake History</h2>
+    <div data-controller="analytics--active-stake-history-chart">
+      <canvas data-analytics--active-stake-history-chart-target="chart" class="h-64"></canvas>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+    <h2 class="text-lg font-semibold mb-4">Voting Participation</h2>
+    <div data-controller="analytics--voting-participation-chart">
+      <canvas data-analytics--voting-participation-chart-target="chart" class="h-64"></canvas>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6  dark:bg-gray-700">
+    <h2 class="text-lg font-semibold mb-4">Balance vs Rewards</h2>
+    <div data-controller="analytics--balance-rewards-chart">
+      <canvas data-analytics--balance-rewards-chart-target="chart" class="h-64"></canvas>
+    </div>
+  </div>
+
+</div>

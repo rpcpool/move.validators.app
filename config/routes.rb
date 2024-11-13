@@ -13,8 +13,18 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # So chartjs will work
+  get "/_/:filename", to: "assets#serve_js", constraints: { filename: /.*\.js/ }
+
   root to: 'public#home'
 
-  resources :validators, only: [:index, :edit, :update]
+  resources :validators, only: [:index, :show] do
+    member do
+      get 'rewards'
+      get 'analytics'
+      get 'performance_metrics'
+      get 'rewards_history'
+    end
+  end
 
 end

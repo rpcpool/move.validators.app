@@ -1,0 +1,3835 @@
+[
+  {
+    "owner_address": "0x009574d07780c4521741431da609610ac9c6585ebeb6b891bf9777a38cc0fe93",
+    "operator_address": "0x009574d07780c4521741431da609610ac9c6585ebeb6b891bf9777a38cc0fe93",
+    "rewards_growth": 100.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "009574d07780c4521741431da609610ac9c6585ebeb6b891bf9777a38cc0fe93",
+      "epoch": 13601,
+      "country": "United States",
+      "region": "Americas",
+      "city": "The Dalles",
+      "latitude": 45.5946,
+      "longitude": -121.1787
+    },
+    "apt_rewards_distributed": 382789.27686897
+  },
+  {
+    "owner_address": "0x1a4ead748c8559d3c69424b5e580c418e352136fbb85b0786e935d2cd52e897c",
+    "operator_address": "0x1a4ead748c8559d3c69424b5e580c418e352136fbb85b0786e935d2cd52e897c",
+    "rewards_growth": 99.98,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "1a4ead748c8559d3c69424b5e580c418e352136fbb85b0786e935d2cd52e897c",
+      "epoch": 13614,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 384945.98011916
+  },
+  {
+    "owner_address": "0xd4264f4508c04f4d7c7fa9b9f3b953fee3706b9369e1ba97653b86c45b337311",
+    "operator_address": "0x952b6ca0c2fe60c6cfb440d3744cb471a261dbccd0c82fe048ea70d79d44d3ce",
+    "rewards_growth": 99.98,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 15.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d4264f4508c04f4d7c7fa9b9f3b953fee3706b9369e1ba97653b86c45b337311",
+      "epoch": 5165,
+      "country": "Sweden",
+      "region": "Western_Europe",
+      "city": "Stockholm",
+      "latitude": 59.3326,
+      "longitude": 18.0649
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb1a373b3eddb7a715a807709a36b18aca67a005885b16476b6a5ebd5c25e14b5",
+    "operator_address": "0xc20a1a6c2ea6ceb539879998570c28e9bd3d6efa9b42f9fb45360bac0e929c94",
+    "rewards_growth": 99.98,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 10.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b1a373b3eddb7a715a807709a36b18aca67a005885b16476b6a5ebd5c25e14b5",
+      "epoch": 5166,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.3215,
+      "longitude": 103.6957
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xf0a156ed79ab6ccb5a643af48716263b565fd985ba36560966b4a91bdc8521f4",
+    "operator_address": "0xf0a156ed79ab6ccb5a643af48716263b565fd985ba36560966b4a91bdc8521f4",
+    "rewards_growth": 99.98,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "f0a156ed79ab6ccb5a643af48716263b565fd985ba36560966b4a91bdc8521f4",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "North Charleston",
+      "latitude": 32.8546,
+      "longitude": -79.9748
+    },
+    "apt_rewards_distributed": 1181888.33927741
+  },
+  {
+    "owner_address": "0x66b6cc5b9da63200d4c77abae66b3da5d71c357500d5b37f5ef81984a7404cb2",
+    "operator_address": "0x66b6cc5b9da63200d4c77abae66b3da5d71c357500d5b37f5ef81984a7404cb2",
+    "rewards_growth": 99.97,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "66b6cc5b9da63200d4c77abae66b3da5d71c357500d5b37f5ef81984a7404cb2",
+      "epoch": 13603,
+      "country": "United States",
+      "region": "Americas",
+      "city": "North Charleston",
+      "latitude": 32.8546,
+      "longitude": -79.9748
+    },
+    "apt_rewards_distributed": 382594.57845148
+  },
+  {
+    "owner_address": "0x9cede094951302de07f7e48ea2cabebdfb64c0e99b32ef2ea3fd1f87a82e2e31",
+    "operator_address": "0x0425c27e8aecbdc6802d76db770367278fe966b69b365c5e924da59320e38e63",
+    "rewards_growth": 99.97,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 1.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "9cede094951302de07f7e48ea2cabebdfb64c0e99b32ef2ea3fd1f87a82e2e31",
+      "epoch": 6666,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.694,
+      "longitude": 139.7536
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xabbb73cb23c52c0bfcb5591c0c83edf62e55cc0bece5c18e97cf6988f063dc0a",
+    "operator_address": "0xabbb73cb23c52c0bfcb5591c0c83edf62e55cc0bece5c18e97cf6988f063dc0a",
+    "rewards_growth": 99.96,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "abbb73cb23c52c0bfcb5591c0c83edf62e55cc0bece5c18e97cf6988f063dc0a",
+      "epoch": 12077,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 192167.1047085
+  },
+  {
+    "owner_address": "0x7ed56eabc696164ed392017939adf54dd3c7b667f35f4bd6d58e7c0eb4bab48d",
+    "operator_address": "0x7ed56eabc696164ed392017939adf54dd3c7b667f35f4bd6d58e7c0eb4bab48d",
+    "rewards_growth": 99.95,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "7ed56eabc696164ed392017939adf54dd3c7b667f35f4bd6d58e7c0eb4bab48d",
+      "epoch": 13614,
+      "country": "United States",
+      "region": "Americas",
+      "city": "The Dalles",
+      "latitude": 45.5946,
+      "longitude": -121.1787
+    },
+    "apt_rewards_distributed": 385034.53637914
+  },
+  {
+    "owner_address": "0x50f8306531119f706e7b48bc28d8386238651bffc56946c6bb604edd6bc6db5f",
+    "operator_address": "0x50f8306531119f706e7b48bc28d8386238651bffc56946c6bb604edd6bc6db5f",
+    "rewards_growth": 99.95,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "50f8306531119f706e7b48bc28d8386238651bffc56946c6bb604edd6bc6db5f",
+      "epoch": 13601,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 382326.20618879
+  },
+  {
+    "owner_address": "0x17e6eeec824c4ebe71f276aeb2115b63defcd8b5898663074d02c6db6494991b",
+    "operator_address": "0x87e6909ac7ea79f18e73aa06db639c823e5e04165d57123351998e38d4022227",
+    "rewards_growth": 99.94,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "17e6eeec824c4ebe71f276aeb2115b63defcd8b5898663074d02c6db6494991b",
+      "epoch": 2226,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x01e46abda477ee10215bb088d610bc3e79f9d3b263b1b2671d441d070402d710",
+    "operator_address": "0x01e46abda477ee10215bb088d610bc3e79f9d3b263b1b2671d441d070402d710",
+    "rewards_growth": 99.92,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "01e46abda477ee10215bb088d610bc3e79f9d3b263b1b2671d441d070402d710",
+      "epoch": 12077,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 192124.69979675
+  },
+  {
+    "owner_address": "0x116176e2af223a8b7f8db80dc52f7a423b4d7f8c0553a1747e92ef58849aff4f",
+    "operator_address": "0x116176e2af223a8b7f8db80dc52f7a423b4d7f8c0553a1747e92ef58849aff4f",
+    "rewards_growth": 99.91,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3963/3963",
+    "liveness": 0.0,
+    "governance_voting_record": "68 / 56",
+    "location_stats": {
+      "peer_id": "116176e2af223a8b7f8db80dc52f7a423b4d7f8c0553a1747e92ef58849aff4f",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "The Dalles",
+      "latitude": 45.5946,
+      "longitude": -121.1787
+    },
+    "apt_rewards_distributed": 1308382.04873157
+  },
+  {
+    "owner_address": "0x676f640c90cb6c45f21be50974531d440309aa4ddad919ae0429039789a3d8a9",
+    "operator_address": "0x676f640c90cb6c45f21be50974531d440309aa4ddad919ae0429039789a3d8a9",
+    "rewards_growth": 99.9,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3840/3840",
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "676f640c90cb6c45f21be50974531d440309aa4ddad919ae0429039789a3d8a9",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "The Dalles",
+      "latitude": 45.5946,
+      "longitude": -121.1787
+    },
+    "apt_rewards_distributed": 1308193.38661894
+  },
+  {
+    "owner_address": "0x03c04549114877c55f45649aba48ac0a4ff086ab7bdce3b8cc8d3d9947bc0d99",
+    "operator_address": "0x03c04549114877c55f45649aba48ac0a4ff086ab7bdce3b8cc8d3d9947bc0d99",
+    "rewards_growth": 99.9,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3888/3888",
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "03c04549114877c55f45649aba48ac0a4ff086ab7bdce3b8cc8d3d9947bc0d99",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 1307514.1962963
+  },
+  {
+    "owner_address": "0x12000330d7cd8a748f46c25e6ce5d236a27e13d0b510d4516ac84ecc5fddd002",
+    "operator_address": "0x12000330d7cd8a748f46c25e6ce5d236a27e13d0b510d4516ac84ecc5fddd002",
+    "rewards_growth": 99.89,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3949/3949",
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0x12000330d7cd8a748f46c25e6ce5d236a27e13d0b510d4516ac84ecc5fddd002",
+      "epoch": 18375,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 1307166.09077517
+  },
+  {
+    "owner_address": "0xd53afcb0fda9ba807da76f495f2134cf01f7ace87425d18056d70bfda474ab83",
+    "operator_address": "0xd53afcb0fda9ba807da76f495f2134cf01f7ace87425d18056d70bfda474ab83",
+    "rewards_growth": 99.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d53afcb0fda9ba807da76f495f2134cf01f7ace87425d18056d70bfda474ab83",
+      "epoch": 13616,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 192463.88883915
+  },
+  {
+    "owner_address": "0x472957768ecdf490e5e40fdfa3dfa2d8bdd7b491bd2766bc7e1c27c5f3d5a0ec",
+    "operator_address": "0x472957768ecdf490e5e40fdfa3dfa2d8bdd7b491bd2766bc7e1c27c5f3d5a0ec",
+    "rewards_growth": 99.73,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "472957768ecdf490e5e40fdfa3dfa2d8bdd7b491bd2766bc7e1c27c5f3d5a0ec",
+      "epoch": 13616,
+      "country": "United States",
+      "region": "Americas",
+      "city": "North Charleston",
+      "latitude": 32.8546,
+      "longitude": -79.9748
+    },
+    "apt_rewards_distributed": 382028.0972269
+  },
+  {
+    "owner_address": "0x31e55012a7d439dcd16fee0509cd5855c1fbdc62057ba7fac3f7c88f5453dd8e",
+    "operator_address": "0x31e55012a7d439dcd16fee0509cd5855c1fbdc62057ba7fac3f7c88f5453dd8e",
+    "rewards_growth": 99.68,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "31e55012a7d439dcd16fee0509cd5855c1fbdc62057ba7fac3f7c88f5453dd8e",
+      "epoch": 8545,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 630.9221491
+  },
+  {
+    "owner_address": "0xfd47a2fb988c959839ea2fe4d7169b48536a42bf5e4933790701a08252ba2039",
+    "operator_address": "0x89542c8e121e4156b97e0fae8d488b92d0d556063dd336c08053883c8ebd0cc2",
+    "rewards_growth": 99.68,
+    "last_epoch": 18375,
+    "last_epoch_performance": "153/153",
+    "liveness": 55.0,
+    "governance_voting_record": "1 / 56",
+    "location_stats": {
+      "peer_id": "fd47a2fb988c959839ea2fe4d7169b48536a42bf5e4933790701a08252ba2039",
+      "epoch": 17167,
+      "country": "Canada",
+      "region": "Americas",
+      "city": "Beauharnois",
+      "latitude": 45.3134,
+      "longitude": -73.8725
+    },
+    "apt_rewards_distributed": 29204.64637967
+  },
+  {
+    "owner_address": "0x1d34ca9191e1271d8de955d5919c95d972be6dee71d1ae080bdeb6e1cf44d1d0",
+    "operator_address": "0x1d34ca9191e1271d8de955d5919c95d972be6dee71d1ae080bdeb6e1cf44d1d0",
+    "rewards_growth": 99.63,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "1d34ca9191e1271d8de955d5919c95d972be6dee71d1ae080bdeb6e1cf44d1d0",
+      "epoch": 2253,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5085,
+      "longitude": -0.1257
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xbfeac9b2da698dee2d9b882322d20dc7508bb6cf2df4165c8938ffd748e11337",
+    "operator_address": "0xbfeac9b2da698dee2d9b882322d20dc7508bb6cf2df4165c8938ffd748e11337",
+    "rewards_growth": 99.62,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "bfeac9b2da698dee2d9b882322d20dc7508bb6cf2df4165c8938ffd748e11337",
+      "epoch": 2786,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Falkenstein",
+      "latitude": 50.4779,
+      "longitude": 12.3713
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x25c3482850a188d8aa6edc5751846e1226a27863643f5ebc52be4f7d822264e3",
+    "operator_address": "0xe7be097a90c18f6bdd53efe0e74bf34393cac2f0ae941523ea196a47b6859edb",
+    "rewards_growth": 99.6,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 12.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "25c3482850a188d8aa6edc5751846e1226a27863643f5ebc52be4f7d822264e3",
+      "epoch": 613,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Boardman",
+      "latitude": 45.8399,
+      "longitude": -119.7006
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x6d00a8a82bd0b6d187f9a328118ad61b5c80237362e8f5dd2454f2d3a1b03890",
+    "operator_address": "0x6d00a8a82bd0b6d187f9a328118ad61b5c80237362e8f5dd2454f2d3a1b03890",
+    "rewards_growth": 99.54,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0x6d00a8a82bd0b6d187f9a328118ad61b5c80237362e8f5dd2454f2d3a1b03890",
+      "epoch": 18110,
+      "country": "Belgium",
+      "region": "Western_Europe",
+      "city": "Brussels",
+      "latitude": 50.8505,
+      "longitude": 4.3488
+    },
+    "apt_rewards_distributed": 1036922.65925104
+  },
+  {
+    "owner_address": "0x7246f46a4b1a0dfaff0687358794736f9e6c24faefcf72cebc7791c2c00f7810",
+    "operator_address": "0xdc57a3b670d8515698cd894b432adbecd09720335bd0cd4e6b39835c3768f840",
+    "rewards_growth": 99.5,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 66.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "7246f46a4b1a0dfaff0687358794736f9e6c24faefcf72cebc7791c2c00f7810",
+      "epoch": 2280,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Hilliard",
+      "latitude": 40.0334,
+      "longitude": -83.1582
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x96cf450fbc07a493c27faea35d2f15f770d1ca09e4eb686e4990783a165ef0e4",
+    "operator_address": "0xc0796380755f9dd89b4677b9bb23f0122bc17c54e4226fb88490b18a8db10a6e",
+    "rewards_growth": 99.5,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "96cf450fbc07a493c27faea35d2f15f770d1ca09e4eb686e4990783a165ef0e4",
+      "epoch": 2735,
+      "country": "Netherlands",
+      "region": "Western_Europe",
+      "city": "Amsterdam",
+      "latitude": 52.374,
+      "longitude": 4.8897
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x286e8af6717ef6b1e361aae8ab28dd6664bf562c2805dd9a53432246ec66566e",
+    "operator_address": "0x286e8af6717ef6b1e361aae8ab28dd6664bf562c2805dd9a53432246ec66566e",
+    "rewards_growth": 99.48,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3886/3886",
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0x286e8af6717ef6b1e361aae8ab28dd6664bf562c2805dd9a53432246ec66566e",
+      "epoch": 18375,
+      "country": "Netherlands",
+      "region": "Western_Europe",
+      "city": "Groningen",
+      "latitude": 53.2192,
+      "longitude": 6.5667
+    },
+    "apt_rewards_distributed": 1146492.59828036
+  },
+  {
+    "owner_address": "0x48208080a40dae81fea74254e7075dc336b1eaa61b53196045793ad859cd3432",
+    "operator_address": "0x48208080a40dae81fea74254e7075dc336b1eaa61b53196045793ad859cd3432",
+    "rewards_growth": 99.4,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "48208080a40dae81fea74254e7075dc336b1eaa61b53196045793ad859cd3432",
+      "epoch": 13579,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 184423.38240423
+  },
+  {
+    "owner_address": "0x19fb58652516a654a2ecfaa375c20e0b8d40d2d952869e22c9632a5ed24ce4a9",
+    "operator_address": "0x952b6ca0c2fe60c6cfb440d3744cb471a261dbccd0c82fe048ea70d79d44d3ce",
+    "rewards_growth": 99.39,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 14.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "19fb58652516a654a2ecfaa375c20e0b8d40d2d952869e22c9632a5ed24ce4a9",
+      "epoch": 4597,
+      "country": "Sweden",
+      "region": "Western_Europe",
+      "city": "Stockholm",
+      "latitude": 59.3326,
+      "longitude": 18.0649
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xe69f46f6aa3ee3a718bb6ab1f7c25f63fa7a15971076b5fca674c1d4ba0a168f",
+    "operator_address": "0xe69f46f6aa3ee3a718bb6ab1f7c25f63fa7a15971076b5fca674c1d4ba0a168f",
+    "rewards_growth": 99.36,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 62.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "e69f46f6aa3ee3a718bb6ab1f7c25f63fa7a15971076b5fca674c1d4ba0a168f",
+      "epoch": 2218,
+      "country": "Netherlands",
+      "region": "Western_Europe",
+      "city": "Heemskerk",
+      "latitude": 52.5111,
+      "longitude": 4.6716
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x479ca442491cfd636f84fa8e56fa420c8038587e459e886d16a0b9d3993b16ba",
+    "operator_address": "0x479ca442491cfd636f84fa8e56fa420c8038587e459e886d16a0b9d3993b16ba",
+    "rewards_growth": 99.34,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3849/3849",
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0x479ca442491cfd636f84fa8e56fa420c8038587e459e886d16a0b9d3993b16ba",
+      "epoch": 18375,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 752166.34745165
+  },
+  {
+    "owner_address": "0x8e94e93e463dabe142f7917a2703585d5f40e6a434656c99de4b7a887f70c961",
+    "operator_address": "0x3fa01b5cc66cd5762990c46ba8280cdc2c33d121d1462ca92d1324736573bab2",
+    "rewards_growth": 99.23,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 57.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "8e94e93e463dabe142f7917a2703585d5f40e6a434656c99de4b7a887f70c961",
+      "epoch": 2221,
+      "country": "Poland",
+      "region": "Western_Europe",
+      "city": "Warsaw",
+      "latitude": 52.2298,
+      "longitude": 21.0118
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x8c91f8c74f48784f9a5c873d372e52bfbce6fee6ae420e04ef346e9bffae9d63",
+    "operator_address": "0xaa079b12a9460522d3a9dd802e62783b1715cb31a6fb9975c0ad0b51d97cecf0",
+    "rewards_growth": 99.16,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "8c91f8c74f48784f9a5c873d372e52bfbce6fee6ae420e04ef346e9bffae9d63",
+      "epoch": 2294,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Ashburn",
+      "latitude": 39.0437,
+      "longitude": -77.4875
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x840880fc27f01706d134397dcbeb14cd54899fc8dc93f3f9f1b1a454840829fe",
+    "operator_address": "0xf92ffe00d45e5948f31fffc50574199e5d7c6a79c1157673a957501d8208b05c",
+    "rewards_growth": 99.16,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 62.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "840880fc27f01706d134397dcbeb14cd54899fc8dc93f3f9f1b1a454840829fe",
+      "epoch": 2282,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Paripark",
+      "latitude": 37.5822,
+      "longitude": 126.8866
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xacb107b98cd634ca32d39d38ab13df8cbcd5fe7856ce2a3c3d123e53f95d0b6f",
+    "operator_address": "0xacb107b98cd634ca32d39d38ab13df8cbcd5fe7856ce2a3c3d123e53f95d0b6f",
+    "rewards_growth": 98.95,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "acb107b98cd634ca32d39d38ab13df8cbcd5fe7856ce2a3c3d123e53f95d0b6f",
+      "epoch": 8328,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x97a0efea1c4e3a9aeb9ac4a9cfa9025bb602b01d8fdaa14c9b1ab03c7be05cb8",
+    "operator_address": "0x4ddfe55450eaa84206cde83efc4fc2293a74e03a89aa2766f3bae5991d43d962",
+    "rewards_growth": 98.93,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 71.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "97a0efea1c4e3a9aeb9ac4a9cfa9025bb602b01d8fdaa14c9b1ab03c7be05cb8",
+      "epoch": 2298,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Berlin",
+      "latitude": 52.5244,
+      "longitude": 13.4105
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5a933bb07b7fae5cc0f5609bc9f854f1bb02c6a15319c1fd67f988d5d07e3ec2",
+    "operator_address": "0x8df0762f11ab9347dde380f27f2ff1aaeecb5087e53889106997b5131c23e906",
+    "rewards_growth": 98.92,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 66.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5a933bb07b7fae5cc0f5609bc9f854f1bb02c6a15319c1fd67f988d5d07e3ec2",
+      "epoch": 2237,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x95a0e6b1105ba7ef9382e585d32e9dbf1a73833975af77d9b6924aa33468df07",
+    "operator_address": "0x95a0e6b1105ba7ef9382e585d32e9dbf1a73833975af77d9b6924aa33468df07",
+    "rewards_growth": 98.89,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "95a0e6b1105ba7ef9382e585d32e9dbf1a73833975af77d9b6924aa33468df07",
+      "epoch": 17167,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 641001.74848424
+  },
+  {
+    "owner_address": "0x07d7df40b1b25dcb7e8fb6caa76ee2272f081a8992629e145aead916b8713f3d",
+    "operator_address": "0x2d3f58e80668c6ad7a3a92412d61a600f51da8a3a76bc9488ccbcf04d930844a",
+    "rewards_growth": 98.86,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 71.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "07d7df40b1b25dcb7e8fb6caa76ee2272f081a8992629e145aead916b8713f3d",
+      "epoch": 2734,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Tuusula",
+      "latitude": 60.354,
+      "longitude": 24.9794
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc310249c3f3cc990e95b6dfc4da612373e66fd300d707390b4719665a1e7e52c",
+    "operator_address": "0xc310249c3f3cc990e95b6dfc4da612373e66fd300d707390b4719665a1e7e52c",
+    "rewards_growth": 98.79,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c310249c3f3cc990e95b6dfc4da612373e66fd300d707390b4719665a1e7e52c",
+      "epoch": 2294,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Limburg an der Lahn",
+      "latitude": 50.3836,
+      "longitude": 8.0503
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x828ca971e35c8b9a807439e5a328fdc9a5ed0efbfb12f40bc451d17f6998be3f",
+    "operator_address": "0x828ca971e35c8b9a807439e5a328fdc9a5ed0efbfb12f40bc451d17f6998be3f",
+    "rewards_growth": 98.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "828ca971e35c8b9a807439e5a328fdc9a5ed0efbfb12f40bc451d17f6998be3f",
+      "epoch": 8328,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xdffe3c93b756bf6fec59b052d6fe71b40c3f9b7899d69ab06ba385b1c6728d16",
+    "operator_address": "0xdffe3c93b756bf6fec59b052d6fe71b40c3f9b7899d69ab06ba385b1c6728d16",
+    "rewards_growth": 98.76,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "dffe3c93b756bf6fec59b052d6fe71b40c3f9b7899d69ab06ba385b1c6728d16",
+      "epoch": 8328,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5b7f7b9c1f64d83ccb75234820fd7b663c3f9dc93d84a4878feec1629d2a63de",
+    "operator_address": "0xa1c0170693a7367ed653d37fd61e0d26361bc66f523692fffbcb4a9a5e98dd2b",
+    "rewards_growth": 98.58,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 57.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5b7f7b9c1f64d83ccb75234820fd7b663c3f9dc93d84a4878feec1629d2a63de",
+      "epoch": 2234,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x06b15cee0fddb86956e883d0156eb7b5da441e7139ea00ef39bcf0cbf9dc52b5",
+    "operator_address": "0xcb012d5e92a43b35b6a91fe7bd3b012cb1ae63cd11563454da9168b3ade01000",
+    "rewards_growth": 98.52,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 74.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "06b15cee0fddb86956e883d0156eb7b5da441e7139ea00ef39bcf0cbf9dc52b5",
+      "epoch": 2574,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Gunzenhausen",
+      "latitude": 49.1166,
+      "longitude": 10.7597
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xa562415be88d9f08ba98fa3f6af9be0e36580c0f8fff5100a50b519e8f4a15c9",
+    "operator_address": "0xd81ad2b19e5b0afdbfaffa3f51b9a4536a1ec88679440ceb3b1b6002d6ccdc5f",
+    "rewards_growth": 98.48,
+    "last_epoch": 18375,
+    "last_epoch_performance": "157/157",
+    "liveness": 0.0,
+    "governance_voting_record": "56 / 56",
+    "location_stats": {
+      "peer_id": "0xa562415be88d9f08ba98fa3f6af9be0e36580c0f8fff5100a50b519e8f4a15c9",
+      "epoch": 18375,
+      "country": "Ireland",
+      "region": "Western_Europe",
+      "city": "Dublin",
+      "latitude": 53.3331,
+      "longitude": -6.2489
+    },
+    "apt_rewards_distributed": 52613.12083225
+  },
+  {
+    "owner_address": "0x0289311ada457c33abfaaabff61177c935a3705ac7ac624a43e767615cad2548",
+    "operator_address": "0x9ebd398960bfced8ff7340fe03465c25c7fd345284f0de55beaed88b3f811632",
+    "rewards_growth": 98.48,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 61.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0289311ada457c33abfaaabff61177c935a3705ac7ac624a43e767615cad2548",
+      "epoch": 2244,
+      "country": "Israel",
+      "region": "Remote",
+      "city": "Tel Aviv",
+      "latitude": 32.0809,
+      "longitude": 34.7806
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x7a2ddb6af66beb0d9987c6c9010cb9053454f067e16775a8ecf19961195c3d28",
+    "operator_address": "0x31e55012a7d439dcd16fee0509cd5855c1fbdc62057ba7fac3f7c88f5453dd8e",
+    "rewards_growth": 98.39,
+    "last_epoch": 18375,
+    "last_epoch_performance": "3871/3871",
+    "liveness": 0.0,
+    "governance_voting_record": "64 / 56",
+    "location_stats": {
+      "peer_id": "7a2ddb6af66beb0d9987c6c9010cb9053454f067e16775a8ecf19961195c3d28",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 1285288.20057194
+  },
+  {
+    "owner_address": "0x5176f2252762e527e3598c22f1bdb3a1ac0ff0db2d7518cabbc99305330a864a",
+    "operator_address": "0x5176f2252762e527e3598c22f1bdb3a1ac0ff0db2d7518cabbc99305330a864a",
+    "rewards_growth": 98.38,
+    "last_epoch": 18375,
+    "last_epoch_performance": "182/182",
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5176f2252762e527e3598c22f1bdb3a1ac0ff0db2d7518cabbc99305330a864a",
+      "epoch": 17167,
+      "country": "Ireland",
+      "region": "Western_Europe",
+      "city": "Dublin",
+      "latitude": 53.3331,
+      "longitude": -6.2489
+    },
+    "apt_rewards_distributed": 60372.30506491
+  },
+  {
+    "owner_address": "0xdcef38c93319415362a06c921481e70887d87d0650bf31ad40fc858d72d80cb5",
+    "operator_address": "0xdc3b0daf10adcdcb1a2559f11e9af0186a5fc049b17ee15313923621fdd36d85",
+    "rewards_growth": 98.34,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 62.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "dcef38c93319415362a06c921481e70887d87d0650bf31ad40fc858d72d80cb5",
+      "epoch": 2276,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Portland",
+      "latitude": 45.5234,
+      "longitude": -122.6762
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x90ab98a044ba9937a1954fd9502521a74b8dae95247a08bc9127542ccbb74671",
+    "operator_address": "0x90ab98a044ba9937a1954fd9502521a74b8dae95247a08bc9127542ccbb74671",
+    "rewards_growth": 98.31,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "90ab98a044ba9937a1954fd9502521a74b8dae95247a08bc9127542ccbb74671",
+      "epoch": 13578,
+      "country": "Belgium",
+      "region": "Western_Europe",
+      "city": "Brussels",
+      "latitude": 50.8505,
+      "longitude": 4.3488
+    },
+    "apt_rewards_distributed": 216498.82535214
+  },
+  {
+    "owner_address": "0x87a572ffb4a0c22b32d41b91d1df342da0d4477b234faa394f0328bed498a1be",
+    "operator_address": "0x52f61c16bf418fe9165013295a89b1f385898b709ddce7ce08b06c536ebef894",
+    "rewards_growth": 98.3,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 66.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "87a572ffb4a0c22b32d41b91d1df342da0d4477b234faa394f0328bed498a1be",
+      "epoch": 2338,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seoul",
+      "latitude": 37.566,
+      "longitude": 126.9784
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x064ca224990b2bec38cc2db62fd079dadf36b9f03aa98582d5d7d75f98850abc",
+    "operator_address": "0x68118abed0618ff83a26b35fc1715f8d0e87a0127826bbbf5d4fbaf3a2dcc27c",
+    "rewards_growth": 98.3,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "064ca224990b2bec38cc2db62fd079dadf36b9f03aa98582d5d7d75f98850abc",
+      "epoch": 2242,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Santa Clara",
+      "latitude": 37.3483,
+      "longitude": -121.9844
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x84ff967c8a40076f133165039b29e6a0c93d75c1e3b1a22eb5b6da28a0aa891d",
+    "operator_address": "0x84ff967c8a40076f133165039b29e6a0c93d75c1e3b1a22eb5b6da28a0aa891d",
+    "rewards_growth": 98.29,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "84ff967c8a40076f133165039b29e6a0c93d75c1e3b1a22eb5b6da28a0aa891d",
+      "epoch": 13616,
+      "country": "Belgium",
+      "region": "Western_Europe",
+      "city": "Brussels",
+      "latitude": 50.8505,
+      "longitude": 4.3488
+    },
+    "apt_rewards_distributed": 224925.48027274
+  },
+  {
+    "owner_address": "0x394f58ff583315bf52b055d34c8635329f4426626b57da5c709a81aa6a68d83a",
+    "operator_address": "0x6bac9bf1070ad0c575b5c7fd15ee557f3efd405398d3bec56042431f9ef726e2",
+    "rewards_growth": 98.28,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 99.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "394f58ff583315bf52b055d34c8635329f4426626b57da5c709a81aa6a68d83a",
+      "epoch": 2988,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xa4079618c9f4cbbf11d69d7a12b7f5a6deadef4aed991c00e4fd412e2765b713",
+    "operator_address": "0xe8041466c5a78b0d1f289a6f2f8900f11e8b290fba752cb9abfe5b1123d98455",
+    "rewards_growth": 98.27,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 91.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "a4079618c9f4cbbf11d69d7a12b7f5a6deadef4aed991c00e4fd412e2765b713",
+      "epoch": 2222,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "N\u00fcrnberg",
+      "latitude": 49.4542,
+      "longitude": 11.0775
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x801b921d720e17f514aa41e72510d3ced5b0eceee413f849afaf91deebaa4e08",
+    "operator_address": "0x3b9c4438f8a1aae983c8424715b7a37692f77ffe1bc61e024b3d7b9fb74556a4",
+    "rewards_growth": 98.25,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 8.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "801b921d720e17f514aa41e72510d3ced5b0eceee413f849afaf91deebaa4e08",
+      "epoch": 530,
+      "country": "Netherlands",
+      "region": "Western_Europe",
+      "city": "Amsterdam",
+      "latitude": 52.374,
+      "longitude": 4.8897
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xd1af3b6a77458f90cf4207beb14e8df7cccd08db2896b59037807736aad8a376",
+    "operator_address": "0x8d492c44824e4f6ad52936904981179c310007b66876380050d6772701e179f9",
+    "rewards_growth": 98.23,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 56.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d1af3b6a77458f90cf4207beb14e8df7cccd08db2896b59037807736aad8a376",
+      "epoch": 2224,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seoul",
+      "latitude": 37.566,
+      "longitude": 126.9784
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb625156e813c6d26ff156bc2c56f0e3fa6ffeb6d1eee6ad62f05d996ec6c37d1",
+    "operator_address": "0x67a713af76a82fecd250bd64e77601a555cab0d950edae942ddbfe5eed4aa34e",
+    "rewards_growth": 98.21,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 80.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b625156e813c6d26ff156bc2c56f0e3fa6ffeb6d1eee6ad62f05d996ec6c37d1",
+      "epoch": 2260,
+      "country": "Poland",
+      "region": "Western_Europe",
+      "city": "Warsaw",
+      "latitude": 52.2284,
+      "longitude": 21.0522
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x61f9e2697d5eee926e990b537a8286a029c908c1ae117e76ddf7a849bf87fb59",
+    "operator_address": "0xb3307960a66c9492d2d87e3400b8f8da3dc4a7a3e8df19d707a791a9b3177973",
+    "rewards_growth": 98.19,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 39.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "61f9e2697d5eee926e990b537a8286a029c908c1ae117e76ddf7a849bf87fb59",
+      "epoch": 2988,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Berlin",
+      "latitude": 52.5244,
+      "longitude": 13.4105
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xe0aff63df5c4b9ce3d7e415e2c0b8aa2f036f0a0d730ab31546bf45a2569d925",
+    "operator_address": "0xf2256a65f2e88e976a400eb615efc03c823cc9b28689a96fc92e4136c3ea55a9",
+    "rewards_growth": 98.16,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 65.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "e0aff63df5c4b9ce3d7e415e2c0b8aa2f036f0a0d730ab31546bf45a2569d925",
+      "epoch": 2131,
+      "country": "Sweden",
+      "region": "Western_Europe",
+      "city": "Stockholm",
+      "latitude": 59.3294,
+      "longitude": 18.0687
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5df905f817adf39293c596e83512ab8a9dc5a19980e11bd4ce44b6e749d33a0d",
+    "operator_address": "0xb3307960a66c9492d2d87e3400b8f8da3dc4a7a3e8df19d707a791a9b3177973",
+    "rewards_growth": 98.12,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 27.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5df905f817adf39293c596e83512ab8a9dc5a19980e11bd4ce44b6e749d33a0d",
+      "epoch": 4444,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Berlin",
+      "latitude": 52.5244,
+      "longitude": 13.4105
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb7c7d12080209e9dc14498c80200706e760363fb31782247e82cf57d1d6e5d6c",
+    "operator_address": "0xb7c7d12080209e9dc14498c80200706e760363fb31782247e82cf57d1d6e5d6c",
+    "rewards_growth": 98.05,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b7c7d12080209e9dc14498c80200706e760363fb31782247e82cf57d1d6e5d6c",
+      "epoch": 8328,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xeecd6e9fb71f3a67db6321e93deecf7a9d7c3f4fac6cd170deb3e8b183281943",
+    "operator_address": "0x9f0a211d218b082987408f1e393afe1ba0c202c6d280f081399788d3360c7f09",
+    "rewards_growth": 98.05,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "eecd6e9fb71f3a67db6321e93deecf7a9d7c3f4fac6cd170deb3e8b183281943",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Columbus",
+      "latitude": 39.9612,
+      "longitude": -82.9988
+    },
+    "apt_rewards_distributed": 48316.78236733
+  },
+  {
+    "owner_address": "0x4ea5bab951cd9d6c52004825386fc21bf3ca510adee5e37905cf11a250e3c97f",
+    "operator_address": "0x4ea5bab951cd9d6c52004825386fc21bf3ca510adee5e37905cf11a250e3c97f",
+    "rewards_growth": 98.01,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 10.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "4ea5bab951cd9d6c52004825386fc21bf3ca510adee5e37905cf11a250e3c97f",
+      "epoch": 504,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Ashburn",
+      "latitude": 39.0437,
+      "longitude": -77.4875
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc627ffd8cea811805e270df544f6071dab3dc493dc89c56d12bc6d7757a47664",
+    "operator_address": "0x5628ebeec90cc1999191ce28efc177e5572c7289fdb5be2903eba7215a9fd81a",
+    "rewards_growth": 97.93,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 27.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c627ffd8cea811805e270df544f6071dab3dc493dc89c56d12bc6d7757a47664",
+      "epoch": 2735,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Vaala",
+      "latitude": 64.5739,
+      "longitude": 26.7669
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb6eb384b229e17db7b1f4f6fa5a692b91cf8d371e1e97e442ae7b60a0f4308d6",
+    "operator_address": "0xb6eb384b229e17db7b1f4f6fa5a692b91cf8d371e1e97e442ae7b60a0f4308d6",
+    "rewards_growth": 97.85,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 73.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b6eb384b229e17db7b1f4f6fa5a692b91cf8d371e1e97e442ae7b60a0f4308d6",
+      "epoch": 2735,
+      "country": "Poland",
+      "region": "Western_Europe",
+      "city": "Warsaw",
+      "latitude": 52.2298,
+      "longitude": 21.0118
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xd59d6edd6222bdc6ab358d662940305940eecb1d69eb971e8479897885d6c019",
+    "operator_address": "0xd59d6edd6222bdc6ab358d662940305940eecb1d69eb971e8479897885d6c019",
+    "rewards_growth": 97.83,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d59d6edd6222bdc6ab358d662940305940eecb1d69eb971e8479897885d6c019",
+      "epoch": 12077,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 188184.5223009
+  },
+  {
+    "owner_address": "0x9a27424bc1d21dbecb89318781224a8deca73fdbcb13a7f15005ecb266e45f5e",
+    "operator_address": "0xa7b741c15d4f56c24f08c580e8049cf39e01af73a4548d5530a6868cd092ab9c",
+    "rewards_growth": 97.79,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 64.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "9a27424bc1d21dbecb89318781224a8deca73fdbcb13a7f15005ecb266e45f5e",
+      "epoch": 2365,
+      "country": "Mexico",
+      "region": "Americas",
+      "city": "El Colorado",
+      "latitude": 20.5618,
+      "longitude": -100.2452
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x62562701d5f396a2f8e7bc44e8700214d0cbc38c46d78dbf9dcab949f1dec6c5",
+    "operator_address": "0x59b2d86e6cccd9c2ad49bbfb5d14bab5c72c9834450b06efcb3c8c52388b046b",
+    "rewards_growth": 97.74,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 37.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "62562701d5f396a2f8e7bc44e8700214d0cbc38c46d78dbf9dcab949f1dec6c5",
+      "epoch": 2277,
+      "country": "Poland",
+      "region": "Western_Europe",
+      "city": "Warsaw",
+      "latitude": 52.2298,
+      "longitude": 21.0118
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x0a4113560d0b18ba38797f2a899c4b27e0c5b0476be5d8f6be68fba8b1861ed0",
+    "operator_address": "0xa377a5a035e81ec0b200ae5b76711b5d5093cfa0cce6296c9a26128491839002",
+    "rewards_growth": 97.7,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 12.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0x0a4113560d0b18ba38797f2a899c4b27e0c5b0476be5d8f6be68fba8b1861ed0",
+      "epoch": 18028,
+      "country": "Canada",
+      "region": "Americas",
+      "city": "Beauharnois",
+      "latitude": 45.3134,
+      "longitude": -73.8725
+    },
+    "apt_rewards_distributed": 44941.66551406
+  },
+  {
+    "owner_address": "0xa5ed5d5e8c892165b18c2062596e8d1139fbb2cc451d430f787cd707122ce023",
+    "operator_address": "0x91d3f5ba7554981e9a24427f2171d65e08356b6e2a3e2a5ae019d26df0e600de",
+    "rewards_growth": 97.65,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "a5ed5d5e8c892165b18c2062596e8d1139fbb2cc451d430f787cd707122ce023",
+      "epoch": 16903,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 4224.81516756
+  },
+  {
+    "owner_address": "0xb4007343c3b5dce26ab20123f6c38efcf25d25e4d5dff6923e17fd5daf0eedc0",
+    "operator_address": "0xe4e9dfae589e1fa7a7fe26503973b382f1a60d269200e0f1dde9e11edc735952",
+    "rewards_growth": 97.63,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 49.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b4007343c3b5dce26ab20123f6c38efcf25d25e4d5dff6923e17fd5daf0eedc0",
+      "epoch": 1710,
+      "country": "Canada",
+      "region": "Americas",
+      "city": "Toronto",
+      "latitude": 43.7001,
+      "longitude": -79.4163
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x28dde00b49a2c5ec8b46a1fbd855afd0fac64ea347a3dffc803ad672e7810186",
+    "operator_address": "0x76bda37202dce72918b4e4170024a16503156cd602360b1af470dda8c5dee4f1",
+    "rewards_growth": 97.57,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 88.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "28dde00b49a2c5ec8b46a1fbd855afd0fac64ea347a3dffc803ad672e7810186",
+      "epoch": 3412,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.3215,
+      "longitude": 103.6957
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xbd50bb20e1972747db365c3a6e31255d78867c6b8df9877ea6054bb335dd6031",
+    "operator_address": "0x682ca3a63ee7787220893b63c8675e6c8fd275ca6885a7bf5c04d3a72f3d872d",
+    "rewards_growth": 97.54,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 55.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "bd50bb20e1972747db365c3a6e31255d78867c6b8df9877ea6054bb335dd6031",
+      "epoch": 12077,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5085,
+      "longitude": -0.1257
+    },
+    "apt_rewards_distributed": 8194.46700568
+  },
+  {
+    "owner_address": "0xba98f7d778dc4d563edd4038324a6c5bac8697a7e8601c0cd0a1ae4fee19d896",
+    "operator_address": "0x2f5120a7839b1f082cd9dc1bea14d5abe6679d5575e2582972a1eb69b482b960",
+    "rewards_growth": 97.5,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ba98f7d778dc4d563edd4038324a6c5bac8697a7e8601c0cd0a1ae4fee19d896",
+      "epoch": 16539,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 2581.35553778
+  },
+  {
+    "owner_address": "0x2e6add17be485b59a85ab1b66c8c9e7c87ab5cd3ce7f666c16fd4307ed4595d2",
+    "operator_address": "0x2e6add17be485b59a85ab1b66c8c9e7c87ab5cd3ce7f666c16fd4307ed4595d2",
+    "rewards_growth": 97.42,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "2e6add17be485b59a85ab1b66c8c9e7c87ab5cd3ce7f666c16fd4307ed4595d2",
+      "epoch": 12077,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 188158.92230705
+  },
+  {
+    "owner_address": "0xfb4fa5943bb038bd5e86be02ca80b36309cbddb87ff8653335026969b19ed45a",
+    "operator_address": "0xb90b95e9f3f8a61de482a52a60f453808188b685cb837e90c306574071672380",
+    "rewards_growth": 97.28,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 9.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "fb4fa5943bb038bd5e86be02ca80b36309cbddb87ff8653335026969b19ed45a",
+      "epoch": 570,
+      "country": "Brazil",
+      "region": "Remote",
+      "city": "S\u00e3o Paulo",
+      "latitude": -23.5475,
+      "longitude": -46.6361
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb963a083597d9b6134379e5a609c7c5fb0dfbed20228bf32777d35feb37cd1ae",
+    "operator_address": "0xb963a083597d9b6134379e5a609c7c5fb0dfbed20228bf32777d35feb37cd1ae",
+    "rewards_growth": 97.22,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 55.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b963a083597d9b6134379e5a609c7c5fb0dfbed20228bf32777d35feb37cd1ae",
+      "epoch": 6105,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Hilliard",
+      "latitude": 40.0334,
+      "longitude": -83.1582
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x50e52098d22c91f4c6a0065d03b2602cc2643089b218096e3cfe5f1bd98d80e6",
+    "operator_address": "0x702aae7212e88aa51e74afcbd1aaf1044f5c8ea63dc5ec7d5cd4b5acaacd02ed",
+    "rewards_growth": 97.1,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "50e52098d22c91f4c6a0065d03b2602cc2643089b218096e3cfe5f1bd98d80e6",
+      "epoch": 16762,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 4020.02807023
+  },
+  {
+    "owner_address": "0xb9eab269389f080a221e1811493284ff7141b542dd2bdcaf4fe3e4f4518e8f43",
+    "operator_address": "0x834a9b5e8807fb375ce4e37e26c9aaf2bb9570fd541f203e7309047125399a6c",
+    "rewards_growth": 97.04,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 15.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b9eab269389f080a221e1811493284ff7141b542dd2bdcaf4fe3e4f4518e8f43",
+      "epoch": 570,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xba08cec00a8cfa1deff6c9212dda8d198c8fa6ee1992f3ada76d645f99e3402b",
+    "operator_address": "0x33f846a959accb07941b794dafdc92230f89aec5633185ffbd509502e66b3a05",
+    "rewards_growth": 96.94,
+    "last_epoch": 18375,
+    "last_epoch_performance": "167/167",
+    "liveness": 0.0,
+    "governance_voting_record": "41 / 56",
+    "location_stats": {
+      "peer_id": "ba08cec00a8cfa1deff6c9212dda8d198c8fa6ee1992f3ada76d645f99e3402b",
+      "epoch": 17167,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Gonzales",
+      "latitude": 30.2385,
+      "longitude": -90.9201
+    },
+    "apt_rewards_distributed": 43393.33073217
+  },
+  {
+    "owner_address": "0xe1ab9f21446fd96198b2f242237b33854e419a2182443a78f5ba89a65fec0b12",
+    "operator_address": "0xcf90beff3b34045feb113075fa451b0d4e2afe28b13732e10f4e1cb0359576f1",
+    "rewards_growth": 96.83,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 35.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "e1ab9f21446fd96198b2f242237b33854e419a2182443a78f5ba89a65fec0b12",
+      "epoch": 6293,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Tuusula",
+      "latitude": 60.354,
+      "longitude": 24.9794
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x832f185438f3658d587568955d264d6bb6c28fcecc99db3eeb7444cebced4b51",
+    "operator_address": "0x832f185438f3658d587568955d264d6bb6c28fcecc99db3eeb7444cebced4b51",
+    "rewards_growth": 96.83,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "832f185438f3658d587568955d264d6bb6c28fcecc99db3eeb7444cebced4b51",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x2c2c4137892acb6361fbe620889b9a373489bbd863097c1455bc2908985aa3d8",
+    "operator_address": "0x69b468af4e178553a0ed4ccd69d7faff8476adfbe4afb190584d6f3cf813be16",
+    "rewards_growth": 96.82,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "2c2c4137892acb6361fbe620889b9a373489bbd863097c1455bc2908985aa3d8",
+      "epoch": 13397,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 3419.23272992
+  },
+  {
+    "owner_address": "0xdcf25a3e8a0e06337692f125dafe57f8984d1e505ef0252e727707cf955965e3",
+    "operator_address": "0xdcf25a3e8a0e06337692f125dafe57f8984d1e505ef0252e727707cf955965e3",
+    "rewards_growth": 96.81,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "dcf25a3e8a0e06337692f125dafe57f8984d1e505ef0252e727707cf955965e3",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x436caaf52c365753ce48d606ee32f13eb9e636a062a6b241375cf9953e6c0d2e",
+    "operator_address": "0x436caaf52c365753ce48d606ee32f13eb9e636a062a6b241375cf9953e6c0d2e",
+    "rewards_growth": 96.81,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "436caaf52c365753ce48d606ee32f13eb9e636a062a6b241375cf9953e6c0d2e",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xa8f21e7bea620ac050ff851ed18f6c1bb4af1a323f777fdc0d2155d2cd289796",
+    "operator_address": "0xa8f21e7bea620ac050ff851ed18f6c1bb4af1a323f777fdc0d2155d2cd289796",
+    "rewards_growth": 96.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "a8f21e7bea620ac050ff851ed18f6c1bb4af1a323f777fdc0d2155d2cd289796",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xbc234115a27b31f325a856fab4d7b402ac2c78ab01b63cbc3a9cb4bffe3f31c6",
+    "operator_address": "0xbc234115a27b31f325a856fab4d7b402ac2c78ab01b63cbc3a9cb4bffe3f31c6",
+    "rewards_growth": 96.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "bc234115a27b31f325a856fab4d7b402ac2c78ab01b63cbc3a9cb4bffe3f31c6",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x8a3cf3e6d2735471e4796437d82a7cff37453009203b89670aa90b8b2121cd04",
+    "operator_address": "0x8a3cf3e6d2735471e4796437d82a7cff37453009203b89670aa90b8b2121cd04",
+    "rewards_growth": 96.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "8a3cf3e6d2735471e4796437d82a7cff37453009203b89670aa90b8b2121cd04",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x67645d762f9be711f8511a04d9795cd4c344f18adb3ec93efc491788b5abbebc",
+    "operator_address": "0x67645d762f9be711f8511a04d9795cd4c344f18adb3ec93efc491788b5abbebc",
+    "rewards_growth": 96.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "67645d762f9be711f8511a04d9795cd4c344f18adb3ec93efc491788b5abbebc",
+      "epoch": 7007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x423eab63bed73bb1febb3630e803a1d18b518e798cd2a28d4fea8ba53d097cb1",
+    "operator_address": "0x423eab63bed73bb1febb3630e803a1d18b518e798cd2a28d4fea8ba53d097cb1",
+    "rewards_growth": 96.79,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "423eab63bed73bb1febb3630e803a1d18b518e798cd2a28d4fea8ba53d097cb1",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x25d0334a224a3c1f3d4ffaebbd65e99e8c43daaae2050fa3765fbfa156f85121",
+    "operator_address": "0x9a4f03e7333ae5c4f155d76956adec1597384849adc3c3cd55535a2c6bd0b658",
+    "rewards_growth": 96.79,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 40.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "25d0334a224a3c1f3d4ffaebbd65e99e8c43daaae2050fa3765fbfa156f85121",
+      "epoch": 2735,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Frankfurt am Main",
+      "latitude": 50.1025,
+      "longitude": 8.6299
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x361f6c71bc57120e1a86c611ec250fd04a02615e7a7efb2a9496964ca6ea93d4",
+    "operator_address": "0x361f6c71bc57120e1a86c611ec250fd04a02615e7a7efb2a9496964ca6ea93d4",
+    "rewards_growth": 96.79,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "361f6c71bc57120e1a86c611ec250fd04a02615e7a7efb2a9496964ca6ea93d4",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x66b500fed716fd01656b2677210a4ab12d67a6e4e1c72a8f98a3e6d704d74754",
+    "operator_address": "0x66b500fed716fd01656b2677210a4ab12d67a6e4e1c72a8f98a3e6d704d74754",
+    "rewards_growth": 96.79,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "66b500fed716fd01656b2677210a4ab12d67a6e4e1c72a8f98a3e6d704d74754",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xe1975949fd62f17be68d32768e1138a4be9512efd2750e97e33f5f847762b9cc",
+    "operator_address": "0xe1975949fd62f17be68d32768e1138a4be9512efd2750e97e33f5f847762b9cc",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "e1975949fd62f17be68d32768e1138a4be9512efd2750e97e33f5f847762b9cc",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x599e425a65e3f79bf3f1ee16f552dfa815ca5e22209ace0919a347cda608dff1",
+    "operator_address": "0x599e425a65e3f79bf3f1ee16f552dfa815ca5e22209ace0919a347cda608dff1",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "599e425a65e3f79bf3f1ee16f552dfa815ca5e22209ace0919a347cda608dff1",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x2892bb4ade35e05f209d30ab9f24c50c258c7229edc5a6d6ee384b2cf1ff74d1",
+    "operator_address": "0x2892bb4ade35e05f209d30ab9f24c50c258c7229edc5a6d6ee384b2cf1ff74d1",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "2892bb4ade35e05f209d30ab9f24c50c258c7229edc5a6d6ee384b2cf1ff74d1",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xcd312c29bec41e31ac8bb36c48557da31fd421dc1cdd398fed950370531b2e5c",
+    "operator_address": "0xcd312c29bec41e31ac8bb36c48557da31fd421dc1cdd398fed950370531b2e5c",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "cd312c29bec41e31ac8bb36c48557da31fd421dc1cdd398fed950370531b2e5c",
+      "epoch": 7007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x40f48cfe0d460680a1e72cfaee25ce95b4f15855a40e4cc39a6980a6c34ea407",
+    "operator_address": "0x40f48cfe0d460680a1e72cfaee25ce95b4f15855a40e4cc39a6980a6c34ea407",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "40f48cfe0d460680a1e72cfaee25ce95b4f15855a40e4cc39a6980a6c34ea407",
+      "epoch": 7007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xd55e9b6911893f39d82749e828ea3f18c2a07c4b5da5af00aef9755dfc2b87e6",
+    "operator_address": "0xd55e9b6911893f39d82749e828ea3f18c2a07c4b5da5af00aef9755dfc2b87e6",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d55e9b6911893f39d82749e828ea3f18c2a07c4b5da5af00aef9755dfc2b87e6",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xf85ef8ad2035ba3703287a134b73fa9678063fd33b836b54a05a279b9a633178",
+    "operator_address": "0xf85ef8ad2035ba3703287a134b73fa9678063fd33b836b54a05a279b9a633178",
+    "rewards_growth": 96.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "f85ef8ad2035ba3703287a134b73fa9678063fd33b836b54a05a279b9a633178",
+      "epoch": 7007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xad7e9b9cecefd823705c1c36fb9d45cd34f86007a139a53556376fc801a3256a",
+    "operator_address": "0xad7e9b9cecefd823705c1c36fb9d45cd34f86007a139a53556376fc801a3256a",
+    "rewards_growth": 96.77,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ad7e9b9cecefd823705c1c36fb9d45cd34f86007a139a53556376fc801a3256a",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xd12d02e4fd7ccbd810a8a2cebe4f6d70b876fe3a170b619564df7c0c5d890917",
+    "operator_address": "0xd12d02e4fd7ccbd810a8a2cebe4f6d70b876fe3a170b619564df7c0c5d890917",
+    "rewards_growth": 96.77,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d12d02e4fd7ccbd810a8a2cebe4f6d70b876fe3a170b619564df7c0c5d890917",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x31ba734070e1883f5bf2fc37c7b9b679fb3376506d192d2ff6be8b9be1e610a4",
+    "operator_address": "0x31ba734070e1883f5bf2fc37c7b9b679fb3376506d192d2ff6be8b9be1e610a4",
+    "rewards_growth": 96.77,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "31ba734070e1883f5bf2fc37c7b9b679fb3376506d192d2ff6be8b9be1e610a4",
+      "epoch": 7007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x4d5d0e037616b9c47cfd2ae6211a2573c3d47f028595f57ab834539199b8fdc1",
+    "operator_address": "0x4d5d0e037616b9c47cfd2ae6211a2573c3d47f028595f57ab834539199b8fdc1",
+    "rewards_growth": 96.73,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "4d5d0e037616b9c47cfd2ae6211a2573c3d47f028595f57ab834539199b8fdc1",
+      "epoch": 7005,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x4428fefbc147d0170f9bbdfd7310adb642f9a50fcf7df338e4a95f2ea2033ed2",
+    "operator_address": "0x06743b9cbdedb4baff3a0500b7009e09a544bf75fea18f4846104d552992a616",
+    "rewards_growth": 96.64,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 54.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "4428fefbc147d0170f9bbdfd7310adb642f9a50fcf7df338e4a95f2ea2033ed2",
+      "epoch": 2735,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "N\u00fcrnberg",
+      "latitude": 49.4542,
+      "longitude": 11.0775
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x845c4d17a591a47dcc66df48bf790b91a6e5940e15a21d1346dc51c9a9d7089c",
+    "operator_address": "0x845c4d17a591a47dcc66df48bf790b91a6e5940e15a21d1346dc51c9a9d7089c",
+    "rewards_growth": 96.62,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "845c4d17a591a47dcc66df48bf790b91a6e5940e15a21d1346dc51c9a9d7089c",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xe66ce9075793706ad7d53b588093e144037e0a05a75b95f691889a1d1cb6eeec",
+    "operator_address": "0xe66ce9075793706ad7d53b588093e144037e0a05a75b95f691889a1d1cb6eeec",
+    "rewards_growth": 96.6,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "e66ce9075793706ad7d53b588093e144037e0a05a75b95f691889a1d1cb6eeec",
+      "epoch": 7008,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x89543af9d4c85c9fc14f6d95261c2ea612a7e88bafb06d06cd5acae04bf62c57",
+    "operator_address": "0x89543af9d4c85c9fc14f6d95261c2ea612a7e88bafb06d06cd5acae04bf62c57",
+    "rewards_growth": 96.38,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "89543af9d4c85c9fc14f6d95261c2ea612a7e88bafb06d06cd5acae04bf62c57",
+      "epoch": 7009,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x0ff7880784e16e4f615e2a95ecaba785e93b52ef0dd7f62041886604446b2988",
+    "operator_address": "0x0ff7880784e16e4f615e2a95ecaba785e93b52ef0dd7f62041886604446b2988",
+    "rewards_growth": 96.3,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0ff7880784e16e4f615e2a95ecaba785e93b52ef0dd7f62041886604446b2988",
+      "epoch": 7007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x89d6bc94c3c3fddec75cea802e7e3d39e4cbdc755996b6b1baec5799d58e28e2",
+    "operator_address": "0x89d6bc94c3c3fddec75cea802e7e3d39e4cbdc755996b6b1baec5799d58e28e2",
+    "rewards_growth": 96.29,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "89d6bc94c3c3fddec75cea802e7e3d39e4cbdc755996b6b1baec5799d58e28e2",
+      "epoch": 7006,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xf4cb45b3d657a4957d723cfaaeca5803c91ea38981bd306abf7a8c44790c894f",
+    "operator_address": "0x38de6582d56c34b09053614ba280728e3c24bb6a521e11449bbf86b4a4c557c9",
+    "rewards_growth": 96.22,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 51.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "f4cb45b3d657a4957d723cfaaeca5803c91ea38981bd306abf7a8c44790c894f",
+      "epoch": 2222,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xfcfa1efb940e23936915c2a6814ca557dbf3c6972d4ff0154d8e6aacda905c64",
+    "operator_address": "0xf2c053b0c017e1d0f6547265674bdaacc76a32f8f4a3a08108ee5c439bdf9d18",
+    "rewards_growth": 96.01,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 39.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "fcfa1efb940e23936915c2a6814ca557dbf3c6972d4ff0154d8e6aacda905c64",
+      "epoch": 2221,
+      "country": "Poland",
+      "region": "Western_Europe",
+      "city": "Warsaw",
+      "latitude": 52.2284,
+      "longitude": 21.0522
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xea1272b8a1bc5a1fb9a1c77c9dc96e1a02a691d1d6073a1dc06d51d770b3f2e2",
+    "operator_address": "0xe24483420ed1579837f27f3c849a10b240363a73e8f4fc551da7a2d3e56f7b13",
+    "rewards_growth": 96.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 61.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ea1272b8a1bc5a1fb9a1c77c9dc96e1a02a691d1d6073a1dc06d51d770b3f2e2",
+      "epoch": 2216,
+      "country": "France",
+      "region": "Western_Europe",
+      "city": "Rouen",
+      "latitude": 49.4431,
+      "longitude": 1.0993
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb55c23fafcb8ae39bd1584053a5dc03546371ccff58130db533667737171505a",
+    "operator_address": "0xb55c23fafcb8ae39bd1584053a5dc03546371ccff58130db533667737171505a",
+    "rewards_growth": 95.88,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b55c23fafcb8ae39bd1584053a5dc03546371ccff58130db533667737171505a",
+      "epoch": 9649,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xae91b5f2c5a13f5394c46bcfc7e67e4db1b3659dc6c6faa08e4b9a76a8dde53d",
+    "operator_address": "0x7a4af1cfef3e3c978641995886c5159dcaa71bbf1ac786e6e47bb30748dc7dca",
+    "rewards_growth": 95.86,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 69.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ae91b5f2c5a13f5394c46bcfc7e67e4db1b3659dc6c6faa08e4b9a76a8dde53d",
+      "epoch": 2264,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x3f07438c051666e909c419ec3a1539732070d4044711f5beac95e774feae84e1",
+    "operator_address": "0xd580d82cc44237a12803ed08d876e6b6ee67c5b9e14170dcb09cd6351784279c",
+    "rewards_growth": 95.65,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "3f07438c051666e909c419ec3a1539732070d4044711f5beac95e774feae84e1",
+      "epoch": 14772,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "Bexley",
+      "latitude": 51.4416,
+      "longitude": 0.1487
+    },
+    "apt_rewards_distributed": 7177.47798013
+  },
+  {
+    "owner_address": "0xa9e136449be1ace0702284b34da3ce1742231cb844c1848c2ea95e2fc9b18ecd",
+    "operator_address": "0x5198322b9c9bc8bd87b7edf8f90b8a3c71cc5d176333f5b4ca8c5a3c857ef218",
+    "rewards_growth": 95.44,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 28.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "a9e136449be1ace0702284b34da3ce1742231cb844c1848c2ea95e2fc9b18ecd",
+      "epoch": 578,
+      "country": "France",
+      "region": "Western_Europe",
+      "city": "Paris",
+      "latitude": 48.8534,
+      "longitude": 2.3488
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5c8af906ab13573a0a1a3c34f3308c0afb9e72f1b6e5d7845c7f57ba2f02c7ca",
+    "operator_address": "0x6a3a5e3a054095c27bbf644f5ecb28d4f6aeeec9002fa3c5223f353875e2001b",
+    "rewards_growth": 95.35,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 60.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5c8af906ab13573a0a1a3c34f3308c0afb9e72f1b6e5d7845c7f57ba2f02c7ca",
+      "epoch": 2214,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x23f422eb4212100c47cdc28c242cab052b65ace49d1429c1197f4a1b153b178e",
+    "operator_address": "0x7e03f9b5e03a8e683f4cf80a1649f32cb024a7bb8089b6da965e6c111e03206a",
+    "rewards_growth": 95.34,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 81.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "23f422eb4212100c47cdc28c242cab052b65ace49d1429c1197f4a1b153b178e",
+      "epoch": 2344,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xa396d898018d6892b148789ed8a95e0bd6af05e0974cef3d5a1197ee2fa4519e",
+    "operator_address": "0x682ca3a63ee7787220893b63c8675e6c8fd275ca6885a7bf5c04d3a72f3d872d",
+    "rewards_growth": 95.33,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 21.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "a396d898018d6892b148789ed8a95e0bd6af05e0974cef3d5a1197ee2fa4519e",
+      "epoch": 4599,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5085,
+      "longitude": -0.1257
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb14350297a3d2e2caf1a887213b4aebf6b120fa2ae87e9ddd1d34d9ad7beb44c",
+    "operator_address": "0x3f4093064c3e05bd8debf8e676f549be7d20e290cb53e207703833d3e8c7b4b2",
+    "rewards_growth": 95.32,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 15.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b14350297a3d2e2caf1a887213b4aebf6b120fa2ae87e9ddd1d34d9ad7beb44c",
+      "epoch": 572,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Ashburn",
+      "latitude": 39.0437,
+      "longitude": -77.4875
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xd52684b0f57370239beeac25d0c9ad1db6e224a96c725eb5ffbc070231f31cc8",
+    "operator_address": "0x565cbc181cd965e111390c578c2617508882dcca2fd13d3c52bce0f32e497030",
+    "rewards_growth": 94.74,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 16.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "d52684b0f57370239beeac25d0c9ad1db6e224a96c725eb5ffbc070231f31cc8",
+      "epoch": 556,
+      "country": "Spain",
+      "region": "Western_Europe",
+      "city": "Madrid",
+      "latitude": 40.4165,
+      "longitude": -3.7026
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x0d2f2f7677c1daa654199eb97ea0a0ebb17de988725ae3238e2df663b1997ad9",
+    "operator_address": "0x40e852b94fe2bf32fc883bb70095caf3616254882c6317e91f42e5eff2fe830e",
+    "rewards_growth": 94.7,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0d2f2f7677c1daa654199eb97ea0a0ebb17de988725ae3238e2df663b1997ad9",
+      "epoch": 12881,
+      "country": "United States",
+      "region": "Americas",
+      "city": "New York City",
+      "latitude": 40.7143,
+      "longitude": -74.006
+    },
+    "apt_rewards_distributed": 10681.64729922
+  },
+  {
+    "owner_address": "0xb77026ce272a63b7261d20e5d0d9ca8cddd81b42b3432891668c43c03dbd1b73",
+    "operator_address": "0xe8a867cfd7fe3db20ea60bfdffe7802a9b34f8556506c6946c979918f25ac3e9",
+    "rewards_growth": 94.38,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 59.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b77026ce272a63b7261d20e5d0d9ca8cddd81b42b3432891668c43c03dbd1b73",
+      "epoch": 2211,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x29855220443126c1f1abdda3659f69007850b1f53d64f5dcc585b5c24bdae6ed",
+    "operator_address": "0xfae69e69f730f2ea8dfa020e452e728f1cbb9aee6eb84c8325f8de21ba04c14b",
+    "rewards_growth": 94.32,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "29855220443126c1f1abdda3659f69007850b1f53d64f5dcc585b5c24bdae6ed",
+      "epoch": 13108,
+      "country": "Canada",
+      "region": "Americas",
+      "city": "Vancouver",
+      "latitude": 49.2497,
+      "longitude": -123.1193
+    },
+    "apt_rewards_distributed": 5371.51115384
+  },
+  {
+    "owner_address": "0x0f3231d47c70fd02d87822dcb1059db75613fdab7df7ac6f243aa73f7158dc05",
+    "operator_address": "0xe66d9f97e22fd37c1a9628683484f52fd0b58f6db8be4d35e02da4b39bd4d9fc",
+    "rewards_growth": 93.43,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0f3231d47c70fd02d87822dcb1059db75613fdab7df7ac6f243aa73f7158dc05",
+      "epoch": 12885,
+      "country": "Hong Kong",
+      "region": "Remote",
+      "city": "Hong Kong",
+      "latitude": 22.2783,
+      "longitude": 114.1747
+    },
+    "apt_rewards_distributed": 4510.05993497
+  },
+  {
+    "owner_address": "0xf7f0ace8890ee435c4c5f653bb3962ef0cff29c7fe07ac4fd28da41b1cb341bb",
+    "operator_address": "0x56e91bf735081552979b304ccef6d8361180382d3cdc175322a7edafc2d5fd1f",
+    "rewards_growth": 93.34,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "f7f0ace8890ee435c4c5f653bb3962ef0cff29c7fe07ac4fd28da41b1cb341bb",
+      "epoch": 16490,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Falkenstein",
+      "latitude": 50.4779,
+      "longitude": 12.3713
+    },
+    "apt_rewards_distributed": 4963.00605659
+  },
+  {
+    "owner_address": "0x1b0867a303b9c2c975b3c874866c06fd53e5ee0e538c301b66ffcecf08e63d47",
+    "operator_address": "0xed4010cadf7fc63de944d8c0e29363a55a99c0e174852b222927a6852430d968",
+    "rewards_growth": 93.22,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "1b0867a303b9c2c975b3c874866c06fd53e5ee0e538c301b66ffcecf08e63d47",
+      "epoch": 2212,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb7aa84d8be549026574559735403a79b001ca2c3be54d405b8ec7c4df79c1b15",
+    "operator_address": "0x3a2ac4e81e96dc4dc0a69abf43554fcfe351b359384e86f4e71d4d69226bebb2",
+    "rewards_growth": 93.15,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 63.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b7aa84d8be549026574559735403a79b001ca2c3be54d405b8ec7c4df79c1b15",
+      "epoch": 2232,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xf7c045f174d8527bd300eb5e9e84fb6db43a9e80190f7b9597db095fa0995658",
+    "operator_address": "0x1eb789a60713a693107ccd4b66a877682710bdcf31d84d41544df97153c3300e",
+    "rewards_growth": 92.86,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "f7c045f174d8527bd300eb5e9e84fb6db43a9e80190f7b9597db095fa0995658",
+      "epoch": 2246,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5085,
+      "longitude": -0.1257
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x352acaa1a8fe7b44746c56ace9e46c159ca50ce58403837e5a15e101e6028213",
+    "operator_address": "0xc586a01ee501de3db89c23e767d10a7dcbbda5fe85388ca76740ec5d6915a2c5",
+    "rewards_growth": 92.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 44.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "352acaa1a8fe7b44746c56ace9e46c159ca50ce58403837e5a15e101e6028213",
+      "epoch": 2370,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb33d3f37718f3a22f5d682206ed861f7c94fa4359890070b953f5a22ecb43a44",
+    "operator_address": "0xad4b65b810eb9b33456abeb8a0149f0a5e524910f959f1c7d41da3aa59b3ce69",
+    "rewards_growth": 92.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 75.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b33d3f37718f3a22f5d682206ed861f7c94fa4359890070b953f5a22ecb43a44",
+      "epoch": 2721,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seoul",
+      "latitude": 37.566,
+      "longitude": 126.9784
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x56f1dd0751468d9a11508ea874e2509edda852696c3b023914e0f2d783b3fc93",
+    "operator_address": "0xea898ad702b65aa2bd0e9c55b08703eb947112a53445588b359c68ce9dbe2402",
+    "rewards_growth": 92.51,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 17.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "56f1dd0751468d9a11508ea874e2509edda852696c3b023914e0f2d783b3fc93",
+      "epoch": 9068,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x86b5e89746c45648735ef61c722debec0c35e051db941c783a82756d77a54f8c",
+    "operator_address": "0x2a31c4f987f103bca425764fde31ceacb6560d5a4853e013b38b314170447bcf",
+    "rewards_growth": 92.38,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "86b5e89746c45648735ef61c722debec0c35e051db941c783a82756d77a54f8c",
+      "epoch": 2229,
+      "country": "Canada",
+      "region": "Americas",
+      "city": "Toronto",
+      "latitude": 43.7001,
+      "longitude": -79.4163
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb5aeeb91fefdc7785dfea6f14ca5d492d837514cb39043dd4159df9e1b1c4e06",
+    "operator_address": "0x96ad1140224981fee8b9ddc924206c77d509f9fa3d7c22268b7d7e30a2d2d0b5",
+    "rewards_growth": 92.33,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 75.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b5aeeb91fefdc7785dfea6f14ca5d492d837514cb39043dd4159df9e1b1c4e06",
+      "epoch": 2695,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seoul",
+      "latitude": 37.566,
+      "longitude": 126.9784
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xa4e0e382397c09a69408b088f021a475d1e9d55c3f708660102c837440e2ef1b",
+    "operator_address": "0x8eca0b45bfbbe3dc9991b6e8753fa9ed03870c3a293a66a54c05ff8e09e3ebfb",
+    "rewards_growth": 92.19,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 66.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "a4e0e382397c09a69408b088f021a475d1e9d55c3f708660102c837440e2ef1b",
+      "epoch": 2299,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Ashburn",
+      "latitude": 39.0437,
+      "longitude": -77.4875
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x952b6ca0c2fe60c6cfb440d3744cb471a261dbccd0c82fe048ea70d79d44d3ce",
+    "operator_address": "0x952b6ca0c2fe60c6cfb440d3744cb471a261dbccd0c82fe048ea70d79d44d3ce",
+    "rewards_growth": 90.93,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 89.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "952b6ca0c2fe60c6cfb440d3744cb471a261dbccd0c82fe048ea70d79d44d3ce",
+      "epoch": 2232,
+      "country": "Sweden",
+      "region": "Western_Europe",
+      "city": "Stockholm",
+      "latitude": 59.3294,
+      "longitude": 18.0687
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5745700038ec507e6262e02507a0f706b2deb8bfe5620db830be3d0790074e9b",
+    "operator_address": "0x7c0c0ec2849bf3bd5cf29073ce2486d46b9075e56f098794640de86e09004cd3",
+    "rewards_growth": 90.56,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5745700038ec507e6262e02507a0f706b2deb8bfe5620db830be3d0790074e9b",
+      "epoch": 15889,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 22945.88945828
+  },
+  {
+    "owner_address": "0x4e9a6f96d98efc36c8139791b79c99af4cdd3f460928d1d037081655ffac91c3",
+    "operator_address": "0xee4120d020347ef991c022a6fddfa9d0fe9e41d66622ded3cc2716ca43821327",
+    "rewards_growth": 90.49,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "4e9a6f96d98efc36c8139791b79c99af4cdd3f460928d1d037081655ffac91c3",
+      "epoch": 10372,
+      "country": "Hong Kong",
+      "region": "Remote",
+      "city": "Hong Kong",
+      "latitude": 22.2783,
+      "longitude": 114.1747
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb44b7d44d2360d0703ff8248459c79d931097130d73045c65243c61e1f6945e4",
+    "operator_address": "0xb9dfa462a72ff1aa08602b5cb472f6cbb5d8f65f8f41bb8122575e68295cc016",
+    "rewards_growth": 90.42,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b44b7d44d2360d0703ff8248459c79d931097130d73045c65243c61e1f6945e4",
+      "epoch": 17167,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 12533.82041817
+  },
+  {
+    "owner_address": "0xefec76c2ef3a6da18f8f1e13c458074ffd5100eca5832f234a79e1859d64524c",
+    "operator_address": "0xefec76c2ef3a6da18f8f1e13c458074ffd5100eca5832f234a79e1859d64524c",
+    "rewards_growth": 90.11,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "efec76c2ef3a6da18f8f1e13c458074ffd5100eca5832f234a79e1859d64524c",
+      "epoch": 9404,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x2aee88302366c82e5e348503b144c61272eb6ab7df82ce5fad763a1c79bfac12",
+    "operator_address": "0x978f6f4de20d48b32b4320b3cb903527eb83cdd369ab008c8ac967699bd05c32",
+    "rewards_growth": 89.72,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 6.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "2aee88302366c82e5e348503b144c61272eb6ab7df82ce5fad763a1c79bfac12",
+      "epoch": 3002,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Omaha",
+      "latitude": 41.2563,
+      "longitude": -95.9404
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x8371cef03d0fa5a5016af92bba352a7a054c80f6d2908aee83eaac4d1e5e65b7",
+    "operator_address": "0x7ce80778230acf1d4374bf4e33929da73fd97f140da0b6d31d4655dd7a0b3600",
+    "rewards_growth": 89.38,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "8371cef03d0fa5a5016af92bba352a7a054c80f6d2908aee83eaac4d1e5e65b7",
+      "epoch": 11566,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 548.59474902
+  },
+  {
+    "owner_address": "0x166dda2cce071ed3b96286b9db870a9e989bf3e91f820f299eb778b72ad96b50",
+    "operator_address": "0xded780f4a3d9a1f3e46825f55adfe98d242ffa24510210ba20e1aca18aa985ff",
+    "rewards_growth": 89.27,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "166dda2cce071ed3b96286b9db870a9e989bf3e91f820f299eb778b72ad96b50",
+      "epoch": 12060,
+      "country": "India",
+      "region": "Remote",
+      "city": "Pune",
+      "latitude": 18.5196,
+      "longitude": 73.8554
+    },
+    "apt_rewards_distributed": 4101.02826117
+  },
+  {
+    "owner_address": "0xea898ad702b65aa2bd0e9c55b08703eb947112a53445588b359c68ce9dbe2402",
+    "operator_address": "0xea5e37d85821b04bc79a448c89ad5c2ceae812ef10541dc69253a48a54801d2f",
+    "rewards_growth": 89.16,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 6.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ea898ad702b65aa2bd0e9c55b08703eb947112a53445588b359c68ce9dbe2402",
+      "epoch": 525,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x3293dd3ed13fc7e08c820d572aba5b67a144418edc2975133b0afdbecb06b5aa",
+    "operator_address": "0x3293dd3ed13fc7e08c820d572aba5b67a144418edc2975133b0afdbecb06b5aa",
+    "rewards_growth": 89.1,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 48.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "3293dd3ed13fc7e08c820d572aba5b67a144418edc2975133b0afdbecb06b5aa",
+      "epoch": 13495,
+      "country": "Ireland",
+      "region": "Western_Europe",
+      "city": "Dublin",
+      "latitude": 53.3331,
+      "longitude": -6.2489
+    },
+    "apt_rewards_distributed": 16447.55745079
+  },
+  {
+    "owner_address": "0xf1d4c93aa7e20e194e339a7d23c63b09a5501595870910c666213afea6ea1239",
+    "operator_address": "0x97b017065d2bfafe39430d00cbc74bd49d63c8216aedf0d267e7af726024d1a3",
+    "rewards_growth": 86.64,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "f1d4c93aa7e20e194e339a7d23c63b09a5501595870910c666213afea6ea1239",
+      "epoch": 2735,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Hilliard",
+      "latitude": 40.0334,
+      "longitude": -83.1582
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x6e38d831410177284f51de61a9cd747aef5c16e2bfa62caa8e4b2e494888040f",
+    "operator_address": "0x6e38d831410177284f51de61a9cd747aef5c16e2bfa62caa8e4b2e494888040f",
+    "rewards_growth": 86.39,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "6e38d831410177284f51de61a9cd747aef5c16e2bfa62caa8e4b2e494888040f",
+      "epoch": 9673,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xe6a5cbbb9754a54af17909352ba96d2b46b379037a4bc94f6530596aaf5f2a13",
+    "operator_address": "0x90177e0538c1107c6d1494ac578c4baaa5d9261683853ea8844dbdf8d527848b",
+    "rewards_growth": 85.66,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 60.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "e6a5cbbb9754a54af17909352ba96d2b46b379037a4bc94f6530596aaf5f2a13",
+      "epoch": 2367,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seoul",
+      "latitude": 37.566,
+      "longitude": 126.9784
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc2626f0460bcdd75888f2af82c652c05f684134f3f0b4eef0de7c1ad72824746",
+    "operator_address": "0xb8dd1e958852c9bb32dc4643fa3f9923f44e111c7a7e518fd419b5dae1034253",
+    "rewards_growth": 85.29,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 50.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c2626f0460bcdd75888f2af82c652c05f684134f3f0b4eef0de7c1ad72824746",
+      "epoch": 1710,
+      "country": "Canada",
+      "region": "Americas",
+      "city": "Toronto",
+      "latitude": 43.7001,
+      "longitude": -79.4163
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x4b904c781e92c118f45b3bd4897fdeb769cd1b638c81841c8bcdba98985698ee",
+    "operator_address": "0x4b904c781e92c118f45b3bd4897fdeb769cd1b638c81841c8bcdba98985698ee",
+    "rewards_growth": 84.83,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 74.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "4b904c781e92c118f45b3bd4897fdeb769cd1b638c81841c8bcdba98985698ee",
+      "epoch": 2432,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Ashburn",
+      "latitude": 39.0437,
+      "longitude": -77.4875
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x0f019a05783c9c28ec368a626201d24f13e874f0b164a776c0b682a956a6b116",
+    "operator_address": "0x0f019a05783c9c28ec368a626201d24f13e874f0b164a776c0b682a956a6b116",
+    "rewards_growth": 83.82,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0f019a05783c9c28ec368a626201d24f13e874f0b164a776c0b682a956a6b116",
+      "epoch": 8798,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xba8a625321da287fe6aa0f8d4e4bd1c0c6e8b800574cd7b6c569bec3fd6a7a2c",
+    "operator_address": "0x68a67927cbe5d0be67ae471cd5141a863a054b8534eb21eb0e45f14ac42c3ea6",
+    "rewards_growth": 82.55,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ba8a625321da287fe6aa0f8d4e4bd1c0c6e8b800574cd7b6c569bec3fd6a7a2c",
+      "epoch": 13979,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Council Bluffs",
+      "latitude": 41.2619,
+      "longitude": -95.8608
+    },
+    "apt_rewards_distributed": 11863.71251101
+  },
+  {
+    "owner_address": "0x173840e0af8366d0e23615f01d85e2115d1c12e667a670ce570666caf718858f",
+    "operator_address": "0xff3928418fbf561217d11319191b7e06d3a0f6967f8dd8c3746dfd54ad01e1ab",
+    "rewards_growth": 81.84,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 12.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "173840e0af8366d0e23615f01d85e2115d1c12e667a670ce570666caf718858f",
+      "epoch": 4786,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.3215,
+      "longitude": 103.6957
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc3ad739182477297fc3d2e37bf0dc5a91657600f4ba4784642bbc17a4303a2cd",
+    "operator_address": "0x0f019a05783c9c28ec368a626201d24f13e874f0b164a776c0b682a956a6b116",
+    "rewards_growth": 81.33,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c3ad739182477297fc3d2e37bf0dc5a91657600f4ba4784642bbc17a4303a2cd",
+      "epoch": 9339,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5bd7c59fc0f31a87ab9633a228fd7a9d6b8081a792abb688047621cdce99b012",
+    "operator_address": "0x94a32d29a3f238926b69cbd4152f8e47a3559e4ea8d2824ad0f6fc8803ddf90c",
+    "rewards_growth": 80.7,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 15.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5bd7c59fc0f31a87ab9633a228fd7a9d6b8081a792abb688047621cdce99b012",
+      "epoch": 607,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xcd3cdfbd25f69dd03f2a5697445a914b54eb9c687dffe4f0f98c03a70728a18d",
+    "operator_address": "0xfc041547c5277cc73d7acb20388d1488a8f4e6b14442151f3182cba2f1172de6",
+    "rewards_growth": 79.52,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 18.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "cd3cdfbd25f69dd03f2a5697445a914b54eb9c687dffe4f0f98c03a70728a18d",
+      "epoch": 15846,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Frankfurt am Main",
+      "latitude": 50.1155,
+      "longitude": 8.6842
+    },
+    "apt_rewards_distributed": 4543.40506869
+  },
+  {
+    "owner_address": "0x8510651337714265803870f3cfbf3f7da1e74ef7c5a6d55e83c9363b2a183d26",
+    "operator_address": "0x283a59ee6e10b84444bbdd7e1c83adbafcc0ddb8a3ee047fa2028372f038f2ff",
+    "rewards_growth": 79.17,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "8510651337714265803870f3cfbf3f7da1e74ef7c5a6d55e83c9363b2a183d26",
+      "epoch": 13097,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Lappeenranta",
+      "latitude": 61.0587,
+      "longitude": 28.1887
+    },
+    "apt_rewards_distributed": 11595.58028858
+  },
+  {
+    "owner_address": "0xc5be38d0d3b80471c194bc2f378b62ee8da088ae695ec3796f81ebf973cbdc64",
+    "operator_address": "0x487ea4a3e2c2286a33554812d2774f63e42fb0acdee231de2be1e75d0caa51eb",
+    "rewards_growth": 77.81,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c5be38d0d3b80471c194bc2f378b62ee8da088ae695ec3796f81ebf973cbdc64",
+      "epoch": 15007,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Columbus",
+      "latitude": 39.9612,
+      "longitude": -82.9988
+    },
+    "apt_rewards_distributed": 19025.94688753
+  },
+  {
+    "owner_address": "0x682ca3a63ee7787220893b63c8675e6c8fd275ca6885a7bf5c04d3a72f3d872d",
+    "operator_address": "0x6e4cd7ba7e0e6d33c26e18b32539411b5489ce0ae681965d46010c4f244aaa7b",
+    "rewards_growth": 77.55,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 55.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "682ca3a63ee7787220893b63c8675e6c8fd275ca6885a7bf5c04d3a72f3d872d",
+      "epoch": 3832,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5085,
+      "longitude": -0.1257
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x8d7766a61a01a33199db8412362805e9550d7dcdce6ab74fecb2ddf9899f74d0",
+    "operator_address": "0xaec8a97955aaafb2b1609418b5aed1c2b2a8c738472f7788b2fd189f78bbbf26",
+    "rewards_growth": 77.14,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 41.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "8d7766a61a01a33199db8412362805e9550d7dcdce6ab74fecb2ddf9899f74d0",
+      "epoch": 493,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Helsinki",
+      "latitude": 60.1695,
+      "longitude": 24.9354
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x234c957655cc9f4a5f8f0d1ca8f99baf8af3ea57740cd71fa2ab3d14fa3a4ede",
+    "operator_address": "0xb920fb91151fa2fabdc36ac3ebb51cba52aa448edf9b8132627461f75532de79",
+    "rewards_growth": 75.41,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 60.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "234c957655cc9f4a5f8f0d1ca8f99baf8af3ea57740cd71fa2ab3d14fa3a4ede",
+      "epoch": 2205,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Falkenstein",
+      "latitude": 50.4779,
+      "longitude": 12.3713
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc7af3f4a1c60d40fbf0def57063599bbb8c45adb279e28eb0c0f6201e4d22f3f",
+    "operator_address": "0xdb5185ee0a3159db7b7b5289bc8e672024b8caae67de29c0cde7bc680bf92f1a",
+    "rewards_growth": 73.36,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c7af3f4a1c60d40fbf0def57063599bbb8c45adb279e28eb0c0f6201e4d22f3f",
+      "epoch": 9885,
+      "country": "Vietnam",
+      "region": "Remote",
+      "city": "Neo",
+      "latitude": 21.2005,
+      "longitude": 106.2474
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5badd632abd92d673892e42578151881d644472326b6c021603f1110f10f74b1",
+    "operator_address": "0xf29b1a942628f11f1ace4fa36351feaea2558fdedf36c2565fc5490e205c8ab3",
+    "rewards_growth": 71.29,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 86.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5badd632abd92d673892e42578151881d644472326b6c021603f1110f10f74b1",
+      "epoch": 3629,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "D\u00fcsseldorf",
+      "latitude": 51.2217,
+      "longitude": 6.7762
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x5be2700c076c27678184fad6af04a0541fd0f2f1ed66c49cca5fe16a466807f9",
+    "operator_address": "0xa87298b7dd11a73f6e0736a474e6894c37d4a6ec1e04f3d42bcf43ba96afcbab",
+    "rewards_growth": 70.63,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 83.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "5be2700c076c27678184fad6af04a0541fd0f2f1ed66c49cca5fe16a466807f9",
+      "epoch": 703,
+      "country": "Brazil",
+      "region": "Remote",
+      "city": "S\u00e3o Paulo",
+      "latitude": -23.7531,
+      "longitude": -46.6695
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xdbbad1621549199d22bbd2b1a77c7c732e8e9107c8c4b97de59af67088132752",
+    "operator_address": "0xf26db48e01ac468d85d2ff8031b81eda75f3a9c8b9cb31dddb58eefced6d358f",
+    "rewards_growth": 68.91,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 20.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "dbbad1621549199d22bbd2b1a77c7c732e8e9107c8c4b97de59af67088132752",
+      "epoch": 703,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Ashburn",
+      "latitude": 39.0437,
+      "longitude": -77.4875
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb051aae7643161418137861b490f95dffbb0c7600fb37c30d8f332f58549be3e",
+    "operator_address": "0xb051aae7643161418137861b490f95dffbb0c7600fb37c30d8f332f58549be3e",
+    "rewards_growth": 68.64,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 19.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b051aae7643161418137861b490f95dffbb0c7600fb37c30d8f332f58549be3e",
+      "epoch": 3094,
+      "country": "Ireland",
+      "region": "Western_Europe",
+      "city": "Dublin",
+      "latitude": 53.3331,
+      "longitude": -6.2489
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xcd01c5fb1c9aba9c042b4d1e6106d947504c9dffd5036dd2bb38f5d742b23b91",
+    "operator_address": "0xcd01c5fb1c9aba9c042b4d1e6106d947504c9dffd5036dd2bb38f5d742b23b91",
+    "rewards_growth": 67.63,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 56.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "cd01c5fb1c9aba9c042b4d1e6106d947504c9dffd5036dd2bb38f5d742b23b91",
+      "epoch": 2244,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc61f808e9504403c9db0ecc3ba3f35ae192e589c2fa5439db026c08b81c6af5f",
+    "operator_address": "0xf4221325399c92eab1475faea756acc0abd7ee57ccfc4bc894718f1c7b52fa7e",
+    "rewards_growth": 66.46,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 26.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c61f808e9504403c9db0ecc3ba3f35ae192e589c2fa5439db026c08b81c6af5f",
+      "epoch": 2987,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5018,
+      "longitude": -0.1328
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb09947634d1d0a9077fb36f71c8a435fb5420229292c391c39cdaab632339605",
+    "operator_address": "0x1ca54a637e0f6ee6715c242358be41a6bed241ebfb442fb03e101962b3045780",
+    "rewards_growth": 65.63,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b09947634d1d0a9077fb36f71c8a435fb5420229292c391c39cdaab632339605",
+      "epoch": 9531,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x9e87eb96b922c4a6cbe2e2f3087528136b7f5471796615c56c13e2240d1fe592",
+    "operator_address": "0x40e852b94fe2bf32fc883bb70095caf3616254882c6317e91f42e5eff2fe830e",
+    "rewards_growth": 59.57,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "9e87eb96b922c4a6cbe2e2f3087528136b7f5471796615c56c13e2240d1fe592",
+      "epoch": 12032,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 2829.23125538
+  },
+  {
+    "owner_address": "0xca7d775f480b27856731e7ec2bc70c1b072243f4309a7ce3efbc32f783b8317c",
+    "operator_address": "0x3419f8dac3ef7e9c8a41aeed546afc388d52f1310a756cb2370e736b9c6287ee",
+    "rewards_growth": 57.57,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 1.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "ca7d775f480b27856731e7ec2bc70c1b072243f4309a7ce3efbc32f783b8317c",
+      "epoch": 7662,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "Redbridge",
+      "latitude": 51.574,
+      "longitude": 0.0508
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xabdf0cafcdda04c7c1b13ef2b6fde667d632c4924ebeb2aa54882f04a3666355",
+    "operator_address": "0x8427b3a073178f96a43e4494d4fdde735a2e6074e199e7f50056d84f747b1537",
+    "rewards_growth": 56.22,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "abdf0cafcdda04c7c1b13ef2b6fde667d632c4924ebeb2aa54882f04a3666355",
+      "epoch": 12034,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 1704.807153
+  },
+  {
+    "owner_address": "0xb002aa58adac6cb37afe14ccc2c1697e1a2be2b2f1dd5163006fa4d0a830fd01",
+    "operator_address": "0x37110b0a559b2c3c0eca409eb159faeeede74a01c43ec1e5b174df812d87a8bc",
+    "rewards_growth": 54.87,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 19.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b002aa58adac6cb37afe14ccc2c1697e1a2be2b2f1dd5163006fa4d0a830fd01",
+      "epoch": 936,
+      "country": "Finland",
+      "region": "Western_Europe",
+      "city": "Vaala",
+      "latitude": 64.5739,
+      "longitude": 26.7669
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xf2080adcc43cee9be9a55c2af98c201697c454f1092c83002d0b9d3e407d6029",
+    "operator_address": "0x74e6f9ea414fd6ef6ab9d27790d7d27aacc83e3084507f5545ec1e5adf04eb0c",
+    "rewards_growth": 53.56,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x01c7ad61595bba261b98208177a9e1dda212d128e8031553a125b21eb4769d8e",
+    "operator_address": "0xb0c2d8eec2bd7ffdb636b55496c0daccd168238b10d08e0472f9fc454e2e5c6c",
+    "rewards_growth": 52.89,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "01c7ad61595bba261b98208177a9e1dda212d128e8031553a125b21eb4769d8e",
+      "epoch": 9154,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xb59c2db675c086d0c07b0f5d5ebd95ea9ead4429d836284fc4a576c4eed5799c",
+    "operator_address": "0x5e77fedc49e7775868f419b1f5e237bb5efa5673fbba03e77a9dac6a884f1e47",
+    "rewards_growth": 51.99,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "b59c2db675c086d0c07b0f5d5ebd95ea9ead4429d836284fc4a576c4eed5799c",
+      "epoch": 17080,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 2654.33632858
+  },
+  {
+    "owner_address": "0xc4a5af5fa6c1ae769157675c8fbe55c49e2cbd7ce89a8dec5f09a6ced957568d",
+    "operator_address": "0xf9ee9a9ddccf6d20350a6f8d85a77d5891f6a792cb82a6e84a493dca75254000",
+    "rewards_growth": 46.22,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 46.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c4a5af5fa6c1ae769157675c8fbe55c49e2cbd7ce89a8dec5f09a6ced957568d",
+      "epoch": 1530,
+      "country": "Ireland",
+      "region": "Western_Europe",
+      "city": "Dublin",
+      "latitude": 53.3331,
+      "longitude": -6.2489
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xfa9e963867fc4a503164062fab006bc9d74e7cd2072ee133683c2ab36ab34052",
+    "operator_address": "0xaaa38029f3a7e8be5d43e72566a3d24d7049fb442b94e58d7151f2a5261fcd3f",
+    "rewards_growth": 43.28,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "fa9e963867fc4a503164062fab006bc9d74e7cd2072ee133683c2ab36ab34052",
+      "epoch": 13909,
+      "country": "South Africa",
+      "region": "Remote",
+      "city": "Cape Town",
+      "latitude": -33.9258,
+      "longitude": 18.4232
+    },
+    "apt_rewards_distributed": 1530.67085228
+  },
+  {
+    "owner_address": "0x750a7e5997bcb7cc87917880524d91c7a59847801b6fe0a8d2c632c0a10c9441",
+    "operator_address": "0x32f8fc1827d662d9442fea8fa96ad5da70ed5f45677bd3b9b89f9a8442e57e2d",
+    "rewards_growth": 35.61,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 17.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "750a7e5997bcb7cc87917880524d91c7a59847801b6fe0a8d2c632c0a10c9441",
+      "epoch": 732,
+      "country": "Russia",
+      "region": "Western_Europe",
+      "city": "Moscow",
+      "latitude": 55.7522,
+      "longitude": 37.6156
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x872fa8cb64a87a99e4291ee616a9bae80d42540b4da28f69ac6181f455225f88",
+    "operator_address": "0x0bcaa9c531a1ee865b1187e2346b9f9bf99f771d3cf31e4a89a479617729eff9",
+    "rewards_growth": 34.78,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "872fa8cb64a87a99e4291ee616a9bae80d42540b4da28f69ac6181f455225f88",
+      "epoch": 10301,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xc6c05a6b6aadf6c327244dcd0cae8ed808291c11dd8fff92c8387af0daf01869",
+    "operator_address": "0xa02818191166063d317dedf43acc1defb56f7abd9444a9b801e54184d78477b9",
+    "rewards_growth": 29.69,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 17.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "c6c05a6b6aadf6c327244dcd0cae8ed808291c11dd8fff92c8387af0daf01869",
+      "epoch": 703,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Omaha",
+      "latitude": 41.2563,
+      "longitude": -95.9404
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x3371dabee976bb94ac1b2e6c1c12fa7233ef004b358aa057661aa1bdf81fa13f",
+    "operator_address": "0xed4010cadf7fc63de944d8c0e29363a55a99c0e174852b222927a6852430d968",
+    "rewards_growth": 28.82,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 5.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "3371dabee976bb94ac1b2e6c1c12fa7233ef004b358aa057661aa1bdf81fa13f",
+      "epoch": 1348,
+      "country": "Japan",
+      "region": "Remote",
+      "city": "Tokyo",
+      "latitude": 35.6895,
+      "longitude": 139.6917
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x19105a85b8d455e51a1b0f917dbb2464d47c47a325c20e5aaa64916299e06aa4",
+    "operator_address": "0x6814a1afd3a780a5b9614d7de67d55280746c179ebe4c4ecdece79a2e57ee4b3",
+    "rewards_growth": 25.48,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 14.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "19105a85b8d455e51a1b0f917dbb2464d47c47a325c20e5aaa64916299e06aa4",
+      "epoch": 534,
+      "country": "France",
+      "region": "Western_Europe",
+      "city": "Paris",
+      "latitude": 48.8534,
+      "longitude": 2.3488
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x352eb70e6ae3f13fd132bb56a79ddaa8b1ce41e4f26f3a8dc058c737728dc474",
+    "operator_address": "0x4dd3a1ae79a1b0dfac3bd42e7a091069c9058dd94462f22991eabeec7dbf1a89",
+    "rewards_growth": 25.4,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 13.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "352eb70e6ae3f13fd132bb56a79ddaa8b1ce41e4f26f3a8dc058c737728dc474",
+      "epoch": 602,
+      "country": "Brazil",
+      "region": "Remote",
+      "city": "S\u00e3o Paulo",
+      "latitude": -23.5475,
+      "longitude": -46.6361
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xcd470ced1053b69e51fe0bc79db55b0d387e77971558f9bc9a2bb9306c8801ba",
+    "operator_address": "0xbe50a6c0371362db684bed3413f40b9b7eeef594a6a17e53f7a37b112e10a242",
+    "rewards_growth": 23.05,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 1.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "cd470ced1053b69e51fe0bc79db55b0d387e77971558f9bc9a2bb9306c8801ba",
+      "epoch": 6179,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Omaha",
+      "latitude": 41.2403,
+      "longitude": -95.998
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x572842214fd3f2c126ff89229f950137bbea2d09ed1050594c4d3405fa0c2c95",
+    "operator_address": "0x3419f8dac3ef7e9c8a41aeed546afc388d52f1310a756cb2370e736b9c6287ee",
+    "rewards_growth": 22.8,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "572842214fd3f2c126ff89229f950137bbea2d09ed1050594c4d3405fa0c2c95",
+      "epoch": 11718,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0x54235da25402364d23704bae02da9ff6a39bd7c36382612f41d08978f92c76bf",
+    "operator_address": "0xfdbd044b8c5a3802ab23740ebe9f117c6b7904edb4fac5aae2e0f8310cbe9e54",
+    "rewards_growth": 21.29,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "54235da25402364d23704bae02da9ff6a39bd7c36382612f41d08978f92c76bf",
+      "epoch": 10047,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seongnam-si",
+      "latitude": 37.4386,
+      "longitude": 127.1378
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x6efb5440bcf2b65ba14f66eb5f03eeb9054287428c3644a13f50683933efa737",
+    "operator_address": "0xd9c910a1c579500acf0f381b0f508c3c0f49220886e7d08af357600aca674d75",
+    "rewards_growth": 20.06,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 7.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "6efb5440bcf2b65ba14f66eb5f03eeb9054287428c3644a13f50683933efa737",
+      "epoch": 500,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Marl",
+      "latitude": 51.6567,
+      "longitude": 7.0904
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x6bda6b1f16c5bfb2493a6e95782ba983dd5027d79057f49b44a051facf952544",
+    "operator_address": "0x6bda6b1f16c5bfb2493a6e95782ba983dd5027d79057f49b44a051facf952544",
+    "rewards_growth": 17.94,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 100.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "6bda6b1f16c5bfb2493a6e95782ba983dd5027d79057f49b44a051facf952544",
+      "epoch": 705,
+      "country": "Germany",
+      "region": "Western_Europe",
+      "city": "Munich",
+      "latitude": 48.1374,
+      "longitude": 11.5755
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x96b367fd955923dd6326186c3f438af0dd0e0255db1d2c0e28edf57c1b33f9ed",
+    "operator_address": "0x6494a44e177f4da7924eb2230bc4326c09a25e93eb6542a8342ba14bfda33100",
+    "rewards_growth": 17.02,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 15.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "96b367fd955923dd6326186c3f438af0dd0e0255db1d2c0e28edf57c1b33f9ed",
+      "epoch": 7280,
+      "country": "Singapore",
+      "region": "Remote",
+      "city": "Singapore",
+      "latitude": 1.2897,
+      "longitude": 103.8501
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x1cb5dae16c988b16ddf5a0c0735541ae56c0903ec3707d393f7e0544f63dffad",
+    "operator_address": "0xffb6fac50e85d7c6ae1b13347fac94c819bf68b1b45ae612a5d51e264e0a27fe",
+    "rewards_growth": 15.75,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "1cb5dae16c988b16ddf5a0c0735541ae56c0903ec3707d393f7e0544f63dffad",
+      "epoch": 12077,
+      "country": "Hong Kong",
+      "region": "Remote",
+      "city": "Hong Kong",
+      "latitude": 22.2783,
+      "longitude": 114.1747
+    },
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0xcaf9962f85a61e8777da9ce509fd1d25434929797a6c68a2b5ad8c8fbc7273bd",
+    "operator_address": "0x32651f43852419a52d62c408fc16b703fb9d9f74c3e02126b7a7d6cc80889fad",
+    "rewards_growth": 11.3,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "caf9962f85a61e8777da9ce509fd1d25434929797a6c68a2b5ad8c8fbc7273bd",
+      "epoch": 10533,
+      "country": "Hong Kong",
+      "region": "Remote",
+      "city": "Hong Kong",
+      "latitude": 22.2783,
+      "longitude": 114.1747
+    },
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0x3872aadbd04b4ffaa6692affe84c356c20b7bc0480140e2c366339cce1e9f1ce",
+    "operator_address": "0xcec53d874f52ae717538765455b131545cf425f2933b6bd682fc675290ae1b07",
+    "rewards_growth": 7.69,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "3872aadbd04b4ffaa6692affe84c356c20b7bc0480140e2c366339cce1e9f1ce",
+      "epoch": 10758,
+      "country": "United Kingdom",
+      "region": "Western_Europe",
+      "city": "London",
+      "latitude": 51.5085,
+      "longitude": -0.1257
+    },
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0x0346d9c515ef825ddfbe81cdd0123c0edd46c38467d334a184eae255e6397ee1",
+    "operator_address": "0x0346d9c515ef825ddfbe81cdd0123c0edd46c38467d334a184eae255e6397ee1",
+    "rewards_growth": 0.03,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 3.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0346d9c515ef825ddfbe81cdd0123c0edd46c38467d334a184eae255e6397ee1",
+      "epoch": 1000,
+      "country": "United States",
+      "region": "Americas",
+      "city": "Boardman",
+      "latitude": 45.8399,
+      "longitude": -119.7006
+    },
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x6a4a36b08e2063319854a6d93d085a27a298cf596473436d6d16f799b1b42f3d",
+    "operator_address": "0x6a4a36b08e2063319854a6d93d085a27a298cf596473436d6d16f799b1b42f3d",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 33.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xd0ba0a6e045eb1f17fc7b14190a78cc6880ba88f3ac16281aabc7e87154d2eaa",
+    "operator_address": "0xc158cf69cab6673d3ed2b8fba4da6feb96235165b46725f2d45b423e3af99470",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 4.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x632611b38361699ff8024e4682d51bb6eb842b039891c716e4e28b51d5a80f1f",
+    "operator_address": "0x4d5d0e037616b9c47cfd2ae6211a2573c3d47f028595f57ab834539199b8fdc1",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x73a6bf841e7aa55c3862f68af808001d07db070bbf128de977ef20949ec5e731",
+    "operator_address": "0x03c04549114877c55f45649aba48ac0a4ff086ab7bdce3b8cc8d3d9947bc0d99",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0xcd89b14f95db3d3e6d0b9966525a41cd043f8366eeecad549cd33af313e75ec4",
+    "operator_address": "0xc7089ac659ade6a97f6c5fc66e043a3fc9307cf194acedffa1f76a2568d0a6e5",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xaa5220ecc753037aa57488fa06b41dde49099aa3d830287a649e666fcede85c5",
+    "operator_address": "0x9bfdd4efe15f4d8aa145bef5f64588c7c391bcddaf34f9e977f59bd93b498f2a",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0x6057d69013e3c00ca1e12b1526fa28f3265072cb88b67e7dafc59394ce865e0a",
+    "operator_address": "0x00adb92b4cf31311e6aa68357e76ea75020572cf7781f86751a85c88573b6cea",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0xa74fedac6a93d4ec89a70566d6b95548f8736ddfb8b5f41ad78be367304a3f21",
+    "operator_address": "0x286a843a52b5a75e3449f63002d359f06d045c8b8040c8c3ef25de8fc41fcfe5",
+    "rewards_growth": 0.0,
+    "last_epoch": 18375,
+    "last_epoch_performance": null,
+    "liveness": 0.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "0xa74fedac6a93d4ec89a70566d6b95548f8736ddfb8b5f41ad78be367304a3f21",
+      "epoch": 17548,
+      "country": null,
+      "region": "Remote",
+      "city": null,
+      "latitude": null,
+      "longitude": null
+    },
+    "apt_rewards_distributed": 0.0
+  },
+  {
+    "owner_address": "0xbd2d5cb253a3ae97ee84039b34ec753c3bca038a41ab953b9f6df4ac38bf7d35",
+    "operator_address": "0xd105f8dd45f4bbdc93a8f4571c6b708783cbee3452d33ea27ad85b03a360f0fe",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 13.0,
+    "governance_voting_record": "0 / 56",
+    "apt_rewards_distributed": 0
+  },
+  {
+    "owner_address": "0x7b689638b3a5473309f49325f87284ffca126e126f80495ad6c185e43eecb7d3",
+    "operator_address": "0x7b689638b3a5473309f49325f87284ffca126e126f80495ad6c185e43eecb7d3",
+    "rewards_growth": 0.0,
+    "last_epoch": null,
+    "last_epoch_performance": null,
+    "liveness": 10.0,
+    "governance_voting_record": "0 / 56",
+    "location_stats": {
+      "peer_id": "7b689638b3a5473309f49325f87284ffca126e126f80495ad6c185e43eecb7d3",
+      "epoch": 102,
+      "country": "South Korea",
+      "region": "Remote",
+      "city": "Seoul",
+      "latitude": 37.566,
+      "longitude": 126.9784
+    },
+    "apt_rewards_distributed": 0
+  }
+]

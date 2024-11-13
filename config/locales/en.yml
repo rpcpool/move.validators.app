@@ -77,6 +77,8 @@ en:
           voting_power: "Voting Power (APT)"
           performance: "Performance"
           score: "Score"
+      validator: "Validator"
+      account: "Account"
   site_title: "Aptos Move Validators | move.validators.app"
   error:
     one: "%{count} error"

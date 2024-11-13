@@ -64,3 +64,11 @@ input:focus, select:focus {
     @apply px-2 !important;
     @apply py-1 !important;
 }
+
+.bg-green {
+    background-color: #2A8D88;
+}
+
+#hover-info {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}

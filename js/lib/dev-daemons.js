@@ -1,8 +1,12 @@
 const {createClient} = require("redis");
-const path = require('path');
-const dotenvenc = require('@tka85/dotenvenc');
+require('dotenv').config()
 const ValidatorsList = require("../daemons/validators-list");
 const EpochHistory = require("../daemons/epoch-history");
+const Transactions = require("../daemons/transactions");
+const ValidatorRewards = require("../daemons/validator-rewards");
+const BlockProposals = require("../daemons/block-proposals");
+const LedgerInfo = require("../daemons/ledger-info");
+const ValidatorVotes = require("../daemons/validator-votes");
 
 /**
  * This class will bootstrap all/any of the daemons we want to run in development mode only. It is not meant to
@@ -11,51 +15,64 @@ const EpochHistory = require("../daemons/epoch-history");
  * each daemon is started.
  */
 class DevDaemons {
-  constructor() {
-    this.daemons = [];
-  }
-
-  async start() {
-    // Load in the secure env vars
-    const env = process.env.NODE_ENV || 'development';
-    const encryptedFilePath = path.resolve(process.cwd(), `.env.${env}.enc`);
-
-    try {
-      await dotenvenc.decrypt({ encryptedFile: encryptedFilePath });
-      console.log('Environment variables decrypted successfully.');
-
-      // Init redis
-      const redisUrl = process.env.REDIS_URL;
-      const redisClient = createClient({ url: redisUrl });
-      await redisClient.connect();
-
-      // Set up each daemon here for management
-      // Each daemon is run via a local systemd service, so they need to be able to start themselves based on
-      // instantiation.
-      // Below we define the ones we want to run locally.
-
-      // ValidatorsList
-      const validatorsList = new ValidatorsList(redisClient);
-      await validatorsList.start();
-      this.daemons.push(validatorsList);
-
-      // EpochHistory
-      const epochHistory = new EpochHistory(redisClient);
-      await epochHistory.start();
-      this.daemons.push(epochHistory);
-
-    } catch (err) {
-      console.error('Failed to decrypt environment variables:', err);
-      process.exit(1);
+    constructor() {
+        this.daemons = [];
     }
-  }
 
-  // Currently we don't have a need to stop the daemons, but we add that stub here.
-  async stop() {
-    for (let daemon of this.daemons) {
-      if (daemon) await daemon.stop();
+    async start() {
+        try {
+            // Init redis
+            const redisUrl = process.env.REDIS_URL;
+            console.log(new Date(), " DevDaemons start using redis url: ", redisUrl);
+            const redisClient = await createClient({url: redisUrl})
+                .on('error', err => console.log('Redis Client Error', err))
+                .connect();
+
+            // Set up each daemon here for management
+            // Each daemon is run via a local systemd service, so they need to be able to start themselves based on
+            // instantiation.
+            // Below we define the ones we want to run locally.
+
+            // EpochJob
+            const ledgerInfo = await LedgerInfo.create(redisClient);
+            this.daemons.push(ledgerInfo);
+
+            // ValidatorsList
+            const validatorsList = await ValidatorsList.create(redisClient);
+            this.daemons.push(validatorsList);
+
+            // ValidatorRewards
+            const validatorRewards = await ValidatorRewards.create(redisClient);
+            this.daemons.push(validatorRewards);
+
+            // EpochHistory
+            // const epochHistory = await EpochHistory.create(redisClient);
+            // this.daemons.push(epochHistory);
+
+            // Transactions
+            // const transactions = await Transactions.create(redisClient);
+            // this.daemons.push(transactions);
+
+            // Block info
+            const blockProposals = await BlockProposals.create(redisClient);
+            this.daemons.push(blockProposals);
+
+            // ValidatorVotes
+            const validatorVotes = await ValidatorVotes.create(redisClient);
+            this.daemons.push(validatorVotes);
+
+        } catch (err) {
+            console.error('Failed to start correctly:', err);
+            process.exit(1);
+        }
     }
-  }
+
+    // Currently we don't have a need to stop the daemons, but we add that stub here.
+    async stop() {
+        for (let daemon of this.daemons) {
+            if (daemon && typeof daemon.start === 'function') await daemon.stop();
+        }
+    }
 }
 
 new DevDaemons().start().then();

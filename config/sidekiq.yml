@@ -1,12 +1,24 @@
 ---
 :daemon: false
-# :verbose: true
-# :concurrency: 5
-# :timeout: 30
+
 development:
   :concurrency: 4
+
 :queues:
   - high_priority
   - default
   - low_priority
   - lowest_priority
+
+# Scheduler section should be at the same level as other top-level keys
+:scheduler:
+  run_validator_historical_rewards:
+    class: ValidatorHistoricalRewardsJob
+    cron: '*/5 * * * *'  # Every 5 minutes (corrected cron syntax)
+    queue: default        # Specify which queue to use
+    enabled: true        # Optional: explicitly enable/disable
+  run_validator_compute:
+    class: ValidatorComputeJob
+    cron: '*/5 * * * *'  # Every 5 minutes (corrected cron syntax)
+    queue: default        # Specify which queue to use
+    enabled: true        # Optional: explicitly enable/disable

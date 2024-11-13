@@ -87,92 +87,71 @@ async function latest(aptos) {
 
     const data = JSON.parse(fs.readFileSync("./testnet.json"));
 
-    // Extract the Configuration object to get the current epoch
-    const configuration = getItem(data, "0x1::reconfiguration::Configuration").data;
-    const currentEpoch = parseInt(configuration.epoch);
+    // Get the reconfiguration configuration
+    const reconfigurationConfig = getItem(data, '0x1::reconfiguration::Configuration');
 
-    // Extract the ValidatorPerformance object to get the validators count
-    const validatorData = getItem(data, "0x1::stake::ValidatorPerformance").data;
-    const validatorsCount = validatorData.validators.length;
+    // Get the block resource
+    const blockResource = getItem(data, '0x1::block::BlockResource');
+    // console.log(JSON.stringify(blockResource, null, 2));
 
-    // Extract the BlockResource object
-    const blockResource = getItem(data, "0x1::block::BlockResource").data;
+    // Extract relevant data with conditional checks
+    const epoch = reconfigurationConfig && reconfigurationConfig.data ? reconfigurationConfig.data.epoch : null;
+    const lastReconfigurationTime = reconfigurationConfig && reconfigurationConfig.data ? reconfigurationConfig.data.last_reconfiguration_time : null;
+    const epochInterval = blockResource && blockResource.data ? blockResource.data.epoch_interval : null;
 
-    // Extract the necessary values from the BlockResource object
-    const epochIntervalUs = parseInt(blockResource.epoch_interval);
-    const currentHeight = parseInt(blockResource.height);
+    console.log('Epoch:', epoch);
+    console.log('Last Reconfiguration Time:', lastReconfigurationTime);
+    console.log('Epoch Interval:', epochInterval);
 
-    // Calculate the number of blocks per epoch (assuming 1 block per second)
-    const blocksPerEpoch = epochIntervalUs / 1000000; // Total blocks in an epoch
+    // Get the validator set
+    const validatorSet = getItem(data, '0x1::stake::ValidatorSet');
 
-    // Calculate the starting slot of the current epoch
-    const startingSlot = currentHeight - (currentHeight % blocksPerEpoch);
+    // Extract the total number of validators
+    const totalValidators = validatorSet && validatorSet.data ? validatorSet.data.active_validators.length : 0;
 
-    // Extract the ValidatorSet object to get the total staked amount
-    const validatorSet = getItem(data, "0x1::stake::ValidatorSet").data;
-    console.log("validatorSet:", JSON.stringify(validatorSet, null, 2));
-    const totalStaked = validatorSet.total_voting_power;
-    const averageValidatorStake = parseInt(totalStaked) / validatorsCount;
+    console.log('Total Validators:', totalValidators);
 
-    // Extract the StakingRewardsConfig object
-    const stakingRewardsConfig = getItem(data, "0x1::staking_config::StakingRewardsConfig").data;
-    const validatorPerformance = getItem(data, "0x1::stake::ValidatorPerformance").data;
+    // Extract the starting slot
+    const startingSlot = blockResource && blockResource.data && blockResource.data.new_block_events ? blockResource.data.new_block_events.counter : null;
 
-    console.log("stakingRewardsConfig:", stakingRewardsConfig);
-    console.log("validatorPerformance:", validatorPerformance);
-
-    // Extract necessary values as BigInt
-    const currentRewardsRate = BigInt(stakingRewardsConfig.rewards_rate.value);
-    // const periodInSeconds = BigInt(stakingRewardsConfig.rewards_rate_period_in_secs);
-    // const totalRewards = String(currentRewardsRate * periodInSeconds);
-
-    // Calculate total staked amount
-    let totalStakedAmount = 0n;
-    for (const validator of validatorSet.active_validators) {
-        totalStakedAmount += BigInt(validator.voting_power);
-    }
-
-    // Calculate total successful proposals and total proposals
-    let totalSuccessfulProposals = 0n;
-    let totalProposals = 0n;
-
-    for (const validator of validatorPerformance.validators) {
-        const successfulProposals = BigInt(validator.successful_proposals);
-        const failedProposals = BigInt(validator.failed_proposals);
-        totalSuccessfulProposals += successfulProposals;
-        totalProposals += successfulProposals + failedProposals;
-    }
-
-    // Extract necessary values as BigInt
-    const rewardsRate = BigInt(stakingRewardsConfig.rewards_rate.value);
-    const periodInSeconds = BigInt(stakingRewardsConfig.rewards_rate_period_in_secs);
-
-    // Calculate per-epoch rewards rate
-    const secondsInYear = 31536000n; // Number of seconds in a year
-    const rewardsRatePerEpoch = (rewardsRate * periodInSeconds) / secondsInYear;
-
-    // Calculate the performance ratio
-    const performanceRatio = totalSuccessfulProposals / totalProposals;
-
-    // Calculate the total rewards for the epoch
-    const totalRewards = totalStakedAmount * rewardsRatePerEpoch * performanceRatio;
-
-
-    // Displaying the extracted values
-    console.log('Network:', 'Testnet');
-    console.log('Current Epoch:', currentEpoch);
-    console.log('Validators Count:', validatorsCount);
     console.log('Starting Slot:', startingSlot);
-    console.log('Slots in epoch:', blocksPerEpoch);
-    console.log('Current height:', currentHeight);
-    console.log('Total staked:', totalStaked);
-    console.log('Average Validator Stake:', averageValidatorStake);
-    console.log('Total Rewards:', totalRewards);
+
+    // Assuming epoch_interval is in microseconds and slot duration is also in microseconds (no hardcoding)
+    const slotsInEpoch = epochInterval ? parseInt(epochInterval, 10) : null;
+
+    console.log('Slots in Epoch:', slotsInEpoch);
+
+    // Extract the current height
+    const currentHeight = blockResource && blockResource.data ? blockResource.data.height : null;
+
+    console.log('Current Height:', currentHeight);
+
+    // Extract the total staked value
+    const totalStaked = validatorSet && validatorSet.data ? validatorSet.data.total_voting_power : null;
+
+    console.log('Total Staked:', totalStaked);
+
+
+    const numberOfValidators = validatorSet && validatorSet.data && validatorSet.data.active_validators ? validatorSet.data.active_validators.length : null;
+
+    // Calculate the average validator stake
+    const averageValidatorStake = totalStaked && numberOfValidators ? BigInt(totalStaked) / BigInt(numberOfValidators) : null;
+
+    console.log('Average Validator Stake:', averageValidatorStake ? averageValidatorStake.toString() : null);
+
+
+    // console.log('Total staked:', totalStaked);
+    // console.log('Average Validator Stake:', averageValidatorStake);
+    // console.log('Total Rewards:', totalRewards);
     // console.log('Epoch Completion Percentage:', epochCompletionPercentage.toFixed(2), '%');
 }
 
 function getItem(data, key) {
     return data.find(item => item.type.includes(key));
+}
+
+function allItems(data, key) {
+    return data.filter(item => item.type.includes(key));
 }
 
 function getValueByKey(obj, key) {
@@ -186,5 +165,30 @@ function getValueByKey(obj, key) {
             }
         }
     }
+}
+
+function decodeConfig(configHex) {
+    const configBytes = Buffer.from(configHex.slice(2), 'hex');
+
+    return {
+        maxBytesPerMessage: configBytes.readUInt32LE(0),
+        maxExecutionGasPerMessage: Number(configBytes.readBigUInt64LE(4)),
+        maxGasPerAccount: Number(configBytes.readBigUInt64LE(12)),
+        maxTxnSize: Number(configBytes.readBigUInt64LE(20)),
+        gasPrice: Number(configBytes.readBigUInt64LE(28)),
+        gasPerSecond: Number(configBytes.readBigUInt64LE(36)),
+        diskGasPerByte: Number(configBytes.readBigUInt64LE(44)),
+        senderAuthenticityChallengeDelay: configBytes.readUInt32LE(52),
+        senderChallengeTimeout: configBytes.readUInt32LE(56),
+        safetyRules: {
+            epochLength: configBytes.readUInt32LE(60),
+            subEpochLength: configBytes.readUInt32LE(64),
+            leaderRepeatInterval: configBytes.readUInt32LE(68),
+            voterRepeatInterval: configBytes.readUInt32LE(72),
+            numMempoolRejectionVotes: configBytes.readUInt32LE(76),
+            numCommitVotesThreshold: configBytes.readUInt32LE(80),
+            numExecutionVotesThreshold: configBytes.readUInt32LE(84)
+        }
+    };
 }
 

@@ -1,0 +1,69 @@
+<div>
+  <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-5" data-controller="validator-donut-chart">
+
+    <!-- Overall Score -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700"
+         data-validator-donut-chart-overall-score-value="<%= validator.overall_score %>">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100">
+        <%= t('public.validators.overall_score') %>
+      </dt>
+      <dd class="mt-1 flex items-center justify-center flex-col text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+        <canvas data-validator-donut-chart-target="overallScore" width="100" height="100"></canvas>
+        <div class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          <%= validator.overall_score %>
+        </div>
+      </dd>
+    </div>
+
+    <!-- Voting Record -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700"
+         data-validator-donut-chart-voting-record-value="<%= validator.voting_record %>">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100">
+        <%= t('public.validators.voting_record') %>
+      </dt>
+      <dd class="mt-1 flex items-center justify-center flex-col text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+        <canvas data-validator-donut-chart-target="votingRecord" width="100" height="100"></canvas>
+        <div class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          <%= validator.voting_record %>
+        </div>
+      </dd>
+    </div>
+
+    <!-- Last Epoch Blocks -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700"
+         data-validator-donut-chart-last-epoch-blocks-value="<%= validator.last_epoch_perf %>">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.last_epoch_blocks') %></dt>
+      <dd class="mt-1 flex items-center justify-center flex-col text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+        <canvas data-validator-donut-chart-target="lastEpochBlocks" width="100" height="100"></canvas>
+        <div class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          <%= validator.last_epoch_perf %>
+        </div>
+      </dd>
+    </div>
+
+    <!-- Block Performance -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700"
+         data-validator-donut-chart-block-performance-value="<%= validator.performance %>">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.block_performance') %></dt>
+      <dd class="mt-1 flex items-center justify-center flex-col text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+        <canvas data-validator-donut-chart-target="blockPerformance" width="100" height="100"></canvas>
+        <div class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          <%= validator.performance %>
+        </div>
+      </dd>
+    </div>
+
+    <!-- Datacenter Score -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700"
+         data-validator-donut-chart-datacenter-score-value="<%= validator.data_center_score %>">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.datacenter_score') %></dt>
+      <dd class="mt-1 flex items-center justify-center flex-col text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+        <canvas data-validator-donut-chart-target="datacenterScore" width="100" height="100"></canvas>
+        <div class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+          <%= validator.data_center_score %>
+        </div>
+      </dd>
+    </div>
+
+  </dl>
+</div>
