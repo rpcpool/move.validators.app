@@ -64,6 +64,7 @@ gem 'capistrano', '3.16.0'
 gem 'capistrano-passenger'
 gem 'capistrano-rails', group: :development
 gem 'capistrano-sidekiq', require: false
+gem 'capistrano-bundler', require: false
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
 gem 'appsignal'
