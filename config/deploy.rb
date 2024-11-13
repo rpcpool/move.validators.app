@@ -21,6 +21,14 @@ ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 # set :pty, true
 
 # Default value for :linked_files is []
+append :linked_files, 'config/database.yml'
+append :linked_files, "config/credentials/#{fetch(:stage)}.key"
+
+# Default value for linked_dirs is []
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
+
+
+# Default value for :linked_files is []
 # append :linked_files, "config/database.yml"
 
 # Default value for linked_dirs is []
@@ -37,3 +45,5 @@ ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
+
+set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }

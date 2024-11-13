@@ -40,6 +40,6 @@ require "capistrano/passenger"
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 
 
-require 'capistrano/sidekiq'
-install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
-install_plugin Capistrano::Sidekiq::Systemd
+# require 'capistrano/sidekiq'
+# install_plugin Capistrano::Sidekiq  # Default sidekiq tasks
+# install_plugin Capistrano::Sidekiq::Systemd
