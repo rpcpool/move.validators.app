@@ -22,4 +22,4 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 # set :bundle_path, -> { nil }
 # set :bundle_command, Whenever.bundler? ? "/usr/local/bin/bundle exec" : ""
 
-# set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }
+set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }
