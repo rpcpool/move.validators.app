@@ -72,3 +72,11 @@ input:focus, select:focus {
 #hover-info {
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
+.w-38 {
+    width: 9.5rem;
+}
+
+.w-42 {
+    width: 10.5rem;
+}

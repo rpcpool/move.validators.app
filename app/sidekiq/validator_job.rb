@@ -30,36 +30,9 @@ class ValidatorJob
     lat = lat_value.to_f if lat_value.is_a?(String) || lat_value.is_a?(Numeric)
     lng = lng_value.to_f if lng_value.is_a?(String) || lng_value.is_a?(Numeric)
 
-    stake_pool_active_value = validator_data.dig('merged', 'resources')&.find { |resource|
-      resource['type'] == '0x1::stake::StakePool'
-    }&.dig('data', 'active', 'value').to_i
+    stake_pool_active_value = validator_data.dig('merged', 'data', 'stake_pool_active_value').to_i
 
-    coin_store_value = validator_data.dig('merged', 'resources')&.find { |resource|
-      resource['type'] == '0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>'
-    }&.dig('data', 'coin', 'value').to_i
-
-    last_epoch_perf = validator_data.dig('validator', 'last_epoch_performance')
-
-    # Add logging to check for unexpected Hash
-    if last_epoch_perf.is_a?(Hash)
-      puts "Error: last_epoch_perf is a hash: #{last_epoch_perf.inspect}"
-      last_epoch_perf = 0 # Assign a default value
-    else
-      last_epoch_perf = last_epoch_perf.to_i
-    end
-
-    rewards_growth = validator_data.dig('validator', 'rewards_growth')
-
-    # Add safeguard to handle if rewards_growth is unexpectedly a hash
-    if rewards_growth.is_a?(Hash)
-      puts "Error: rewards_growth is a hash: #{rewards_growth.inspect}"
-      rewards_growth = 0.0 # Assign a default value
-    else
-      rewards_growth = rewards_growth.to_f
-    end
-
-    voting_record = validator_data.dig('validator', 'governance_voting_record')
-    rewards = validator_data.dig('validator', 'apt_rewards_distributed')
+    coin_store_value = validator_data.dig('merged', 'data', 'coin_store_value').to_i
 
     begin
       # Try to find the validator by address
@@ -83,10 +56,6 @@ class ValidatorJob
           lng: lng,
           balance: coin_store_value,
           active_stake: stake_pool_active_value,
-          # last_epoch_perf: last_epoch_perf,
-          # rewards_growth: rewards_growth,
-          # voting_record: voting_record,
-          # rewards: rewards,
           start_date: start_date
         )
       else
@@ -109,10 +78,6 @@ class ValidatorJob
           lng: lng,
           balance: coin_store_value,
           active_stake: stake_pool_active_value,
-          # last_epoch_perf: last_epoch_perf,
-          # rewards_growth: rewards_growth,
-          # voting_record: voting_record,
-          # rewards: rewards,
           start_date: start_date
         )
       end

@@ -20,10 +20,11 @@ Rails.application.routes.draw do
 
   resources :validators, only: [:index, :show] do
     member do
-      get 'rewards'
-      get 'analytics'
-      get 'performance_metrics'
-      get 'rewards_history'
+      get :rewards
+      get :analytics
+      get :performance_metrics
+      get :rewards_history
+      get :block_production
     end
   end
 

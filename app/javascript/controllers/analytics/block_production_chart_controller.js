@@ -1,9 +1,15 @@
-// app/javascript/controllers/analytics/block_production_chart_controller.js
 import BaseAnalyticsChartController from "./base_analytics_chart_controller"
 import {Chart} from "chart.js"
 
 export default class extends BaseAnalyticsChartController {
     static targets = ["chart"]
+    static values = {
+        address: String
+    }
+
+    connect() {
+        this.loadChartData()
+    }
 
     getChartColors() {
         return {
@@ -11,23 +17,36 @@ export default class extends BaseAnalyticsChartController {
         }
     }
 
-    renderChart() {
+    async loadChartData() {
+        try {
+            const response = await fetch(`/validators/${this.addressValue}/block_production`)
+            if (!response.ok) throw new Error('Network response was not ok')
+            const data = await response.json()
+            if (data && data.length > 0) {
+                this.renderChart(data)
+            } else {
+                console.error('No data received from block production endpoint')
+            }
+        } catch (error) {
+            console.error('Error loading block production data:', error)
+        }
+    }
+
+    renderChart(data) {
         const isDark = this.isDarkMode()
         const colors = this.getChartColors()
 
-        const dataPoints = 4
-        const labels = Array.from({length: dataPoints}, (_, i) => {
-            const weeksAgo = dataPoints - 1 - i
-            return weeksAgo === 0 ? 'This Week' : `${weeksAgo}w ago`
-        })
+        if (this.chartInstances.has(this.chartTarget)) {
+            this.chartInstances.get(this.chartTarget).destroy()
+        }
 
         const chart = new Chart(this.chartTarget, {
             type: 'bar',
             data: {
-                labels: labels,
+                labels: data.map(item => `Epoch ${item.epoch}`),
                 datasets: [{
-                    label: 'Blocks Per Day',
-                    data: this.generateRandomData(dataPoints, 800, 2000),
+                    label: 'Blocks Per Epoch',
+                    data: data.map(item => item.block_count),
                     backgroundColor: colors.bars,
                     borderRadius: 4
                 }]
@@ -60,7 +79,7 @@ export default class extends BaseAnalyticsChartController {
                         display: true,
                         title: {
                             display: true,
-                            text: 'Daily Blocks',
+                            text: 'Blocks Per Epoch',
                             font: {size: 12},
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
@@ -80,11 +99,5 @@ export default class extends BaseAnalyticsChartController {
         })
 
         this.chartInstances.set(this.chartTarget, chart)
-    }
-
-    generateRandomData(points, min, max) {
-        return Array.from({length: points}, () =>
-            Number((Math.random() * (max - min) + min).toFixed(0))
-        )
     }
 }

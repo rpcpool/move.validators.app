@@ -1,5 +1,4 @@
 const path = require('path');
-const dotenvenc = require('@tka85/dotenvenc');
 const BaseDaemon = require('./base-daemon');
 const {Aptos, AptosConfig, Network} = require('@aptos-labs/ts-sdk');
 

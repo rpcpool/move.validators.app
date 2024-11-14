@@ -3,7 +3,7 @@ const BaseDaemon = require("./base-daemon");
 class ValidatorVotes extends BaseDaemon {
     constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
         super(redisClient, pubSubClient, jobDispatcher, aptos);
-        this.seconds = 300; // 5 minutes - adjust as needed
+        this.seconds = 900; // 15 minutes - adjust as needed
         this.interval = undefined;
         this.rateLimit = 65;
         this.lastProcessedProposal = 0;

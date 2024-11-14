@@ -1,5 +1,5 @@
 class ValidatorsController < ApplicationController
-  before_action :set_validator, only: [:show, :analytics, :rewards_history, :performance_metrics]
+  before_action :set_validator, only: [:show, :analytics, :rewards_history, :performance_metrics, :block_production]
 
   def index
     # Determine the column and direction for sorting
@@ -117,6 +117,34 @@ class ValidatorsController < ApplicationController
       details: e.message,
       backtrace: e.backtrace
     }, status: :internal_server_error
+  end
+
+  def block_production
+    blocks_by_epoch = Block.where(validator_address: @validator.address)
+                           .where.not(epoch: nil)
+                           .group(:epoch)
+                           .order(epoch: :desc)
+                           .limit(10) # Get last 10 epochs
+                           .count
+
+    data = blocks_by_epoch.map do |epoch, block_count|
+      {
+        epoch: epoch,
+        block_count: block_count
+      }
+    end
+
+    respond_to do |format|
+      format.json { render json: data }
+    rescue StandardError => e
+      Rails.logger.error "Block Production Error: #{e.class} - #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: {
+        error: 'Error fetching block production data',
+        details: e.message,
+        backtrace: e.backtrace
+      }, status: :internal_server_error
+    end
   end
 
   private

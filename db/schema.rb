@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_13_004022) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_14_194555) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -58,8 +58,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_13_004022) do
     t.string "validator_address", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "raw_data", size: :long
+    t.string "epoch"
     t.index ["block_hash"], name: "index_blocks_testnet_on_block_hash", unique: true
     t.index ["block_height"], name: "index_blocks_testnet_on_block_height", unique: true
+    t.index ["epoch"], name: "index_blocks_testnet_on_epoch"
     t.index ["first_version"], name: "index_blocks_testnet_on_first_version"
     t.index ["last_version"], name: "index_blocks_testnet_on_last_version"
     t.index ["validator_address"], name: "index_blocks_testnet_on_validator_address"
@@ -89,6 +92,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_13_004022) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["epoch"], name: "index_epochs_testnet_on_epoch", unique: true
+  end
+
+  create_table "prices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "currency"
+    t.decimal "price", precision: 20, scale: 10
+    t.decimal "daily_change", precision: 10, scale: 4
+    t.decimal "daily_volume", precision: 20, scale: 2
+    t.string "coin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency", "created_at"], name: "index_prices_on_currency_and_created_at", order: { created_at: :desc }
   end
 
   create_table "transactions_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
