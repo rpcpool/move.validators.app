@@ -1,11 +1,19 @@
 # frozen_string_literal: true
 require "sidekiq-unique-jobs"
 
-Sidekiq.configure_server do |config|
-  config.redis = {
-    url: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :url)
-  }
+conf = {
+  url: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :url)
+}
 
+if Rails.env.production?
+  conf.merge!(
+    username: '',
+    password: '',
+  )
+end
+
+Sidekiq.configure_server do |config|
+  config.redis = conf
   config.server_middleware do |chain|
     chain.add SidekiqUniqueJobs::Middleware::Server
   end
@@ -14,9 +22,7 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = {
-    url: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :url)
-  }
+  config.redis = conf
 
   config.client_middleware do |chain|
     chain.add SidekiqUniqueJobs::Middleware::Client
