@@ -7,8 +7,8 @@ conf = {
 
 if Rails.env.production?
   conf.merge!(
-    username: '',
-    password: '',
+    username: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :username),
+    password: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :password)
   )
 end
 
