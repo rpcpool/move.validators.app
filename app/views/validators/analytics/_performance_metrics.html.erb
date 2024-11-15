@@ -1,0 +1,9 @@
+<div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+  <h2 class="text-lg font-semibold mb-4"><%= t('performance_metrics') %></h2>
+  <div
+    data-controller="analytics--performance-metrics-chart"
+    data-analytics--performance-metrics-chart-address-value="<%= validator.address %>"
+  >
+    <canvas data-analytics--performance-metrics-chart-target="chart" class="h-64"></canvas>
+  </div>
+</div>

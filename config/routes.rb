@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get :performance_metrics
       get :rewards_history
       get :block_production
+      get :active_stake_history
     end
   end
 

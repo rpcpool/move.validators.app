@@ -1,0 +1,19 @@
+<div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
+  <div data-controller="analytics--active-stake-history-chart"
+       data-analytics--active-stake-history-chart-address-value="<%= validator.address %>"
+  >
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold mb-4"><%= t('active_stake_history') %></h2>
+      <select data-analytics--active-stake-history-chart-target="epochRange"
+              data-action="change->analytics--active-stake-history-chart#updateEpochRange"
+              class="bg-white border border-gray-300 rounded-md py-1 px-3 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200 w-42">
+        <option value="5">Last 5 epochs</option>
+        <option value="10">Last 10 epochs</option>
+        <option value="20">Last 20 epochs</option>
+        <option value="50">Last 50 epochs</option>
+      </select>
+    </div>
+
+    <canvas data-analytics--active-stake-history-chart-target="chart" class="h-64"></canvas>
+  </div>
+</div>

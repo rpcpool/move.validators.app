@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_14_194555) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_15_010445) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -103,6 +103,36 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_14_194555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["currency", "created_at"], name: "index_prices_on_currency_and_created_at", order: { created_at: :desc }
+  end
+
+  create_table "stake_histories_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "version", null: false
+    t.string "sequence_number"
+    t.string "event_type", null: false
+    t.string "active_stake"
+    t.string "pending_active_stake"
+    t.string "pending_inactive_stake"
+    t.string "inactive_stake"
+    t.string "pool_address"
+    t.string "operator_address"
+    t.string "commission_percentage"
+    t.integer "epoch"
+    t.string "event_guid"
+    t.string "status"
+    t.string "voting_power"
+    t.text "raw_data", size: :long
+    t.datetime "blockchain_timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "validators_testnet_id"
+    t.index ["blockchain_timestamp"], name: "index_stake_histories_testnet_on_blockchain_timestamp"
+    t.index ["epoch"], name: "index_stake_histories_testnet_on_epoch"
+    t.index ["event_type"], name: "index_stake_histories_testnet_on_event_type"
+    t.index ["status"], name: "index_stake_histories_testnet_on_status"
+    t.index ["validators_testnet_id", "epoch"], name: "idx_on_validators_testnet_id_epoch_5e3c33bb6a"
+    t.index ["validators_testnet_id", "version"], name: "idx_on_validators_testnet_id_version_78299f08e7"
+    t.index ["version"], name: "index_stake_histories_testnet_on_version"
+    t.index ["voting_power"], name: "index_stake_histories_testnet_on_voting_power"
   end
 
   create_table "transactions_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -267,5 +297,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_14_194555) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "stake_histories_testnet", "validators_testnet"
   add_foreign_key "transactions_testnet", "blocks_testnet"
 end

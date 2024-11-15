@@ -1,3 +1,6 @@
+require_relative './table_name_helper'
+require_relative './column_name_helper'
+
 module NetworkSharding
   module NetworkShardable
     extend ActiveSupport::Concern

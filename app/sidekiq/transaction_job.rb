@@ -38,7 +38,7 @@ class TransactionJob
 
       if transaction.save
         Rails.logger.info("TransactionJob: Transaction with hash #{transaction_data['hash']} saved successfully.")
-        broadcast_block_info(block)
+        # broadcast_block_info(block)
       else
         Rails.logger.error("Failed to save transaction: #{transaction.errors.full_messages.join(', ')}")
       end

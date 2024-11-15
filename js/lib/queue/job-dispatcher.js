@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const {snakeCase} = require('case-anything');
 
 class JobDispatcher {
     constructor(redisClient, pubSubClient) {
@@ -19,12 +20,17 @@ class JobDispatcher {
         });
     }
 
+    // getQueueKey(queue) {
+    //     if (!queue) return "queue.rake:default";
+    //     if (!queue.startsWith("queue.rake:")) {
+    //         return `queue:${queue}`;
+    //     }
+    //     return queue;
+    // }
+
     getQueueKey(queue) {
         if (!queue) return "queue:default";
-        if (!queue.startsWith("queue:")) {
-            return `queue:${queue}`;
-        }
-        return queue;
+        return `queue:${snakeCase(queue)}`;
     }
 
     async enqueue(workerClass, data) {
@@ -52,28 +58,32 @@ class JobDispatcher {
     }
 
     async listen(jobName, callback) {
-        if (!this.pubSubClient.isReady) {
-            throw new Error("PubSub Redis client is not connected or ready.");
+        if (!this.redisClient.isReady) {
+            throw new Error("Redis client is not connected or ready.");
         }
 
         const queueKey = this.getQueueKey(jobName);
-        const messageHandler = (channel, message) => {
-            if (channel === queueKey) {
-                try {
-                    const job = JSON.parse(message);
-                    if (job.class === jobName) {
-                        callback(job.args[0]);
+        this.log(` > ${jobName} Starting to listen on ${queueKey}`);
+
+        const processNextMessage = async () => {
+            try {
+                const result = await this.redisClient.brPop(queueKey, 5);
+                if (result) {
+                    const {element} = result;
+                    const message = JSON.parse(element);
+                    if (message.class === jobName) {
+                        await callback(message.args[0]);
                     }
-                } catch (error) {
-                    this.log(`Error processing ${jobName} message:`, error);
                 }
+            } catch (error) {
+                this.log(`Error processing ${jobName} message: ${error}`);
             }
+            // Schedule next check
+            setImmediate(processNextMessage);
         };
 
-        this.subscriptions.set(jobName, messageHandler);
-        this.pubSubClient.on('message', messageHandler);
-        await this.pubSubClient.subscribe(queueKey);
-        this.log(`Listening for ${jobName} jobs on ${queueKey}`);
+        // Start the message processing loop
+        processNextMessage();
     }
 
     async unsubscribe(jobName) {

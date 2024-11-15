@@ -62,6 +62,12 @@ class Validator < ApplicationRecord
   has_many :validator_rewards, foreign_key: :validator_address, primary_key: :address
   has_many :blocks, foreign_key: :validator_address, primary_key: :address
 
+  # I really didn't like this and probably a has_many_shardable helper needs to be added
+  has_many :stake_histories,
+           -> { where(nil) },
+           foreign_key: "validators_#{network}_id",
+           class_name: 'StakeHistory'
+
   paginates_per 10
 
   APTOS_START_DATE = Date.parse('2022-10-12')

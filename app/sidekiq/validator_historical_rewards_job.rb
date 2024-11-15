@@ -8,7 +8,7 @@ class ValidatorHistoricalRewardsJob
     # Get all validator addresses
     validator_addresses = Validator.pluck(:address)
 
-    # For each validator, enqueue a job to the pub/sub queue
+    # For each validator, enqueue a job to the pub/sub queue.rake
     validator_addresses.each do |address|
       Rails.logger.debug "> Run the rewards historical job for #{address}"
       #   # Get the earliest reward we have for this validator
@@ -41,8 +41,8 @@ class ValidatorHistoricalRewardsJob
       args: [payload]
     }.to_json
 
-    # Publish to the queue that Node.js is listening on
-    queue_key = "queue:validator_historical_rewards"
+    # Publish to the queue.rake that Node.js is listening on
+    queue_key = "queue.rake:validator_historical_rewards"
     redis.publish(queue_key, message)
   rescue Redis::BaseError => e
     Rails.logger.error "Failed to publish historical rewards job for validator #{payload[:validator_address]}: #{e.message}"

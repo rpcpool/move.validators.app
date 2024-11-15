@@ -15,10 +15,10 @@ development:
   run_validator_historical_rewards:
     class: ValidatorHistoricalRewardsJob
     cron: '*/5 * * * *'  # Every 5 minutes (corrected cron syntax)
-    queue: default        # Specify which queue to use
+    queue: default        # Specify which queue.rake to use
     enabled: true        # Optional: explicitly enable/disable
   run_validator_compute:
     class: ValidatorComputeJob
     cron: '*/5 * * * *'  # Every 5 minutes (corrected cron syntax)
-    queue: default        # Specify which queue to use
+    queue: default        # Specify which queue.rake to use
     enabled: true        # Optional: explicitly enable/disable
