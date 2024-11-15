@@ -84,29 +84,44 @@ class ValidatorsController < ApplicationController
   end
 
   def rewards_history
-    epoch_range = (params[:epoch_range] || 5).to_i
+    epoch_range = (params[:epoch_range] || 10).to_i
 
-    recent_blocks = Block.where(validator_address: @validator.address)
-                         .where.not(epoch: nil)
-                         .select('DISTINCT epoch, first_version, last_version')
-                         .order(:epoch)
-                         .limit(epoch_range)
+    # Fetch the latest unique epochs
+    epochs = Block.where(validator_address: @validator.address)
+                  .where.not(epoch: nil)
+                  .select(:epoch)
+                  .distinct
+                  .order(epoch: :asc)
+                  .limit(epoch_range)
+                  .pluck(:epoch)
 
-    puts recent_blocks.inspect
+    puts "epochs: #{epochs.inspect}"
 
-    version_ranges = recent_blocks.map { |b| (b.first_version..b.last_version).to_a }.flatten.uniq
+    # Next, get all the block for those epochs
+    blocks = Block.where(validator_address: @validator.address)
+                  .where(epoch: epochs)
+                  .pluck(:first_version, :last_version, :epoch)
 
-    puts version_ranges.inspect
+    puts "len: #{blocks.length}"
 
-    rewards = @validator.validator_rewards
-                        .where(version: version_ranges)
-                        .order(sequence: :desc)
+    # Build ranges of versions for each block
+    version_conditions = blocks.map do |block|
+      puts "block: #{block.inspect}"
+      ValidatorReward.arel_table[:version].between(block[0]..block[1])
+    end.reduce(:or)
+
+    # Get rewards within those version ranges
+    rewards = ValidatorReward.where(validator_address: @validator.address)
+                             .where(version_conditions)
+                             .order(sequence: :desc)
+
+    puts ">> rewards: #{rewards.length}"
 
     respond_to do |format|
       format.json {
         render json: {
           rewards: rewards.pluck(:amount).map { |amt| amt.to_f / 100_000_000 },
-          epochs: recent_blocks.pluck(:epoch),
+          epochs: epochs,
           epoch_range: epoch_range
         }
       }
