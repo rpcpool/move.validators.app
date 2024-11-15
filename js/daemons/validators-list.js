@@ -17,7 +17,7 @@ const dnsReversePromise = util.promisify(dns.reverse);
  * This includes the validator's address, voting power, consensus public key, fullnode addresses,
  * network addresses, decoded network address, and validator index only.
  * Additional detailed data such as the epoch performance is fetched and computed separately.
- * Once the data is fetched, it is scrubbed/verified and then dropped on the queue to be processed
+ * Once the data is fetched, it is scrubbed/verified and then dropped on the queue.rake to be processed
  * on the Rails side.
  */
 
@@ -115,10 +115,10 @@ class ValidatorsList extends BaseDaemon {
                     } else {
                         try {
                             const response = await dnsReversePromise(data.host);
-                            console.log("reverse response:", response);
+                            this.log(`reverse response: ${response}`);
                             data.host = response[0];
                         } catch (e) {
-                            console.log("Caught reverse lookup error:", e);
+                            this.log(`Caught reverse lookup error: ${e.message}`);
                             data.host = 'Private/Unknown';
                         }
                     }

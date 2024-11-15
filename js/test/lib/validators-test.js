@@ -12,7 +12,7 @@ test("fetch validator details", async () => {
   // when testing we want to:
   // mock all the data out for the call
   // override the interval in the class so it does not run
-  // create the mock queue
+  // create the mock queue.rake
   // verify the data is correct
 
   async function fetchValidatorDetails() {

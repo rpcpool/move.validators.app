@@ -37,16 +37,6 @@ class EpochJob
       total_stake: total_staked
     )
 
-    #  batch_uuid            :string(255)
-    #  block_height          :string(255)
-    #  epoch                 :integer
-    #  git_hash              :string(255)
-    #  ledger_timestamp      :string(255)
-    #  ledger_version        :string(255)
-    #  node_role             :string(255)
-    #  oldest_block_height   :string(255)
-    #  oldest_ledger_version :string(255)
-
     # Save the epoch record
     if epoch.save
       puts "EpochJob: Epoch #{current_epoch} saved successfully."

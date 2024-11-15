@@ -8,6 +8,8 @@ const BlockProposals = require("../daemons/block-proposals");
 const LedgerInfo = require("../daemons/ledger-info");
 const ValidatorVotes = require("../daemons/validator-votes");
 const CoinGeckoPrices = require("../daemons/coingecko-prices");
+const Echo = require("../daemons/echo");
+const BlockUpdateFetch = require("../daemons/block-update-fetch");
 
 /**
  * This class will bootstrap all/any of the daemons we want to run in development mode only. It is not meant to
@@ -65,6 +67,14 @@ class DevDaemons {
             // APT Price
             const aptPrice = await CoinGeckoPrices.create(redisClient);
             this.daemons.push(aptPrice);
+
+            // BlockUpdateFetch
+            const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
+            this.daemons.push(blockUpdateFetch);
+
+            // Echo
+            const echo = await Echo.create(redisClient);
+            this.daemons.push(echo);
 
         } catch (err) {
             console.error('Failed to start correctly:', err);

@@ -13,69 +13,17 @@
     </div>
   </div>
 
-  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-    <div data-controller="analytics--rewards-history-chart"
-         data-analytics--rewards-history-chart-address-value="<%= @validator.address %>"
-         data-rewards="<%= @rewards_history.pluck(:amount).map { |amt| amt.to_f / 100_000_000 }.to_json %>"
-         data-dates="<%= @rewards_history.pluck(:reward_datetime).map { |d| d.strftime('%m/%d %H:%M') }.to_json %>">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Rewards History</h2>
-        <% if @available_time_ranges.any? %>
-          <select
-            data-analytics--rewards-history-chart-target="timeRange"
-            data-action="change->analytics--rewards-history-chart#updateTimeRange"
-            class="bg-white border border-gray-300 rounded-md py-1 px-3 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200 w-42"
-          >
-            <% @available_time_ranges.each do |range| %>
-              <option value="<%= range[:value] %>"><%= range[:label] %></option>
-            <% end %>
-          </select>
-        <% end %>
-      </div>
-      <div>
-        <canvas data-analytics--rewards-history-chart-target="chart" class="h-64"></canvas>
-      </div>
-    </div>
-  </div>
+  <%= render partial: "validators/analytics/rewards_history", locals: { validator: @validator, rewards_history: @rewards_history, available_time_ranges: @available_time_ranges } %>
 
-  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-    <h2 class="text-lg font-semibold mb-4">Performance Metrics</h2>
-    <div
-      data-controller="analytics--performance-metrics-chart"
-      data-analytics--performance-metrics-chart-address-value="<%= @validator.address %>"
-    >
-      <canvas data-analytics--performance-metrics-chart-target="chart" class="h-64"></canvas>
-    </div>
-  </div>
+  <%= render partial: "validators/analytics/performance_metrics", locals: { validator: @validator } %>
 
-  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-    <h2 class="text-lg font-semibold mb-4">Block Production</h2>
-    <div data-controller="analytics--block-production-chart"
-         data-analytics--block-production-chart-address-value="<%= @validator.address %>"
-    >
-      <canvas data-analytics--block-production-chart-target="chart" class="h-64"></canvas>
-    </div>
-  </div>
+  <%= render partial: "validators/analytics/block_production", locals: { validator: @validator } %>
 
-  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-    <h2 class="text-lg font-semibold mb-4">Active Stake History</h2>
-    <div data-controller="analytics--active-stake-history-chart">
-      <canvas data-analytics--active-stake-history-chart-target="chart" class="h-64"></canvas>
-    </div>
-  </div>
+  <%= render partial: "validators/analytics/active_stake_history", locals: { validator: @validator } %>
 
-  <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-    <h2 class="text-lg font-semibold mb-4">Voting Participation</h2>
-    <div data-controller="analytics--voting-participation-chart">
-      <canvas data-analytics--voting-participation-chart-target="chart" class="h-64"></canvas>
-    </div>
-  </div>
+  <%#= render partial: "validators/analytics/voting_participation", locals: { validator: @validator } %>
 
-  <div class="bg-white rounded-lg shadow p-6  dark:bg-gray-700">
-    <h2 class="text-lg font-semibold mb-4">Balance vs Rewards</h2>
-    <div data-controller="analytics--balance-rewards-chart">
-      <canvas data-analytics--balance-rewards-chart-target="chart" class="h-64"></canvas>
-    </div>
-  </div>
+  <%= render partial: "validators/analytics/balance_vs_rewards", locals: { validator: @validator } %>
 
+  <div class="text-xs">All epochs and results may not occur sequentially or be completed consecutively.</div>
 </div>

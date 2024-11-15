@@ -1,53 +1,98 @@
-// app/javascript/controllers/analytics/stake_history_chart_controller.js
 import BaseAnalyticsChartController from "./base_analytics_chart_controller"
 import {Chart} from "chart.js"
 
 export default class extends BaseAnalyticsChartController {
-    static targets = ["chart"]
+    static targets = ["chart", "epochRange"]
+    static values = {
+        address: String
+    }
+
+    connect() {
+        const selectElement = this.epochRangeTarget
+        if (selectElement.options.length > 0) {
+            selectElement.selectedIndex = 0 // defaults to 5
+            this.loadChartData(selectElement.value)
+        }
+    }
 
     getChartColors() {
         const isDark = this.isDarkMode()
         return {
-            border: '#8B5CF6', // violet-500
+            active: '#8B5CF6',
+            withdrawn: '#EF4444',
+            added: '#10B981',
             background: isDark ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.1)'
         }
     }
 
-    renderChart() {
+    updateEpochRange(event) {
+        this.loadChartData(event.target.value)
+    }
+
+    async loadChartData(epochRange) {
+        try {
+            const response = await fetch(`/validators/${this.addressValue}/active_stake_history?epoch_range=${epochRange}`)
+            if (!response.ok) throw new Error('Network response was not ok')
+            const data = await response.json()
+
+            if (data.data?.length > 0) {
+                this.epochRangeTarget.value = data.epoch_range
+                this.renderChart(data.data)
+            }
+        } catch (error) {
+            console.error('Error loading stake history data:', error)
+        }
+    }
+
+    renderChart(data) {
         const isDark = this.isDarkMode()
         const colors = this.getChartColors()
 
-        const dataPoints = 4
-        const labels = Array.from({length: dataPoints}, (_, i) => {
-            const weeksAgo = dataPoints - 1 - i
-            return weeksAgo === 0 ? 'This Week' : `${weeksAgo}w ago`
-        })
+        if (this.chartInstances.has(this.chartTarget)) {
+            this.chartInstances.get(this.chartTarget).destroy()
+        }
 
         const chart = new Chart(this.chartTarget, {
             type: 'line',
             data: {
-                labels: labels,
+                labels: data.map(item => `Epoch ${item.epoch}`),
                 datasets: [{
-                    label: 'Active Stake (APT)',
-                    data: this.generateRandomData(dataPoints, 24000000, 25000000),
+                    label: 'Current Stake',
+                    data: data.map(item => item.current_stake / 100_000_000),
                     backgroundColor: colors.background,
-                    borderColor: colors.border,
+                    borderColor: colors.active,
                     borderWidth: 2,
                     fill: true,
+                    tension: 0.4,
+                }, {
+                    label: 'Withdrawn',
+                    data: data.map(item => item.withdrawn / 100_000_000),
+                    borderColor: colors.withdrawn,
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.4
+                }, {
+                    label: 'Added',
+                    data: data.map(item => item.added / 100_000_000),
+                    borderColor: colors.added,
+                    borderWidth: 2,
+                    fill: false,
                     tension: 0.4
                 }]
             },
             options: {
                 ...this.getBaseChartOptions(isDark),
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                height: 256,
                 plugins: {
                     ...this.getBaseChartOptions(isDark).plugins,
-                    legend: {
-                        display: false
-                    },
                     tooltip: {
                         callbacks: {
                             label: (context) => {
-                                return `${Number(context.parsed.y).toLocaleString()} APT`
+                                const value = Number(context.raw)
+                                return `${context.dataset.label}: ${value >= 1000 ?
+                                    `${(value / 1000).toFixed(1)}K` : value.toFixed(2)} APT`
                             }
                         }
                     }
@@ -67,13 +112,13 @@ export default class extends BaseAnalyticsChartController {
                         display: true,
                         title: {
                             display: true,
-                            text: 'Active Stake (APT)',
+                            text: 'Stake Amount (APT)',
                             font: {size: 12},
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         ticks: {
                             callback: (value) => {
-                                return value >= 1000000 ? `${(value / 1000000).toFixed(1)}M` : value
+                                return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value.toFixed(2)
                             },
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
@@ -91,15 +136,5 @@ export default class extends BaseAnalyticsChartController {
         })
 
         this.chartInstances.set(this.chartTarget, chart)
-    }
-
-    generateRandomData(points, min, max) {
-        let lastValue = min + (max - min) / 2
-        return Array.from({length: points}, () => {
-            const maxChange = (max - min) * 0.05
-            const change = (Math.random() * maxChange * 2) - maxChange
-            lastValue = Math.max(min, Math.min(max, lastValue + change))
-            return Number(lastValue.toFixed(0))
-        })
     }
 }

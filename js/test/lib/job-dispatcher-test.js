@@ -59,11 +59,11 @@ test("JobDispatcher enqueue schedules a job with a future timestamp", async () =
   );
   const job = JSON.parse(data["schedule"][0].value);
   assert.strictEqual(job.class, workerClass, "Expected job class to match");
-  assert.strictEqual(job.args[0].queue, payload.queue, "Expected job queue to match");
+  assert.strictEqual(job.args[0].queue, payload.queue, "Expected job queue.rake to match");
   assert.strictEqual(job.args[0].at, payload.at, "Expected job timestamp to match");
 });
 
-test("JobDispatcher enqueue adds a job to the correct queue", async () => {
+test("JobDispatcher enqueue adds a job to the correct queue.rake", async () => {
   const redisClient = createMockRedisClient();
   const jobDispatcher = new JobDispatcher(redisClient);
   const workerClass = "SomeWorker";
@@ -75,12 +75,12 @@ test("JobDispatcher enqueue adds a job to the correct queue", async () => {
   const data = redisClient.getData();
 
   assert.strictEqual(Object.keys(data).length, 2);
-  assert.strictEqual(Object.keys(data)[0], "queue:high");
+  assert.strictEqual(Object.keys(data)[0], "queue.rake:high");
   assert.strictEqual(Object.keys(data)[1], "queues");
-  assert.strictEqual(data["queue:high"].length, 1);
+  assert.strictEqual(data["queue.rake:high"].length, 1);
   const job = JSON.parse(data["queue:high"][0]);
   assert.strictEqual(job.class, workerClass);
   assert.strictEqual(job.queue, payload.queue);
   assert.strictEqual(data["queues"].size, 1);
-  assert.strictEqual([...data["queues"]][0], "queue:high");
+  assert.strictEqual([...data["queues"]][0], "queue.rake:high");
 });

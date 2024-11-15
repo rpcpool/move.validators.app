@@ -5,13 +5,13 @@ import BaseAnalyticsChartController from "./base_analytics_chart_controller"
 Chart.register(...registerables)
 
 export default class extends BaseAnalyticsChartController {
-    static targets = ["chart", "timeRange"]
+    static targets = ["chart", "epochRange"]
     static values = {
         address: String
     }
 
     connect() {
-        const selectElement = this.timeRangeTarget
+        const selectElement = this.epochRangeTarget
         if (selectElement.options.length > 0) {
             selectElement.selectedIndex = 1
             this.loadChartData(selectElement.value)
@@ -28,8 +28,8 @@ export default class extends BaseAnalyticsChartController {
         }
     }
 
-    async loadChartData(timeRange) {
-        const response = await fetch(`/validators/${this.addressValue}/rewards_history?time_range=${timeRange}`)
+    async loadChartData(epochRange) {
+        const response = await fetch(`/validators/${this.addressValue}/rewards_history?epoch_range=${epochRange}`)
         const data = await response.json()
 
         if (this.chartInstances.has(this.chartTarget)) {
@@ -39,7 +39,7 @@ export default class extends BaseAnalyticsChartController {
         this.renderChart(data)
     }
 
-    updateTimeRange(event) {
+    updateEpochRange(event) {
         this.loadChartData(event.target.value)
     }
 
@@ -52,7 +52,7 @@ export default class extends BaseAnalyticsChartController {
         const chart = new Chart(this.chartTarget, {
             type: 'line',
             data: {
-                labels: data.dates,
+                labels: data.epochs.map(e => `Epoch ${e}`),  // Change to use epochs
                 datasets: [{
                     label: 'Rewards',
                     data: data.rewards,
@@ -70,6 +70,9 @@ export default class extends BaseAnalyticsChartController {
                         display: true,
                         grid: {
                             display: false
+                        },
+                        ticks: {
+                            color: isDark ? '#9CA3AF' : '#6B7280'
                         }
                     },
                     y: {
@@ -81,6 +84,7 @@ export default class extends BaseAnalyticsChartController {
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         ticks: {
+                            callback: (value) => value.toFixed(2),
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         grid: {

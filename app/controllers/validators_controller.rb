@@ -1,5 +1,5 @@
 class ValidatorsController < ApplicationController
-  before_action :set_validator, only: [:show, :analytics, :rewards_history, :performance_metrics, :block_production]
+  before_action :set_validator, only: [:show, :analytics, :rewards_history, :performance_metrics, :block_production, :active_stake_history]
 
   def index
     # Determine the column and direction for sorting
@@ -62,7 +62,7 @@ class ValidatorsController < ApplicationController
 
     @rewards_history = @validator.validator_rewards.order(sequence: :desc).limit(100)
     earliest_reward = @validator.validator_rewards.minimum(:reward_datetime)
-    @available_time_ranges = calculate_available_ranges(earliest_reward)
+    # @available_time_ranges = calculate_available_ranges(earliest_reward)
 
     @performance_data = {
       overall_score: metrics.overall_score,
@@ -84,18 +84,30 @@ class ValidatorsController < ApplicationController
   end
 
   def rewards_history
-    # Get earliest reward date to determine available ranges
-    earliest_reward = @validator.validator_rewards.minimum(:reward_datetime)
-    available_ranges = calculate_available_ranges(earliest_reward)
+    epoch_range = (params[:epoch_range] || 5).to_i
 
-    rewards_data = fetch_rewards_history(params[:time_range])
+    recent_blocks = Block.where(validator_address: @validator.address)
+                         .where.not(epoch: nil)
+                         .select('DISTINCT epoch, first_version, last_version')
+                         .order(:epoch)
+                         .limit(epoch_range)
+
+    puts recent_blocks.inspect
+
+    version_ranges = recent_blocks.map { |b| (b.first_version..b.last_version).to_a }.flatten.uniq
+
+    puts version_ranges.inspect
+
+    rewards = @validator.validator_rewards
+                        .where(version: version_ranges)
+                        .order(sequence: :desc)
 
     respond_to do |format|
       format.json {
         render json: {
-          rewards: rewards_data.pluck(:amount).map { |amt| amt.to_f / 100_000_000 },
-          dates: rewards_data.pluck(:reward_datetime).map { |d| d.strftime('%m/%d %H:%M') },
-          available_ranges: available_ranges
+          rewards: rewards.pluck(:amount).map { |amt| amt.to_f / 100_000_000 },
+          epochs: recent_blocks.pluck(:epoch),
+          epoch_range: epoch_range
         }
       }
     end
@@ -145,6 +157,41 @@ class ValidatorsController < ApplicationController
         backtrace: e.backtrace
       }, status: :internal_server_error
     end
+  end
+
+  def active_stake_history
+    epoch_range = (params[:epoch_range] || 5).to_i
+
+    epochs = StakeHistory.where(pool_address: @validator.address)
+                         .where.not(epoch: nil)
+                         .distinct
+                         .order(epoch: :desc)
+                         .limit(epoch_range)
+                         .pluck(:epoch)
+                         .sort
+
+    data = epochs.map do |epoch|
+      stakes = StakeHistory.where(pool_address: @validator.address, epoch: epoch)
+
+      current_stake = stakes.order(version: :desc).first&.active_stake
+
+      withdrawn = stakes.where(event_type: '0x1::stake::WithdrawStakeEvent')
+                        .sum { |s| JSON.parse(s.raw_data)['data']['amount_withdrawn'].to_i }
+      added = stakes.where(event_type: '0x1::stake::AddStakeEvent')
+                    .sum { |s| JSON.parse(s.raw_data)['data']['amount_added'].to_i }
+
+      {
+        epoch: epoch,
+        current_stake: current_stake.to_i,
+        withdrawn: withdrawn,
+        added: added
+      }
+    end
+
+    render json: {
+      data: data,
+      epoch_range: epoch_range
+    }
   end
 
   private
