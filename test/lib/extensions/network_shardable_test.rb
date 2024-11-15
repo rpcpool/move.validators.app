@@ -31,7 +31,7 @@ class TableNameHelperTest < ActiveSupport::TestCase
       ENV['APTOS_NETWORK'] = network
       base_name = 'test_models'
       expected_table_name = "test_models_#{network}"
-      assert_equal expected_table_name, NetworkSharding::TableNameHelper.sharded_table_name(base_name)
+      assert_equal expected_table_name, Extensions::NetworkSharding::TableNameHelper.sharded_table_name(base_name)
     end
   end
 end
@@ -52,7 +52,7 @@ class MigrationHelpersTest < ActiveSupport::TestCase
         end
       end
 
-      table_name = NetworkSharding::TableNameHelper.sharded_table_name(model_class.name.tableize)
+      table_name = Extensions::NetworkSharding::TableNameHelper.sharded_table_name(model_class.name.tableize)
 
       ActiveRecord::Migration.suppress_messages do
         Class.new(ActiveRecord::Migration[6.0]) do
@@ -79,7 +79,7 @@ class MigrationHelpersTest < ActiveSupport::TestCase
         end
       end
 
-      table_name = NetworkSharding::TableNameHelper.sharded_table_name(model_class.name.tableize)
+      table_name = Extensions::NetworkSharding::TableNameHelper.sharded_table_name(model_class.name.tableize)
 
       ActiveRecord::Migration.suppress_messages do
         Class.new(ActiveRecord::Migration[6.0]) do
