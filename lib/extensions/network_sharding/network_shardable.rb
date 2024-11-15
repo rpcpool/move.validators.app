@@ -1,14 +1,16 @@
 require_relative './table_name_helper'
 require_relative './column_name_helper'
 
-module NetworkSharding
-  module NetworkShardable
-    extend ActiveSupport::Concern
+module Extensions
+  module NetworkSharding
+    class NetworkShardable
+      extend ActiveSupport::Concern
 
-    class_methods do
-      def network_shardable
-        table_name = TableNameHelper.sharded_table_name(name.tableize)
-        self.table_name = table_name
+      class_methods do
+        def network_shardable
+          table_name = TableNameHelper.sharded_table_name(name.tableize)
+          self.table_name = table_name
+        end
       end
     end
   end
