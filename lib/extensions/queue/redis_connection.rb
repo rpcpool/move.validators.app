@@ -1,3 +1,5 @@
+require_relative './configuration'
+
 module Extensions
   module Queue
     module RedisConnection
