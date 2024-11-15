@@ -2,13 +2,13 @@
 require "sidekiq-unique-jobs"
 
 conf = {
-  url: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :url)
+  url: Rails.application.credentials.dig(:redis, :url)
 }
 
 if Rails.env.production?
   conf.merge!(
-    username: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :username),
-    password: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :password)
+    username: Rails.application.credentials.dig(:redis, :username),
+    password: Rails.application.credentials.dig(:redis, :password)
   )
 end
 
