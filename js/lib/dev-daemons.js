@@ -7,6 +7,7 @@ const ValidatorRewards = require("../daemons/validator-rewards");
 const BlockProposals = require("../daemons/block-proposals");
 const LedgerInfo = require("../daemons/ledger-info");
 const ValidatorVotes = require("../daemons/validator-votes");
+const CoinGeckoPrices = require("../daemons/coingecko-prices");
 
 /**
  * This class will bootstrap all/any of the daemons we want to run in development mode only. It is not meant to
@@ -60,6 +61,10 @@ class DevDaemons {
             // ValidatorVotes
             const validatorVotes = await ValidatorVotes.create(redisClient);
             this.daemons.push(validatorVotes);
+
+            // APT Price
+            const aptPrice = await CoinGeckoPrices.create(redisClient);
+            this.daemons.push(aptPrice);
 
         } catch (err) {
             console.error('Failed to start correctly:', err);

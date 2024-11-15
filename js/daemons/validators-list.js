@@ -44,10 +44,6 @@ class ValidatorsList extends BaseDaemon {
         // run immediately
         this.run().then();
 
-        // load in
-        const filePath = path.join(__dirname, '..', 'test', 'resources', 'testnet-validators.json');
-        this.validators = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
         this.log("ValidatorsList started");
     }
 
@@ -158,8 +154,6 @@ class ValidatorsList extends BaseDaemon {
                     // Check if data has changed
                     if (!this.cache[validator.addr] || JSON.stringify(this.cache[validator.addr]) !== JSON.stringify(data)) {
                         const finalData = await this.getAccountResources(validator.addr, data);
-                        const aData = this.findValidatorByOwnerAddress(validator.addr);
-                        if (aData) finalData.validator = aData;
                         await this.jobDispatcher.enqueue("ValidatorJob", finalData);
                         this.cache[validator.addr] = data; // Update cache
                         this.log(`Data updated and enqueued for: ${validator.addr}`);
@@ -258,32 +252,26 @@ class ValidatorsList extends BaseDaemon {
             const stakePool = resources.find(r => r.type === "0x1::stake::StakePool")?.data;
             const coinStore = resources.find(r => r.type === "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>")?.data;
 
+            const coin_store_value = coinStore?.coin?.value || "0";
+            const stake_pool_active_value = stakePool?.active?.value || "0";
+
             const processedData = {
                 address: address,
-                resources: [{
-                    type: "0x1::stake::StakePool",
-                    data: stakePool
-                }, {
-                    type: "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>",
-                    data: coinStore
-                }]
+                coin_store_value,
+                stake_pool_active_value
             };
 
             data.merged = {
                 data: processedData
             };
 
-            this.log(`Basic resources fetched for ${address}`);
+            this.log(`Basic resources fetched for ${address} - bal: ${coin_store_value} - stake: ${stake_pool_active_value}`);
             return data;
         } catch (error) {
             this.log(`Error fetching resources for ${address}: ${error.message}`);
             data.merged = {data: {resources: []}};
             return data;
         }
-    }
-
-    findValidatorByOwnerAddress(ownerAddress) {
-        return this.validators.find(validator => validator.owner_address === ownerAddress);
     }
 }
 

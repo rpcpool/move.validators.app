@@ -1,6 +1,11 @@
 module ApplicationHelper
   require 'time'
 
+  # Provides the network (mainnet || testnet) based on env var configs. See application.rb
+  def network
+    NETWORK
+  end
+
   # Convert octas to Aptos with formatted value
   def octas_to_apt(octas, precision = 2)
     aptos = octas.to_f / 10 ** 8
