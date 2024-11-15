@@ -2,7 +2,7 @@ require_relative './configuration'
 
 module Extensions
   module Queue
-    module RedisConnection
+    class RedisConnection
       class << self
         attr_accessor :configuration
 
