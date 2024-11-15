@@ -1,20 +1,22 @@
 <div class="flex items-baseline flex-wrap justify-between gap-y-2 gap-x-4 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8">
   <dt class="text-lg font-medium leading-6">APT Price</dt>
-  <% if @apt_info.daily_change < 0 %>
-    <dd class="text-xs font-medium text-rose-600 dark:text-rose-400" id="apt-24h-change">
-      <%= @apt_info.daily_change %>
+  <% unless @apt_info.price.nil? %>
+    <% if @apt_info.daily_change < 0 %>
+      <dd class="text-xs font-medium text-rose-600 dark:text-rose-400" id="apt-24h-change">
+        <%= @apt_info.daily_change %>
+      </dd>
+    <% else %>
+      <dd class="text-xs font-medium text-green-600 dark:text-green-400" id="apt-24h-change">
+        <%= @apt_info.daily_change %>
+      </dd>
+    <% end %>
+    <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight" id="apt-price">
+      <%= number_to_currency(@apt_info.price) %>
     </dd>
-  <% else %>
-    <dd class="text-xs font-medium text-green-600 dark:text-green-400" id="apt-24h-change">
-      <%= @apt_info.daily_change %>
+
+    <dt class="text-sm font-medium text-gray-500">24h volume:</dt>
+    <dd class="text-sm font-medium" id="apt-24h-volume">
+      <%= number_with_precision(@apt_info.daily_volume, precision: 2) %>
     </dd>
   <% end %>
-  <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight" id="apt-price">
-    <%= number_to_currency(@apt_info.price) %>
-  </dd>
-
-  <dt class="text-sm font-medium text-gray-500">24h volume:</dt>
-  <dd class="text-sm font-medium" id="apt-24h-volume">
-    <%= number_with_precision(@apt_info.daily_volume, precision: 2) %>
-  </dd>
 </div>
