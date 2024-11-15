@@ -7,7 +7,7 @@ module Extensions
         attr_accessor :configuration
 
         def configure
-          self.configuration ||= Configuration.new
+          self.configuration ||= Extensions::Queue::Configuration.new
           yield(configuration)
         end
 
