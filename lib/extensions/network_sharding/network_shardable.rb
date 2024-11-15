@@ -18,5 +18,5 @@ end
 
 # Ensure the module is loaded
 ActiveSupport.on_load(:active_record) do
-  ActiveRecord::Base.extend(NetworkSharding::NetworkShardable::ClassMethods)
+  ActiveRecord::Base.extend(Extensions::NetworkSharding::NetworkShardable::ClassMethods)
 end
