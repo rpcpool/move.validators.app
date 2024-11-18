@@ -80,11 +80,11 @@ module.exports = {
     ],
     deploy: {
         production: {
-            user: 'deploy-user',
-            host: 'app-server-2',
+            user: 'deploy',
+            host: 'www2.move.validators.app',
             ref: 'origin/main',
-            repo: 'git@your-repo.git',
-            path: '/path/to/deployed/js',
+            repo: 'https://github.com/rpcpool/move.validators.app.git',
+            path: '/home/deploy/move.validators.app/current/js',
             'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
         },
         env: {
