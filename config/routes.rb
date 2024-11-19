@@ -3,8 +3,14 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
-  # TODO: Obviously, this would not be deployed on any production machine and will revisit.
-  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
+  unless Rails.env.development?
+    Sidekiq::Web.use Rack::Auth::Basic, "Protected Area" do |username, password|
+      username == Rails.application.credentials.sidekiq[:ui_username] &&
+            password == Rails.application.credentials.sidekiq[:ui_password]
+    end
+  end
+
+  mount Sidekiq::Web => '/sidekiq'
 
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
