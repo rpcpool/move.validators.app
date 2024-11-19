@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       get :analytics
       get :performance_metrics
       get :rewards_history
+      get :rewards_growth
+      get :balance_vs_rewards
       get :block_production
       get :active_stake_history
     end

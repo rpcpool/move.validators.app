@@ -1,103 +1,156 @@
+import {Controller} from "@hotwired/stimulus"
+import {Chart, registerables} from "chart.js"
 import BaseAnalyticsChartController from "./base_analytics_chart_controller"
-import {Chart} from "chart.js"
+
+Chart.register(...registerables)
 
 export default class extends BaseAnalyticsChartController {
-    static targets = ["chart"]
+    static targets = ["chart", "timeRange"]
     static values = {
         address: String
     }
 
     connect() {
-        this.loadChartData()
+        this.loadChartData('week');
     }
 
     getChartColors() {
+        const isDark = this.isDarkMode()
         return {
-            bars: '#6366F1' // indigo-500
+            daily: {
+                borderColor: '#6366F1',
+                backgroundColor: '#6366F1'
+            },
+            cumulative: {
+                borderColor: '#8B5CF6',
+                backgroundColor: isDark ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.1)'
+            }
         }
     }
 
-    async loadChartData() {
-        try {
-            const response = await fetch(`/validators/${this.addressValue}/block_production`)
-            if (!response.ok) throw new Error('Network response was not ok')
-            const data = await response.json()
-            if (data && data.length > 0) {
-                this.renderChart(data)
-            } else {
-                console.error('No data received from block production endpoint')
-            }
-        } catch (error) {
-            console.error('Error loading block production data:', error)
+    async loadChartData(timeRange) {
+        const response = await fetch(`/validators/${this.addressValue}/block_production?time_range=${timeRange}`);
+        const data = await response.json();
+
+        if (data.available_ranges) {
+            this.updateRangeOptions(data.available_ranges, data.current_range);
         }
+
+        if (this.chartInstances.has(this.chartTarget)) {
+            this.chartInstances.get(this.chartTarget).destroy();
+        }
+
+        this.renderChart(data);
+    }
+
+    updateRangeOptions(ranges, currentRange) {
+        const select = this.timeRangeTarget;
+        console.log("select:", select);
+        if (!ranges.length) {
+            select.closest('div').classList.add('hidden');
+            return;
+        }
+
+        select.closest('div').classList.remove('hidden');
+        select.innerHTML = ranges.map(range =>
+            `<option value="${range.value}" ${range.value === currentRange ? 'selected' : ''}>${range.label}</option>`
+        ).join('');
+    }
+
+    updateTimeRange(event) {
+        this.loadChartData(event.target.value);
     }
 
     renderChart(data) {
-        const isDark = this.isDarkMode()
-        const colors = this.getChartColors()
+        if (!data?.block_production) return;
 
-        if (this.chartInstances.has(this.chartTarget)) {
-            this.chartInstances.get(this.chartTarget).destroy()
-        }
+        const isDark = this.isDarkMode();
+        const colors = this.getChartColors();
 
         const chart = new Chart(this.chartTarget, {
-            type: 'bar',
             data: {
-                labels: data.map(item => `Epoch ${item.epoch}`),
-                datasets: [{
-                    label: 'Blocks Per Epoch',
-                    data: data.map(item => item.block_count),
-                    backgroundColor: colors.bars,
-                    borderRadius: 4
-                }]
+                labels: data.block_production.map(r => new Date(r.datetime).toLocaleDateString()),
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Daily Blocks',
+                        data: data.block_production.map(r => r.daily_blocks),
+                        backgroundColor: colors.daily.backgroundColor,
+                        borderRadius: 4,
+                        yAxisID: 'y-daily',
+                        order: 2
+                    },
+                    {
+                        type: 'line',
+                        label: 'Cumulative Blocks',
+                        data: data.block_production.map(r => r.cumulative_blocks),
+                        borderColor: colors.cumulative.borderColor,
+                        backgroundColor: colors.cumulative.backgroundColor,
+                        fill: true,
+                        tension: 0.4,
+                        yAxisID: 'y-cumulative',
+                        order: 1
+                    }
+                ]
             },
             options: {
                 ...this.getBaseChartOptions(isDark),
-                plugins: {
-                    ...this.getBaseChartOptions(isDark).plugins,
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: (context) => `${context.parsed.y.toFixed(0)} blocks`
-                        }
-                    }
-                },
                 scales: {
                     x: {
                         display: true,
                         grid: {
-                            display: false,
-                            color: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            display: false
                         },
                         ticks: {
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         }
                     },
-                    y: {
+                    'y-daily': {
+                        type: 'linear',
                         display: true,
+                        position: 'left',
                         title: {
                             display: true,
-                            text: 'Blocks Per Epoch',
+                            text: 'Daily Blocks',
                             font: {size: 12},
+                            color: isDark ? '#9CA3AF' : '#6B7280'
+                        },
+                        ticks: {
+                            callback: (value) => value.toFixed(0),
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         grid: {
                             drawBorder: false,
                             color: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    'y-cumulative': {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Total Blocks',
+                            font: {size: 12},
+                            color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         ticks: {
-                            callback: (value) => value.toFixed(0),
                             color: isDark ? '#9CA3AF' : '#6B7280'
+                        },
+                        grid: {
+                            display: false
                         }
                     }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false
                 },
                 barPercentage: 0.7,
                 categoryPercentage: 0.9
             }
-        })
+        });
 
-        this.chartInstances.set(this.chartTarget, chart)
+        this.chartInstances.set(this.chartTarget, chart);
     }
 }
