@@ -22,9 +22,12 @@ class BaseDaemon {
 
         // Initialize Redis clients (main and pub/sub clients)
         if (typeof redisUrlOrClient === 'string') {
-            redisClient = createClient({url: redisUrlOrClient})
-                .on('error', err => console.log('Redis Client Error', err))
-                .connect();
+            try {
+                redisClient = createClient({url: redisUrlOrClient});
+                await redisClient.connect();
+            } catch (e) {
+                console.log(new Date(), 'Redis Client Error', e);
+            }
         } else {
             redisClient = redisUrlOrClient;
         }
