@@ -29,6 +29,8 @@ set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH'
 set :sidekiq_roles, :sidekiq
 set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml').to_s
 
+after 'deploy:updated', 'deploy:npm_install'
+
 namespace :sidekiq do
   desc 'Stop sidekiq (graceful shutdown, put unfinished tasks back to Redis)'
   task :stop do
