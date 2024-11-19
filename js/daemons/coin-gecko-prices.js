@@ -80,6 +80,25 @@ class CoinGeckoPrices extends BaseDaemon {
 
 if (process.env.NODE_ENV && !['test', 'development'].includes(process.env.NODE_ENV)) {
     // Production startup code here
+    const redisUrl = process.env.REDIS_URL;
+    console.log(new Date(), "CoinGeckoPrices service starting using redis url: ", redisUrl);
+
+    const redisClient = await createClient({url: redisUrl})
+                .on('error', err => console.log('Redis Client Error', err))
+                .connect();
+
+    const JobDispatcher = require("../lib/queue/job-dispatcher");
+
+    redisClient.connect().then(() => {
+        const pubSubClient = redisClient.duplicate();
+        pubSubClient.connect().then(() => {
+            const jobDispatcher = new JobDispatcher(redisClient, pubSubClient);
+            const service = new CoinGeckoPrices(redisClient, pubSubClient, jobDispatcher);
+            service.start();
+        });
+    }).catch((err) => {
+        console.error("Failed to start CoinGeckoPrices:", err);
+    });
 } else {
     console.log(new Date(), 'CoinGeckoPrices service detected test/development environment, not starting in systemd bootstrap.');
 }
