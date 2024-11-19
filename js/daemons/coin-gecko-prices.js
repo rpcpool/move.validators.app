@@ -82,34 +82,38 @@ if (process.env.NODE_ENV && !['test', 'development'].includes(process.env.NODE_E
     const redisUrl = process.env.REDIS_URL;
     console.log(new Date(), "CoinGeckoPrices service starting using redis url: ", redisUrl);
 
-    const redis = require('redis');
-    const JobDispatcher = require('../lib/queue/job-dispatcher');
+    CoinGeckoPrices.create(redisUrl).then(() => {
+        console.log(new Date(), "CoinGeckoPrices service start complete.");
+    })
 
-    const redisClient = redis.createClient({ url: redisUrl });
-
-    redisClient.connect()
-        .then(() => {
-            console.log(new Date(), "Redis connected successfully.");
-            const pubSubClient = redisClient.duplicate();
-
-            pubSubClient.connect()
-                .then(() => {
-                    console.log(new Date(), "PubSub Redis connected successfully.");
-
-                    // Initialize JobDispatcher
-                    const jobDispatcher = new JobDispatcher(redisClient, pubSubClient);
-
-                    // Initialize and start CoinGeckoPrices
-                    const service = new CoinGeckoPrices(redisClient, pubSubClient, jobDispatcher);
-                    service.start();
-                })
-                .catch((err) => {
-                    console.error(new Date(), "Failed to connect PubSub Redis client:", err);
-                });
-        })
-        .catch((err) => {
-            console.error(new Date(), "Failed to connect Redis client:", err);
-        });
+    // const redis = require('redis');
+    // const JobDispatcher = require('../lib/queue/job-dispatcher');
+    //
+    // const redisClient = redis.createClient({ url: redisUrl });
+    //
+    // redisClient.connect()
+    //     .then(() => {
+    //         console.log(new Date(), "Redis connected successfully.");
+    //         const pubSubClient = redisClient.duplicate();
+    //
+    //         pubSubClient.connect()
+    //             .then(() => {
+    //                 console.log(new Date(), "PubSub Redis connected successfully.");
+    //
+    //                 // Initialize JobDispatcher
+    //                 const jobDispatcher = new JobDispatcher(redisClient, pubSubClient);
+    //
+    //                 // Initialize and start CoinGeckoPrices
+    //                 const service = new CoinGeckoPrices(redisClient, pubSubClient, jobDispatcher);
+    //                 service.start();
+    //             })
+    //             .catch((err) => {
+    //                 console.error(new Date(), "Failed to connect PubSub Redis client:", err);
+    //             });
+    //     })
+    //     .catch((err) => {
+    //         console.error(new Date(), "Failed to connect Redis client:", err);
+    //     });
 } else {
     console.log(new Date(), 'CoinGeckoPrices service detected test/development environment, not starting in systemd bootstrap.');
 }
