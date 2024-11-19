@@ -1,5 +1,6 @@
 class ValidatorsController < ApplicationController
-  before_action :set_validator, only: [:show, :analytics, :rewards_history, :performance_metrics, :block_production, :active_stake_history]
+  include ValidatorsHelper
+  before_action :set_validator, only: [:show, :analytics, :rewards_history, :rewards_growth, :balance_vs_rewards, :performance_metrics, :block_production, :active_stake_history]
 
   def index
     # Determine the column and direction for sorting
@@ -84,49 +85,167 @@ class ValidatorsController < ApplicationController
   end
 
   def rewards_history
-    epoch_range = (params[:epoch_range] || 10).to_i
+    rewards = @validator.validator_rewards
+    earliest_reward = rewards.order(reward_datetime: :asc).first
+    earliest_date = earliest_reward&.reward_datetime
+    available_ranges = calculate_available_ranges(earliest_date)
 
-    # Fetch the latest unique epochs
-    epochs = Block.where(validator_address: @validator.address)
-                  .where.not(epoch: nil)
-                  .select(:epoch)
-                  .distinct
-                  .order(epoch: :asc)
-                  .limit(epoch_range)
-                  .pluck(:epoch)
+    rewards_data = aggregate_rewards(rewards, params[:time_range] || 'default')
 
-    puts "epochs: #{epochs.inspect}"
+    render json: {
+      rewards: rewards_data,
+      available_ranges: available_ranges,
+      current_range: params[:time_range] || 'default'
+    }
+  end
 
-    # Next, get all the block for those epochs
-    blocks = Block.where(validator_address: @validator.address)
-                  .where(epoch: epochs)
-                  .pluck(:first_version, :last_version, :epoch)
+  # With rewards growth, we need to have a handle on all the rewards in our system from the beginning per
+  # validator address. Then we offer up slices for the time range.
+  def rewards_growth
+    rewards = @validator.validator_rewards
+    earliest_reward = rewards.order(reward_datetime: :asc).first
+    earliest_date = earliest_reward&.reward_datetime
+    available_ranges = calculate_available_ranges(earliest_date)
 
-    puts "len: #{blocks.length}"
+    # Get all daily totals with proper group by
+    daily_totals = rewards
+                     .select(
+                       "DATE(reward_datetime) as date",
+                       "SUM(CAST(amount AS DECIMAL)) as daily_amount"
+                     )
+                     .group("DATE(reward_datetime)")
+                     .order("DATE(reward_datetime)")
 
-    # Build ranges of versions for each block
-    version_conditions = blocks.map do |block|
-      puts "block: #{block.inspect}"
-      ValidatorReward.arel_table[:version].between(block[0]..block[1])
-    end.reduce(:or)
-
-    # Get rewards within those version ranges
-    rewards = ValidatorReward.where(validator_address: @validator.address)
-                             .where(version_conditions)
-                             .order(sequence: :desc)
-
-    puts ">> rewards: #{rewards.length}"
-
-    respond_to do |format|
-      format.json {
-        render json: {
-          rewards: rewards.pluck(:amount).map { |amt| amt.to_f / 100_000_000 },
-          epochs: epochs,
-          epoch_range: epoch_range
-        }
+    # Calculate cumulative totals
+    running_total = 0
+    all_growth_data = daily_totals.map do |day|
+      running_total += day.daily_amount
+      {
+        datetime: day.date.to_datetime.iso8601,
+        amount: day.daily_amount.to_s,
+        cumulative_amount: running_total.to_s
       }
     end
+
+    # Slice the window based on time range
+    days = time_range(params[:time_range] || 'default')
+    start_date = (Time.current - (days - 1).days).beginning_of_day if days
+
+    growth_data = days ? all_growth_data.select { |d| Time.parse(d[:datetime]) >= start_date } : all_growth_data
+
+    render json: {
+      rewards_growth: growth_data,
+      available_ranges: available_ranges,
+      current_range: params[:time_range] || 'default'
+    }
   end
+
+  def balance_vs_rewards
+    rewards = @validator.validator_rewards
+    earliest_reward = rewards.order(reward_datetime: :asc).first
+    earliest_date = earliest_reward&.reward_datetime
+    available_ranges = calculate_available_ranges(earliest_date)
+
+    # Get daily rewards totals
+    daily_totals = rewards
+                     .select(
+                       "DATE(reward_datetime) as date",
+                       "SUM(CAST(amount AS DECIMAL)) as daily_amount"
+                     )
+                     .group("DATE(reward_datetime)")
+                     .order("DATE(reward_datetime)")
+
+    # Calculate cumulative rewards
+    running_total = 0
+    all_data = daily_totals.map do |day|
+      running_total += day.daily_amount
+      {
+        datetime: day.date.to_datetime.iso8601,
+        rewards: day.daily_amount.to_s,
+        cumulative_rewards: running_total.to_s,
+        balance: day.daily_amount.to_s # Need to integrate with balance data
+      }
+    end
+
+    days = time_range(params[:time_range] || 'default')
+    start_date = (Time.current - (days - 1).days).beginning_of_day if days
+
+    chart_data = days ? all_data.select { |d| Time.parse(d[:datetime]) >= start_date } : all_data
+
+    render json: {
+      balance_rewards: chart_data,
+      available_ranges: available_ranges,
+      current_range: params[:time_range] || 'default'
+    }
+  end
+
+  # def block_production
+  #   blocks_by_epoch = Block.where(validator_address: @validator.address)
+  #                          .where.not(epoch: nil)
+  #                          .group(:epoch)
+  #                          .order(epoch: :desc)
+  #                          .limit(10) # Get last 10 epochs
+  #                          .count
+  #
+  #   data = blocks_by_epoch.map do |epoch, block_count|
+  #     {
+  #       epoch: epoch,
+  #       block_count: block_count
+  #     }
+  #   end
+  #
+  #   respond_to do |format|
+  #     format.json { render json: data }
+  #   rescue StandardError => e
+  #     Rails.logger.error "Block Production Error: #{e.class} - #{e.message}"
+  #     Rails.logger.error e.backtrace.join("\n")
+  #     render json: {
+  #       error: 'Error fetching block production data',
+  #       details: e.message,
+  #       backtrace: e.backtrace
+  #     }, status: :internal_server_error
+  #   end
+  # end
+
+  def block_production
+    blocks = Block.where(validator_address: @validator.address)
+    earliest_block = blocks.order(block_timestamp: :asc).first
+    earliest_date = earliest_block&.block_timestamp
+    puts ">>> earliest date: #{earliest_date.inspect}"
+    available_ranges = calculate_available_ranges(earliest_date)
+    puts ">>> available_ranges: #{available_ranges.inspect}"
+
+    # Get daily block counts
+    daily_blocks = blocks
+                     .select("DATE(block_timestamp) as date", "COUNT(*) as block_count")
+                     .group("DATE(block_timestamp)")
+                     .order("DATE(block_timestamp)")
+
+    # Calculate running totals
+    running_total = 0
+    all_data = daily_blocks.map do |day|
+      running_total += day.block_count
+      {
+        datetime: day.date.to_datetime.iso8601,
+        daily_blocks: day.block_count,
+        cumulative_blocks: running_total
+      }
+    end
+
+    # Filter by time range
+    days = time_range(params[:time_range] || 'default')
+    start_date = (Time.current - (days - 1).days).beginning_of_day if days
+
+    chart_data = days ? all_data.select { |d| Time.parse(d[:datetime]) >= start_date } : all_data
+
+    render json: {
+      block_production: chart_data,
+      available_ranges: available_ranges,
+      current_range: params[:time_range] || 'default'
+    }
+  end
+
+  # Below actions might be deprecated
 
   def performance_metrics
     metrics = Services::Analytics::Metrics::ValidatorMetrics.new(@validator)
@@ -144,34 +263,6 @@ class ValidatorsController < ApplicationController
       details: e.message,
       backtrace: e.backtrace
     }, status: :internal_server_error
-  end
-
-  def block_production
-    blocks_by_epoch = Block.where(validator_address: @validator.address)
-                           .where.not(epoch: nil)
-                           .group(:epoch)
-                           .order(epoch: :desc)
-                           .limit(10) # Get last 10 epochs
-                           .count
-
-    data = blocks_by_epoch.map do |epoch, block_count|
-      {
-        epoch: epoch,
-        block_count: block_count
-      }
-    end
-
-    respond_to do |format|
-      format.json { render json: data }
-    rescue StandardError => e
-      Rails.logger.error "Block Production Error: #{e.class} - #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
-      render json: {
-        error: 'Error fetching block production data',
-        details: e.message,
-        backtrace: e.backtrace
-      }, status: :internal_server_error
-    end
   end
 
   def active_stake_history
@@ -229,38 +320,6 @@ class ValidatorsController < ApplicationController
 
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
-  end
-
-  # for rewards history
-  def calculate_available_ranges(earliest_date)
-    return [] unless earliest_date
-
-    now = Time.current
-    days_of_history = (now - earliest_date).to_i / 1.day
-
-    puts "Earliest date: #{earliest_date}"
-    puts "Days of history: #{days_of_history}"
-
-    ranges = []
-    ranges << { value: 'default', label: 'All Time' }
-
-    # Define our standard time ranges in days
-    time_ranges = [
-      { days: 7, value: 'week', label: 'Last 7 Days' },
-      { days: 14, value: '14days', label: 'Last 14 Days' },
-      { days: 30, value: 'month', label: 'Last Month' },
-      { days: 90, value: '3months', label: 'Last 3 Months' }
-    ]
-
-    # Only add ranges that we have enough data for
-    time_ranges.each do |range|
-      if days_of_history >= range[:days]
-        ranges << { value: range[:value], label: range[:label] }
-      end
-    end
-
-    puts "Final ranges: #{ranges.inspect}"
-    ranges
   end
 
   def fetch_rewards_history(time_range = nil)

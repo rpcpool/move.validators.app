@@ -17,15 +17,15 @@ export default class extends BaseAnalyticsChartController {
     getChartColors() {
         const isDark = this.isDarkMode()
         return {
-            rewards: {
-                borderColor: '#667EEA',
-                backgroundColor: isDark ? 'rgba(102, 126, 234, 0.2)' : 'rgba(102, 126, 234, 0.1)'
+            growth: {
+                borderColor: '#10B981',
+                backgroundColor: isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.1)'
             }
         }
     }
 
     async loadChartData(timeRange) {
-        const response = await fetch(`/validators/${this.addressValue}/rewards_history?time_range=${timeRange}`);
+        const response = await fetch(`/validators/${this.addressValue}/rewards_growth?time_range=${timeRange}`);
         const data = await response.json();
 
         if (data.available_ranges.length > 0) {
@@ -40,7 +40,6 @@ export default class extends BaseAnalyticsChartController {
     }
 
     updateRangeOptions(ranges, currentRange) {
-        console.log("ranges:", ranges);
         const select = this.timeRangeTarget;
         select.innerHTML = ranges.map(range =>
             `<option value="${range.value}" ${range.value === currentRange ? 'selected' : ''}>${range.label}</option>`
@@ -56,7 +55,7 @@ export default class extends BaseAnalyticsChartController {
     }
 
     renderChart(data) {
-        if (!data?.rewards) return;
+        if (!data?.rewards_growth) return;
 
         const isDark = this.isDarkMode();
         const colors = this.getChartColors();
@@ -64,12 +63,12 @@ export default class extends BaseAnalyticsChartController {
         const chart = new Chart(this.chartTarget, {
             type: 'line',
             data: {
-                labels: data.rewards.map(r => new Date(r.datetime).toLocaleDateString()),
+                labels: data.rewards_growth.map(r => new Date(r.datetime).toLocaleDateString()),
                 datasets: [{
-                    label: 'Rewards',
-                    data: data.rewards.map(r => this.convertOctasToApt(r.amount)),
-                    borderColor: colors.rewards.borderColor,
-                    backgroundColor: colors.rewards.backgroundColor,
+                    label: 'Cumulative Rewards',
+                    data: data.rewards_growth.map(r => this.convertOctasToApt(r.cumulative_amount)),
+                    borderColor: colors.growth.borderColor,
+                    backgroundColor: colors.growth.backgroundColor,
                     borderWidth: 2,
                     fill: true,
                     tension: 0.4
@@ -91,7 +90,7 @@ export default class extends BaseAnalyticsChartController {
                         display: true,
                         title: {
                             display: true,
-                            text: 'Rewards (APT)',
+                            text: 'Total Rewards (APT)',
                             font: {size: 12},
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },

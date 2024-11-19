@@ -15,11 +15,13 @@
 
   <%= render partial: "validators/analytics/rewards_history", locals: { validator: @validator, rewards_history: @rewards_history, available_time_ranges: @available_time_ranges } %>
 
-  <%= render partial: "validators/analytics/performance_metrics", locals: { validator: @validator } %>
+  <% #= render partial: "validators/analytics/performance_metrics", locals: { validator: @validator } %>
+
+  <%= render partial: "validators/analytics/rewards_growth", locals: { validator: @validator } %>
 
   <%= render partial: "validators/analytics/block_production", locals: { validator: @validator } %>
 
-  <%= render partial: "validators/analytics/active_stake_history", locals: { validator: @validator } %>
+  <%# = render partial: "validators/analytics/active_stake_history", locals: { validator: @validator } %>
 
   <%#= render partial: "validators/analytics/voting_participation", locals: { validator: @validator } %>
 

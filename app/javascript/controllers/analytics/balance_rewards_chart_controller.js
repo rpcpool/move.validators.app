@@ -1,48 +1,77 @@
-// app/javascript/controllers/balance_rewards_chart_controller.js
 import {Controller} from "@hotwired/stimulus"
 import {Chart, registerables} from "chart.js"
-import BaseAnalyticsChartController from "./base_analytics_chart_controller";
+import BaseAnalyticsChartController from "./base_analytics_chart_controller"
 
 Chart.register(...registerables)
 
 export default class extends BaseAnalyticsChartController {
-    static targets = ["chart"]
+    static targets = ["chart", "timeRange"]
+    static values = {
+        address: String
+    }
+
+    connect() {
+        this.loadChartData('week');
+    }
 
     getChartColors() {
         const isDark = this.isDarkMode()
         return {
             balance: {
-                borderColor: '#F59E0B', // amber-500
+                borderColor: '#F59E0B',
                 backgroundColor: isDark ? 'rgba(245, 158, 11, 0.2)' : 'rgba(245, 158, 11, 0.1)'
             },
             rewards: {
-                borderColor: '#8B5CF6', // violet-500
+                borderColor: '#8B5CF6',
                 backgroundColor: isDark ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.1)'
             }
         }
     }
 
-    renderChart() {
-        const isDark = this.isDarkMode()
-        const colors = this.getChartColors()
+    async loadChartData(timeRange) {
+        const response = await fetch(`/validators/${this.addressValue}/balance_vs_rewards?time_range=${timeRange}`);
+        const data = await response.json();
 
-        const dataPoints = 4
-        const labels = Array.from({length: dataPoints}, (_, i) => {
-            const weeksAgo = dataPoints - 1 - i
-            return weeksAgo === 0 ? 'This Week' : `${weeksAgo}w ago`
-        })
+        if (data.available_ranges.length > 0) {
+            this.updateRangeOptions(data.available_ranges, data.current_range);
+        }
 
-        const balanceData = this.generateBalanceData(dataPoints, 999900, 1000100)
-        const rewardsData = this.generateCumulativeRewards(dataPoints, 4700, 4811)
+        if (this.chartInstances.has(this.chartTarget)) {
+            this.chartInstances.get(this.chartTarget).destroy();
+        }
+
+        this.renderChart(data);
+    }
+
+    updateRangeOptions(ranges, currentRange) {
+        const select = this.timeRangeTarget;
+        select.innerHTML = ranges.map(range =>
+            `<option value="${range.value}" ${range.value === currentRange ? 'selected' : ''}>${range.label}</option>`
+        ).join('');
+    }
+
+    updateTimeRange(event) {
+        this.loadChartData(event.target.value);
+    }
+
+    convertOctasToApt(octas) {
+        return parseFloat(octas) / 100000000;
+    }
+
+    renderChart(data) {
+        if (!data?.balance_rewards) return;
+
+        const isDark = this.isDarkMode();
+        const colors = this.getChartColors();
 
         const chart = new Chart(this.chartTarget, {
             type: 'line',
             data: {
-                labels: labels,
+                labels: data.balance_rewards.map(r => new Date(r.datetime).toLocaleDateString()),
                 datasets: [
                     {
                         label: 'Balance',
-                        data: balanceData,
+                        data: data.balance_rewards.map(r => this.convertOctasToApt(r.balance)),
                         borderColor: colors.balance.borderColor,
                         backgroundColor: colors.balance.backgroundColor,
                         borderWidth: 2,
@@ -52,7 +81,7 @@ export default class extends BaseAnalyticsChartController {
                     },
                     {
                         label: 'Cumulative Rewards',
-                        data: rewardsData,
+                        data: data.balance_rewards.map(r => this.convertOctasToApt(r.cumulative_rewards)),
                         borderColor: colors.rewards.borderColor,
                         backgroundColor: colors.rewards.backgroundColor,
                         borderWidth: 2,
@@ -69,6 +98,9 @@ export default class extends BaseAnalyticsChartController {
                         display: true,
                         grid: {
                             display: false
+                        },
+                        ticks: {
+                            color: isDark ? '#9CA3AF' : '#6B7280'
                         }
                     },
                     'y-balance': {
@@ -101,7 +133,7 @@ export default class extends BaseAnalyticsChartController {
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         ticks: {
-                            callback: (value) => `${(value).toFixed(0)}`,
+                            callback: (value) => `${(value / 1000).toFixed(1)}k`,
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         grid: {
@@ -114,25 +146,8 @@ export default class extends BaseAnalyticsChartController {
                     intersect: false
                 }
             }
-        })
+        });
 
-        this.chartInstances.set(this.chartTarget, chart)
-    }
-
-    generateBalanceData(points, min, max) {
-        let lastValue = min + (max - min) / 2
-        return Array.from({length: points}, () => {
-            const maxChange = (max - min) * 0.02
-            const change = (Math.random() * maxChange * 2) - maxChange
-            lastValue = Math.max(min, Math.min(max, lastValue + change))
-            return Number(lastValue.toFixed(0))
-        })
-    }
-
-    generateCumulativeRewards(points, min, max) {
-        const step = (max - min) / (points - 1)
-        return Array.from({length: points}, (_, i) =>
-            Number((min + (step * i)).toFixed(2))
-        )
+        this.chartInstances.set(this.chartTarget, chart);
     }
 }
