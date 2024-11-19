@@ -1,0 +1,15 @@
+[Unit]
+Description=Validators List Service
+After=syslog.target network.target
+
+[Service]
+Environment=NODE_ENV=production
+WorkingDirectory=/home/deploy/move.validators.app/current/js/daemons
+ExecStart=/usr/bin/node /home/deploy/move.validators.app/current/js/daemons/validators-list.js
+Restart=always
+RestartSec=10
+StandardError=syslog
+SyslogIdentifier=coin-gecko-prices
+
+[Install]
+WantedBy=multi-user.target
