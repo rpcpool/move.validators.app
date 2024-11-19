@@ -278,36 +278,11 @@ class ValidatorsList extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    console.log(new Date(), "CoinGeckoPrices service starting using redis url: ", redisUrl);
+    console.log(new Date(), "ValidatorsList service starting using redis url: ", redisUrl);
 
-    const redis = require('redis');
-    const JobDispatcher = require('../lib/queue/job-dispatcher');
-
-    const redisClient = redis.createClient({ url: redisUrl });
-
-    redisClient.connect()
-        .then(() => {
-            console.log(new Date(), "Redis connected successfully.");
-            const pubSubClient = redisClient.duplicate();
-
-            pubSubClient.connect()
-                .then(() => {
-                    console.log(new Date(), "PubSub Redis connected successfully.");
-
-                    // Initialize JobDispatcher
-                    const jobDispatcher = new JobDispatcher(redisClient, pubSubClient);
-
-                    // Initialize and start CoinGeckoPrices
-                    const service = new ValidatorsList(redisClient, pubSubClient, jobDispatcher);
-                    service.start();
-                })
-                .catch((err) => {
-                    console.error(new Date(), "Failed to connect PubSub Redis client:", err);
-                });
-        })
-        .catch((err) => {
-            console.error(new Date(), "Failed to connect Redis client:", err);
-        });
+    ValidatorsList.create(redisUrl).then(() => {
+        console.log(new Date(), "ValidatorsList service start complete.");
+    });
 } else {
     console.log(new Date(), "ValidatorsList detected test/development environment, not starting in systemd bootstrap.");
 }
