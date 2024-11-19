@@ -1,5 +1,5 @@
 const {createClient} = require("redis");
-const CoinGeckoPrices = require("../coingecko-prices");
+const CoinGeckoPrices = require("../coin-gecko-prices");
 
 (async () => {
 

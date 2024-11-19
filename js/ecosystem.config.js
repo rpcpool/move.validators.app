@@ -14,6 +14,7 @@ module.exports = {
             exec_mode: "fork",
             watch: false
         },
+        // do this one first:
         {
             name: "coingecko-prices",
             script: "./daemons/coingecko-prices.js",
@@ -82,8 +83,6 @@ module.exports = {
         production: {
             user: 'deploy',
             host: 'www2.move.validators.app',
-            ref: 'origin/main',
-            repo: 'https://github.com/rpcpool/move.validators.app.git',
             path: '/home/deploy/move.validators.app/current/js',
             'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
         },

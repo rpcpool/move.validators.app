@@ -7,7 +7,7 @@ server(
 server(
   'www2.move.validators.app',
   user: 'deploy',
-  roles: %i{web app}
+  roles: %i{web app node_workers}
 )
 
 set :deploy_to, "/home/deploy/move.validators.app"
