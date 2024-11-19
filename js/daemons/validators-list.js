@@ -108,8 +108,13 @@ class ValidatorsList extends BaseDaemon {
                     // Tease out any kind of domain name, if available
                     data.host = this.extractNetworkHost(stakePoolDetails);
 
+                    this.log(`Host: ${data.host}`);
+
                     let host = data.host;
-                    if (!isIpAddress(host)) {
+
+                    if (host === 'Unknown') {
+                        data.host = 'Private/Unknown';
+                    } else if (!isIpAddress(host)) {
                         const response = await dnsLookupPromise(host);
                         data.ip = response.address;
                     } else {
