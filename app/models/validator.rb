@@ -119,7 +119,7 @@ class Validator < ApplicationRecord
   private
 
   def set_faker_avatar_url
-    self.avatar_url = Faker::Avatar.image if avatar_url.blank?
+    self.avatar_url = Faker::Avatar.image if avatar_url.blank? && (Rails.env.test? || Rails.env.development?)
   end
 
   def update_data_center_score
