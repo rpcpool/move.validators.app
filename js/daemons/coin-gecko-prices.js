@@ -83,7 +83,7 @@ if (process.env.NODE_ENV && !['test', 'development'].includes(process.env.NODE_E
     const redisUrl = process.env.REDIS_URL;
     console.log(new Date(), "CoinGeckoPrices service starting using redis url: ", redisUrl);
 
-    new CoinGeckoPrices(redisUrl);
+    new CoinGeckoPrices(redisUrl).start();
 } else {
     console.log(new Date(), 'CoinGeckoPrices service detected test/development environment, not starting in systemd bootstrap.');
 }
