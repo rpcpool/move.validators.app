@@ -11,8 +11,17 @@ class ValidatorsController < ApplicationController
     @validators = Validator.order("#{sort_column} #{sort_direction}").page(params[:page])
 
     # Fetch the latest epoch stats and count the active validators
-    @stats = EpochHistory.order(epoch: :desc).limit(1).first
-    @stats.active_validators = Validator.count
+    epoch_history = EpochHistory.order(epoch: :desc).limit(1).first
+    count = Validator.count
+    average_stake = Validator.average("CAST(active_stake AS DECIMAL(65,0))")
+    total_stake = Validator.sum("CAST(active_stake AS DECIMAL(65,0))")
+    @stats = {
+      epoch: epoch_history.epoch,
+      active_validators: count,
+      average_stake: average_stake,
+      total_stake: total_stake
+    }
+
   end
 
   # Controller action

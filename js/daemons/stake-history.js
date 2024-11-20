@@ -6,7 +6,6 @@ class StakeHistory extends BaseDaemon {
         this.seconds = 2600; // Run every hour
         this.interval = undefined;
         this.network = aptos.config.network;
-        this.rateLimit = 65;
         this.lastProcessedVersion = '0';
     }
 
@@ -181,6 +180,8 @@ class StakeHistory extends BaseDaemon {
     }
 
     async run() {
+        this.running = true;
+
         this.log("StakeHistory run started");
 
         try {
@@ -207,6 +208,8 @@ class StakeHistory extends BaseDaemon {
 
         } catch (error) {
             this.log(`Error in StakeHistory run: ${error.message}`);
+        } finally {
+            this.running = false;
         }
     }
 
@@ -216,7 +219,7 @@ class StakeHistory extends BaseDaemon {
         }
 
         this.interval = setInterval(() => {
-            this.run().then();
+            if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
         // Run immediately

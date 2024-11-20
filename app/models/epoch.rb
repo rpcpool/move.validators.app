@@ -15,7 +15,9 @@
 # Indexes
 #
 #  index_epochs_testnet_on_epoch  (epoch) UNIQUE
-#
+
+# DEPRECATED
+
 class Epoch < ApplicationRecord
   attribute :active_validators
 

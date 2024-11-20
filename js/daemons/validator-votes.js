@@ -5,7 +5,6 @@ class ValidatorVotes extends BaseDaemon {
         super(redisClient, pubSubClient, jobDispatcher, aptos);
         this.seconds = 900; // 15 minutes - adjust as needed
         this.interval = undefined;
-        this.rateLimit = 65;
         this.lastProcessedProposal = 0;
         this.network = aptos.config.network;
     }
@@ -145,6 +144,8 @@ class ValidatorVotes extends BaseDaemon {
     }
 
     async run() {
+        this.running = true;
+
         this.log("ValidatorVotes run started");
 
         try {
@@ -177,12 +178,14 @@ class ValidatorVotes extends BaseDaemon {
                     this.log(`Enqueued historical voting data for proposal ${votingData.proposal_id}`);
                 }
             }
+            this.log("ValidatorVotes fetch complete");
 
         } catch (error) {
             this.log(`Error in ValidatorVotes run: ${error.message}`);
+        } finally {
+            this.running = false;
         }
 
-        this.log("ValidatorVotes fetch complete");
     }
 
     start() {
@@ -191,7 +194,7 @@ class ValidatorVotes extends BaseDaemon {
         }
 
         this.interval = setInterval(() => {
-            this.run().then();
+            if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
         // Run immediately
