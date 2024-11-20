@@ -16,7 +16,7 @@ module Extensions
 
         # Treat as foreign key if not found as regular column
         referenced_table = base_name.to_s.chomp('_id').pluralize
-        "#{referenced_table}_#{ENV.fetch('APTOS_NETWORK', 'testnet')}_id"
+        "#{referenced_table}_#{ENV.fetch('APTOS_NETWORK', 'mainnet')}_id"
       end
 
     end
