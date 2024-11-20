@@ -22,19 +22,22 @@ class BaseDaemon {
 
         // Initialize Redis clients (main and pub/sub clients)
         if (typeof redisUrlOrClient === 'string') {
-            redisClient = createClient({url: redisUrlOrClient})
-                .on('error', err => console.log('Redis Client Error', err))
-                .connect();
+            try {
+                redisClient = createClient({url: redisUrlOrClient});
+                await redisClient.connect();
+            } catch (e) {
+                console.log(new Date(), 'Redis Client Error', e);
+            }
         } else {
             redisClient = redisUrlOrClient;
         }
 
         // Duplicate the existing redis client for pub/sub
-        pubSubClient = redisClient.duplicate();
+        // pubSubClient = redisClient.duplicate();
         // Handle Pub/Sub client events
-        pubSubClient.on('error', (err) => console.error("PubSub Redis client error:", err));
+        // pubSubClient.on('error', (err) => console.error("PubSub Redis client error:", err));
 
-        await pubSubClient.connect();
+        // await pubSubClient.connect();
 
         // Initialize JobDispatcher with both Redis clients
         jobDispatcher = new JobDispatcher(redisClient, pubSubClient);

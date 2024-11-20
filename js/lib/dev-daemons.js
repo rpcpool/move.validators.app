@@ -7,7 +7,7 @@ const ValidatorRewards = require("../daemons/validator-rewards");
 const BlockProposals = require("../daemons/block-proposals");
 const LedgerInfo = require("../daemons/ledger-info");
 const ValidatorVotes = require("../daemons/validator-votes");
-const CoinGeckoPrices = require("../daemons/coingecko-prices");
+const CoinGeckoPrices = require("../daemons/coin-gecko-prices");
 const Echo = require("../daemons/echo");
 const BlockUpdateFetch = require("../daemons/block-update-fetch");
 

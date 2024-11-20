@@ -1,8 +1,15 @@
 const {execSync} = require('child_process');
+const {Network} = require("@aptos-labs/ts-sdk");
 
 class AptosCliWrapper {
     constructor() {
+        // Default local mode will find aptos in the path
         this.appName = 'aptos node';
+        // If the cli path has been set, then we will use that.
+        // NOTE: This is PATH ONLY, do not include executable
+        if (process.env.APTOS_CLI_PATH !== undefined) {
+            this.appName = `${process.env.APTOS_CLI_PATH}/aptos node`;
+        }
     }
 
     execute(command, params) {

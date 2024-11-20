@@ -1,0 +1,13 @@
+---
+test:
+  host: localhost
+  port: 6379
+
+development:
+  host: localhost
+  port: 6379
+
+# production:
+#   host: private-move-validators-app-cache-prod-do-user-8844182-0.k.db.ondigitalocean.com
+#   port: 25061
+#   username: default

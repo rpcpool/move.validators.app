@@ -108,8 +108,13 @@ class ValidatorsList extends BaseDaemon {
                     // Tease out any kind of domain name, if available
                     data.host = this.extractNetworkHost(stakePoolDetails);
 
+                    this.log(`Host: ${data.host}`);
+
                     let host = data.host;
-                    if (!isIpAddress(host)) {
+
+                    if (host === 'Unknown') {
+                        data.host = 'Private/Unknown';
+                    } else if (!isIpAddress(host)) {
                         const response = await dnsLookupPromise(host);
                         data.ip = response.address;
                     } else {
@@ -278,7 +283,11 @@ class ValidatorsList extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new ValidatorsList(redisUrl);
+    console.log(new Date(), "ValidatorsList service starting using redis url: ", redisUrl);
+
+    ValidatorsList.create(redisUrl).then(() => {
+        console.log(new Date(), "ValidatorsList service start complete.");
+    });
 } else {
     console.log(new Date(), "ValidatorsList detected test/development environment, not starting in systemd bootstrap.");
 }
