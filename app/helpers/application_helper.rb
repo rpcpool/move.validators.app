@@ -65,4 +65,10 @@ module ApplicationHelper
     # Format the date using strftime
     parsed_date.strftime("%Y-%m-%d")
   end
+
+  def ellipsize(string, edge_length = 3)
+    return string if string.length <= edge_length * 2
+
+    "#{string[0...edge_length]}...#{string[-edge_length..]}"
+  end
 end

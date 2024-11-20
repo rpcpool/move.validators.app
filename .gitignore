@@ -194,3 +194,6 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 /config/credentials/production.key
+
+.aptos
+js/.aptos
