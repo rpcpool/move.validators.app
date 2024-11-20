@@ -18,6 +18,7 @@ class ValidatorRewards extends BaseDaemon {
         const url = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_version/${version}`;
         try {
             const json = await this.fetchWithDelay(url, this.rateLimit);
+            this.log(`url: ${url} json: ${json}`);
             return {
                 block_timestamp: json.block_timestamp,
                 block_height: json.block_height,
