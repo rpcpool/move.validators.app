@@ -24,7 +24,6 @@ module MoveValidatorsApp
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     #
-    # config.eager_load_paths << Rails.root.join('lib/extensions')
     config.eager_load_paths << Rails.root.join('lib/extensions/**/*.rb')
   end
 end
