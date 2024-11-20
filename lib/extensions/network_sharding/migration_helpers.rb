@@ -13,7 +13,7 @@ module Extensions
 
         # Transform column names if they're foreign keys
         sharded_columns = Array(column_name).map do |col|
-          NetworkSharding::ColumnNameHelper.sharded_column_name(col)
+          NetworkSharding::ColumnNameHelper.sharded_column_name(col, table_name, connection)
         end
 
         add_index(table_name, sharded_columns, **options)
@@ -24,7 +24,7 @@ module Extensions
         table_name = NetworkSharding::TableNameHelper.sharded_table_name(model_class_name)
 
         sharded_columns = Array(column_name).map do |col|
-          NetworkSharding::ColumnNameHelper.sharded_column_name(col)
+          NetworkSharding::ColumnNameHelper.sharded_column_name(col, table_name, connection)
         end
 
         remove_index(table_name, column: sharded_columns, **options)
@@ -49,7 +49,7 @@ module Extensions
 
         base_table_name = NetworkSharding::TableNameHelper.unsharded_table_name(to_table_name)
         column_name = "#{base_table_name}_id"
-        sharded_column_name = NetworkSharding::ColumnNameHelper.sharded_column_name(column_name)
+        sharded_column_name = NetworkSharding::ColumnNameHelper.sharded_column_name(column_name, base_table_name, connection)
 
         # Add the column
         add_column from_table_name, sharded_column_name, :bigint

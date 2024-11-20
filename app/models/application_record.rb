@@ -1,3 +1,5 @@
+include Extensions::NetworkSharding::Shardable
+
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 

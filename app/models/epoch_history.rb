@@ -16,9 +16,9 @@
 #  updated_at            :datetime         not null
 #
 class EpochHistory < ApplicationRecord
+  attribute :active_validators
   network_shardable
 
-  validates :batch_uuid, presence: true
   validates :epoch, presence: true
   validates :ledger_version, presence: true
   validates :oldest_ledger_version, presence: true

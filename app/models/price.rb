@@ -16,4 +16,5 @@
 #  index_prices_on_currency_and_created_at  (currency,created_at DESC)
 #
 class Price < ApplicationRecord
+
 end

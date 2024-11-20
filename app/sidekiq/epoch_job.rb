@@ -2,46 +2,29 @@ class EpochJob
   include Sidekiq::Job
 
   def perform(epoch_data)
-    # puts "Received epoch data: #{epoch_data}"
+    puts "Received epoch data: #{epoch_data}"
 
-    # {"currentEpoch"=>15501, "validatorsCount"=>15, "startingSlot"=>291229200, "blocksPerEpoch"=>3600, "currentHeight"=>291230310, "totalStaked"=>"20030166275865969", "averageValidatorStake"=>1335344418391064.5, "totalRewards"=>"4578353681602057344000"}
+    # {"chain_id"=>2, "epoch"=>"19702", "ledger_version"=>"6297808749", "oldest_ledger_version"=>"0", "ledger_timestamp"=>"1732135228936948", "node_role"=>"full_node", "oldest_block_height"=>"0", "block_height"=>"397930556", "git_hash"=>"a0ec6ba11bfe4cfc5b586edc9e227aba4909e8fe", "recorded_at"=>"2024-11-20T20:40:29.384Z"}
 
-    #            currentEpoch: data.epoch,
-    #             startingSlot: data.oldest_block_height,
-    #             blockHeight: data.block_height,
-    #             ledgerVersion: data.ledger_version,
-    #             blocksPerEpoch: "3600",
-    #             totalStaked: "20030166275865969",
-    #             averageValidatorStake: "1335344418391064.5",
-
-    # Parse the epoch data
-    current_epoch = epoch_data["currentEpoch"]
-    # validators_count = epoch_data["validatorsCount"]
-    starting_slot = epoch_data["startingSlot"]
-    blocks_per_epoch = epoch_data["blocksPerEpoch"]
-    # current_height = epoch_data["currentHeight"]
-    total_staked = epoch_data["totalStaked"].to_i
-    average_validator_stake = epoch_data["averageValidatorStake"].to_f
-    # total_rewards = epoch_data["totalRewards"].to_i
-    #
-
-    # Find or initialize the epoch record
-    epoch = Epoch.find_or_initialize_by(epoch: current_epoch)
+    # Find or initialize the epoch history record
+    epoch_history = EpochHistory.find_or_initialize_by(epoch: epoch_data["epoch"])
 
     # Update the attributes
-    epoch.assign_attributes(
-      avg_validator_staked: average_validator_stake,
-      slots_in_epoch: blocks_per_epoch,
-      starting_slot: starting_slot,
-      # total_rewards: total_rewards,
-      total_stake: total_staked
+    epoch_history.assign_attributes(
+      batch_uuid: SecureRandom.uuid, # If you need this
+      block_height: epoch_data["block_height"],
+      git_hash: epoch_data["git_hash"],
+      ledger_timestamp: epoch_data["ledger_timestamp"],
+      ledger_version: epoch_data["ledger_version"],
+      node_role: epoch_data["node_role"],
+      oldest_block_height: epoch_data["oldest_block_height"],
+      oldest_ledger_version: epoch_data["oldest_ledger_version"]
     )
 
-    # Save the epoch record
-    if epoch.save
-      puts "EpochJob: Epoch #{current_epoch} saved successfully."
+    if epoch_history.save
+      puts "EpochJob: Epoch history #{epoch_history.epoch} saved successfully."
     else
-      puts "Failed to save epoch #{current_epoch}: #{epoch.errors.full_messages.join(', ')}"
+      puts "Failed to save epoch history #{epoch_history.epoch}: #{epoch_history.errors.full_messages.join(', ')}"
     end
   end
 end

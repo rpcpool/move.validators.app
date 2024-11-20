@@ -11,7 +11,7 @@ class ValidatorsController < ApplicationController
     @validators = Validator.order("#{sort_column} #{sort_direction}").page(params[:page])
 
     # Fetch the latest epoch stats and count the active validators
-    @stats = Epoch.order(epoch: :desc).limit(1).first
+    @stats = EpochHistory.order(epoch: :desc).limit(1).first
     @stats.active_validators = Validator.count
   end
 
