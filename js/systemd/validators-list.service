@@ -9,7 +9,7 @@ ExecStart=/usr/bin/node /home/deploy/move.validators.app/current/js/daemons/vali
 Restart=always
 RestartSec=10
 StandardError=syslog
-SyslogIdentifier=coin-gecko-prices
+SyslogIdentifier=validators-list
 
 [Install]
 WantedBy=multi-user.target
