@@ -40,6 +40,7 @@ set(:systemd_service_names, %w[
   stake-history
   transactions
   validators-list
+  validator-performance
   validator-rewards
   validator-votes
 ])
