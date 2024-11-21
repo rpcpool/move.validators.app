@@ -11,14 +11,13 @@ class ValidatorRewards extends BaseDaemon {
         this.cache = {};
         this.aptosCliWrapper = new AptosCliWrapper();
         this.network = aptos.config.network;
-        this.rateLimit = 65; // delay between requests as per aptos requirements
     }
 
     async fetchVersionData(version) {
         const url = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_version/${version}`;
         try {
             const json = await this.fetchWithDelay(url, this.rateLimit);
-            this.log(`url: ${url} json: ${json}`);
+
             return {
                 block_timestamp: json.block_timestamp,
                 block_height: json.block_height,
@@ -31,6 +30,7 @@ class ValidatorRewards extends BaseDaemon {
     }
 
     async run() {
+        this.running = true;
         this.log("ValidatorsList run started");
 
         let validators = {};
@@ -73,6 +73,8 @@ class ValidatorRewards extends BaseDaemon {
 
         } catch (error) {
             console.error('Error fetching validator rewards:', error);
+        } finally {
+            this.running = false;
         }
     }
 
@@ -82,7 +84,7 @@ class ValidatorRewards extends BaseDaemon {
         }
 
         this.interval = setInterval(() => {
-            this.run().then();
+            if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
         // run immediately

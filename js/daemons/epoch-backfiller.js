@@ -4,7 +4,6 @@ class EpochBackfiller extends BaseDaemon {
     constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
         super(redisClient, pubSubClient, jobDispatcher, aptos);
         this.network = aptos.config.network;
-        this.rateLimit = 15;
         this.blocksPerBatch = 250;
         this.concurrentBatches = 3; // Add parallel processing?
         this.expectedBlocksPerEpoch = 6000;

@@ -12,7 +12,6 @@
   </td>
   <td class="whitespace-nowrap px-3 py-4 text-sm text-center"><%= validator[:validator_index] %></td>
   <td class="whitespace-nowrap px-3 py-4 text-sm"><%= !validator.address.blank? ? ellipsize(validator.address, 6) : '' %></td>
-  <td class="whitespace-nowrap px-3 py-4 text-sm"><%= !validator.network_address.blank? ? ellipsize(validator.network_address, 6) : '' %></td>
   <td class="whitespace-nowrap px-3 py-4 text-sm"><%= octas_to_apt(validator.active_stake) %></td>
   <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator.performance %>%</td>
   <td class="whitespace-nowrap px-3 py-4 text-sm rounded-r-lg">

@@ -38,7 +38,7 @@ class ValidatorsList extends BaseDaemon {
         }
 
         this.interval = setInterval(() => {
-            this.run().then();
+            if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
         // run immediately
@@ -55,6 +55,8 @@ class ValidatorsList extends BaseDaemon {
     }
 
     async run() {
+        this.running = true;
+
         this.log("ValidatorsList run started");
 
         try {
@@ -172,12 +174,15 @@ class ValidatorsList extends BaseDaemon {
                 console.log("ValidatorSet resource not found.");
             }
 
+            this.log("ValidatorsList run complete");
+
         } catch (error) {
             this.log("Error fetching validators list");
             this.log(error);
+        } finally {
+            this.running = false;
         }
 
-        this.log("ValidatorsList run complete");
     }
 
     getStakePoolDetails(address) {

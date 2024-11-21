@@ -6,7 +6,6 @@ class BlockProposals extends BaseDaemon {
         this.seconds = 60;
         this.interval = undefined;
         this.network = aptos.config.network;
-        this.rateLimit = 65;
         this.lastProcessedHeight = 0;
     }
 
@@ -39,7 +38,7 @@ class BlockProposals extends BaseDaemon {
             let blocks = [];
             for (let height = startHeight + 1; height <= currentHeight; height++) {
                 const blockUrl = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_height/${height}?with_transactions=true`;
-                const block = await this.fetchWithDelay(blockUrl, this.rateLimit);
+                const block = await this.fetchWithDelay(blockUrl, this.rateLimit, true);
 
                 // Find the block_metadata_transaction
                 const blockMetadataTransaction = block.transactions?.find(tx => tx.type === 'block_metadata_transaction');
@@ -79,11 +78,27 @@ class BlockProposals extends BaseDaemon {
             return blocks;
         } catch (error) {
             this.log(`Error fetching blocks: ${error.message}`);
+            this.log(`Error stack: ${error.stack}`);
+
+            // If there's a response object, log it
+            if (error.response) {
+                this.log(`Response status: ${error.response.status}`);
+                this.log(`Response headers: ${JSON.stringify(error.response.headers)}`);
+                this.log(`Response data: ${JSON.stringify(error.response.data)}`);
+            }
+
+            // If we were in the middle of processing a specific block
+            if (height) {
+                this.log(`Failed at block height: ${height}`);
+                this.log(`Block URL that failed: https://api.${this.network}.aptoslabs.com/v1/blocks/by_height/${height}?with_transactions=true`);
+            }
+
             return [];
         }
     }
 
     async run() {
+        this.running = true;
         this.log("BlockProposals run started");
 
         try {
@@ -96,6 +111,8 @@ class BlockProposals extends BaseDaemon {
 
         } catch (error) {
             this.log(`Error in BlockProposals run: ${error.message}`);
+        } finally {
+            this.running = false;
         }
     }
 
@@ -105,7 +122,7 @@ class BlockProposals extends BaseDaemon {
         }
 
         this.interval = setInterval(() => {
-            this.run().then();
+            if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
         // Run immediately

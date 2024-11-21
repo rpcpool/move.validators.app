@@ -6,7 +6,6 @@ class LedgerInfo extends BaseDaemon {
         this.seconds = 30; // Poll every 30 seconds
         this.interval = undefined;
         this.network = aptos.config.network;
-        this.rateLimit = 65;
         this.lastLedgerVersion = null;
     }
 
@@ -33,6 +32,7 @@ class LedgerInfo extends BaseDaemon {
     }
 
     async run() {
+        this.running = true;
         this.log("LedgerInfo run started");
 
         try {
@@ -53,6 +53,8 @@ class LedgerInfo extends BaseDaemon {
 
         } catch (error) {
             this.log(`Error in LedgerInfo run: ${error.message}`);
+        } finally {
+            this.running = false;
         }
     }
 
@@ -62,7 +64,7 @@ class LedgerInfo extends BaseDaemon {
         }
 
         this.interval = setInterval(() => {
-            this.run().then();
+            if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
         // Run immediately

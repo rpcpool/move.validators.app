@@ -8,6 +8,8 @@ class BaseDaemon {
         this.pubSubClient = pubSubClient;
         this.jobDispatcher = jobDispatcher;
         this.aptos = aptos;
+        this.running = false;
+        this.rateLimit = 300;
     }
 
     /**
@@ -113,9 +115,34 @@ class BaseDaemon {
      * @param url
      * @returns {Promise<any>}
      */
-    async fetchWithDelay(url, rateLimit) {
+    async fetchWithDelay(url, rateLimit, debug = false) {
         await this.sleep(rateLimit);
         const response = await fetch(url);
+
+        if (debug) {
+            console.log(" URL:", url);
+            console.log(" Status:", response.status);
+
+            let rawBody;
+            try {
+                rawBody = await response.text();
+                if (response.status !== 200) console.log(" Response body:", rawBody);
+            } catch (e) {
+                console.log(" Error reading response body:", e.message);
+                return undefined;
+            }
+
+            if (rawBody && response.ok) {
+                try {
+                    return JSON.parse(rawBody);
+                } catch (e) {
+                    console.log(" Error parsing JSON:", e.message);
+                    return undefined;
+                }
+            }
+            return undefined;
+        }
+
         return response.json();
     }
 

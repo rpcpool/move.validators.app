@@ -20,7 +20,7 @@ class Transactions extends BaseDaemon {
             }
 
             this.interval = setInterval(() => {
-                this.run().then();
+                if (!this.running) this.run().then();
             }, this.seconds * 1000);
 
             // run immediately
@@ -40,6 +40,7 @@ class Transactions extends BaseDaemon {
     }
 
     async run() {
+        this.running = true;
         this.log('Transactions service run started');
 
         try {
@@ -60,12 +61,14 @@ class Transactions extends BaseDaemon {
             } else {
                 this.log('No new transaction found.');
             }
+            this.log('Transactions service run complete');
         } catch (error) {
             this.log('Error fetching the latest transaction');
             this.log(error);
+        } finally {
+            this.running = false;
         }
 
-        this.log('Transactions service run complete');
     }
 }
 
