@@ -51,11 +51,6 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = false # SSL terminates at the Digital Ocean load balancer, so we don't need to force SSL here
 
-  # Log to STDOUT by default
-  # config.logger = ActiveSupport::Logger.new(STDOUT)
-  #   .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-  #   .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
@@ -63,7 +58,7 @@ Rails.application.configure do
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
   # want to log everything, set the level to "debug".
   # config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
-  config.log_level = :debug
+  config.log_level = :info
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
