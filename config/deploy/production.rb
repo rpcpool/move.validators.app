@@ -12,3 +12,4 @@ server(
 
 set :node_env, 'production'
 set :aptos_network, 'mainnet'
+set :aptos_cli_path, '/home/deploy'

@@ -12,6 +12,7 @@ namespace :deploy do
       node_env = fetch(:node_env)
       redis_url = fetch(:redis_full_url)
       aptos_network = fetch(:aptos_network)
+      aptos_cli_path_network = fetch(:aptos_cli_path)
 
       fetch(:systemd_service_names).each do |service_name|
         target_file = "#{target_dir}/#{service_name}.service"
@@ -26,7 +27,7 @@ namespace :deploy do
     end
 
     # invoke 'deploy:add_systemd_services'
-    invoke 'deploy:reload_systemd_services'
+    invoke 'deploy:restart_systemd_services'
   end
 
   task :add_systemd_services do
@@ -40,7 +41,7 @@ namespace :deploy do
     end
   end
 
-  task :reload_systemd_services do
+  task :restart_systemd_services do
     on roles(:node_workers) do
       execute :systemctl, '--user daemon-reload'
       fetch(:systemd_service_names).each do |service_name|
