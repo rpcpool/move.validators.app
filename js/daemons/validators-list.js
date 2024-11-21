@@ -200,7 +200,7 @@ class ValidatorsList extends BaseDaemon {
         // ...
 
         try {
-            if (!stakePoolDetails || !stakePoolDetails.validator_network_addresses || stakePoolDetails.validator_network_addresses.length === 0) {
+            if (!stakePoolDetails?.Result?.[0]?.validator_network_addresses?.[0]) {
                 this.log(`No validator network addresses found`);
                 return "Unknown";
             }
