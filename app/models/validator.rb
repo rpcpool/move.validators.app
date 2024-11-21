@@ -135,7 +135,7 @@ class Validator < ApplicationRecord
   end
 
   def calculate_performance_score
-    self.performance = Services::Analytics::Metrics::ValidatorMetrics.new(self).performance_score
+    # self.performance = Services::Analytics::Metrics::ValidatorMetrics.new(self).performance_score
   end
 
   def weekly_performance_metrics(weeks_back = 3)
