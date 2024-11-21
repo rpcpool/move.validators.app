@@ -105,6 +105,9 @@ class ValidatorsList extends BaseDaemon {
                         this.log(payload.message);
                         continue;
                     }
+
+                    this.log(`payload.Result ${payload.Result}`);
+
                     const stakePoolDetails = payload.Result[0];
 
                     // Tease out any kind of domain name, if available
