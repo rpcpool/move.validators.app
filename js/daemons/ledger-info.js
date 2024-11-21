@@ -84,7 +84,11 @@ class LedgerInfo extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new LedgerInfo(redisUrl);
+    console.log(new Date(), "LedgerInfo service starting using redis url: ", redisUrl);
+
+    LedgerInfo.create(redisUrl).then(() => {
+        console.log(new Date(), "LedgerInfo service start complete.");
+    });
 } else {
     console.log(new Date(), "LedgerInfo detected test/development environment, not starting in systemd bootstrap.");
 }

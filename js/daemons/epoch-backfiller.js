@@ -242,7 +242,11 @@ class EpochBackfiller extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new EpochBackfiller(redisUrl);
+    console.log(new Date(), "EpochBackfiller service starting using redis url: ", redisUrl);
+
+    EpochBackfiller.create(redisUrl).then(() => {
+        console.log(new Date(), "EpochBackfiller service start complete.");
+    });
 } else {
     console.log(new Date(), "EpochBackfiller detected test/development environment, not starting in systemd bootstrap.");
 }

@@ -144,7 +144,11 @@ class BlockProposals extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new BlockProposals(redisUrl);
+    console.log(new Date(), "BlockProposals service starting using redis url: ", redisUrl);
+
+    BlockProposals.create(redisUrl).then(() => {
+        console.log(new Date(), "BlockProposals service start complete.");
+    });
 } else {
     console.log(new Date(), "BlockProposals detected test/development environment, not starting in systemd bootstrap.");
 }

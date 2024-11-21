@@ -90,7 +90,11 @@ class Transactions extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !['test', 'development'].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new Transactions(redisUrl)
+    console.log(new Date(), "Transactions service starting using redis url: ", redisUrl);
+
+    Transactions.create(redisUrl).then(() => {
+        console.log(new Date(), "Transactions service start complete.");
+    });
 } else {
     console.log(new Date(), 'Transactions service detected test/development environment, not starting in systemd bootstrap.');
 }

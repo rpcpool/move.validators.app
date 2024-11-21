@@ -239,9 +239,13 @@ class StakeHistory extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new StakeHistory(redisUrl);
+    console.log(new Date(), "StakeHistory service starting using redis url: ", redisUrl);
+
+    StakeHistory.create(redisUrl).then(() => {
+        console.log(new Date(), "StakeHistory service start complete.");
+    });
 } else {
-    console.log(new Date(), "StakeHistoryDaemon detected test/development environment, not starting in systemd bootstrap.");
+    console.log(new Date(), "StakeHistory detected test/development environment, not starting in systemd bootstrap.");
 }
 
 module.exports = StakeHistory;
