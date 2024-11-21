@@ -10,4 +10,5 @@ server(
   roles: %i{web app node_workers}
 )
 
-set :deploy_to, "/home/deploy/move.validators.app"
+set :node_env, 'production'
+set :aptos_network, 'mainnet'

@@ -1,0 +1,59 @@
+require 'erb'
+require 'active_support/core_ext/string/inflections'
+
+namespace :deploy do
+  task :setup_systemd_services do
+    on roles(:node_workers), in: :sequence, wait: 5 do
+      template_filename = 'config/deploy/templates/daemon-template.service.erb'
+      template = File.read(template_filename)
+
+      target_dir = '/home/deploy/.config/systemd/user'
+
+      node_env = fetch(:node_env)
+      redis_url = fetch(:redis_full_url)
+      aptos_network = fetch(:aptos_network)
+
+      fetch(:systemd_service_names).each do |service_name|
+        target_file = "#{target_dir}/#{service_name}.service"
+
+        js_daemon_script_filename = "#{service_name}.js"
+        service_name = js_daemon_script_filename.gsub(/\.js$/, '')
+        human_readable_name = service_name.titleize
+
+        erb_content = ERB.new(template).result(binding)
+        upload!(StringIO.new(erb_content), target_file)
+      end
+    end
+
+    # invoke 'deploy:add_systemd_services'
+    invoke 'deploy:reload_systemd_services'
+  end
+
+  task :add_systemd_services do
+    on roles(:node_workers) do
+      fetch(:systemd_service_names).each do |service_name|
+        execute :systemctl, '--user enable', "#{service_name}.service"
+        execute :systemctl, '--user start', "#{service_name}.service"
+      end
+
+      execute :systemctl, '--user daemon-reload'
+    end
+  end
+
+  task :reload_systemd_services do
+    on roles(:node_workers) do
+      execute :systemctl, '--user daemon-reload'
+      fetch(:systemd_service_names).each do |service_name|
+        execute :systemctl, '--user restart', "#{service_name}.service"
+      end
+    end
+  end
+
+  task :systemctl_statuses do
+    on roles(:node_workers) do
+      fetch(:systemd_service_names).each do |service_name|
+        execute :systemctl, '--user status', "#{service_name}.service"
+      end
+    end
+  end
+end

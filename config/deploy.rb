@@ -7,8 +7,7 @@ set :user, 'deploy'
 
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-# Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, "/var/www/my_app_name"
+set :deploy_to, "/home/deploy/move.validators.app"
 
 append :linked_files, 'config/database.yml'
 append :linked_files, "config/credentials/#{fetch(:stage)}.key"
@@ -24,39 +23,27 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 
 set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }
 
+credentials_output = `bundle exec rails credentials:show --environment production`
+credentials = YAML.safe_load(credentials_output).with_indifferent_access
+
+set :redis_full_url, credentials.dig(:redis, :full_url)
+
+set(:systemd_service_names, %w[
+  block-proposals
+  block-update-fetch
+  coin-gecko-prices
+  epoch-backfiller
+  epoch-history
+  ledger-info
+  stake-history
+  transactions
+  validators-list
+  validator-rewards
+  validator-votes
+])
 
 # SIDEKIQ CONFIG
 set :sidekiq_roles, :sidekiq
 set :sidekiq_config, File.join(current_path, 'config', 'sidekiq.yml').to_s
 
 after 'deploy:updated', 'deploy:npm_install'
-
-namespace :sidekiq do
-  desc 'Stop sidekiq (graceful shutdown, put unfinished tasks back to Redis)'
-  task :stop do
-    on roles :sidekiq do |_role|
-      execute :systemctl, '--user', 'stop', :sidekiq
-    end
-  end
-
-  desc 'Start sidekiq'
-  task :start do
-    on roles :sidekiq do |_role|
-      execute :systemctl, '--user', 'start', :sidekiq
-    end
-  end
-
-  desc 'Restart sidekiq'
-  task :restart do
-    on roles(:sidekiq), in: :sequence, wait: 5 do
-      execute :systemctl, '--user', 'restart', :sidekiq
-    end
-  end
-
-  desc "Quiet sidekiq (stop fetching new tasks from Redis)"
-  task :quiet do
-    on roles(:sidekiq) do
-      execute :systemctl, '--user', 'kill -s TSTP', :sidekiq
-    end
-  end
-end
