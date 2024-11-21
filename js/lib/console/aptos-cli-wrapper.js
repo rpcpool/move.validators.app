@@ -26,7 +26,7 @@ class AptosCliWrapper {
                 fullCommand += ` --${paramKey} ${value}`;
             }
 
-            console.log(" > Aptos CLI fullCommand:", fullCommand);
+            // console.log(" > Aptos CLI fullCommand:", fullCommand);
 
             // Execute the command
             let output = execSync(fullCommand, {
@@ -36,7 +36,7 @@ class AptosCliWrapper {
                 shell: true  // Use shell for command interpretation
             });
 
-            console.log(" > Aptos response:", output);
+            // console.log(" > Aptos response:", output);
 
             const jsonStartIndex = output.indexOf('{');
             if (jsonStartIndex !== -1) {
