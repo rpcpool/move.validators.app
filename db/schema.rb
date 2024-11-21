@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_15_010445) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_21_145321) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -209,6 +209,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_010445) do
     t.index ["version"], name: "index_validator_balances_testnet_on_version"
   end
 
+  create_table "validator_performances_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "validator_address", null: false
+    t.integer "successful_proposals"
+    t.integer "total_proposals"
+    t.bigint "voting_power"
+    t.decimal "performance_score", precision: 5, scale: 2
+    t.integer "epoch"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "validators_testnet_id"
+    t.bigint "epoch_histories_testnet_id"
+    t.index ["epoch"], name: "index_validator_performances_testnet_on_epoch"
+    t.index ["epoch_histories_testnet_id"], name: "fk_rails_83b60b8b93"
+    t.index ["validator_address"], name: "index_validator_performances_testnet_on_validator_address"
+    t.index ["validators_testnet_id"], name: "fk_rails_4fc17c3fc5"
+  end
+
   create_table "validator_rewards_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "validator_address", null: false
     t.bigint "version", null: false
@@ -299,4 +316,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_010445) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "stake_histories_testnet", "validators_testnet"
   add_foreign_key "transactions_testnet", "blocks_testnet"
+  add_foreign_key "validator_performances_testnet", "epoch_histories_testnet"
+  add_foreign_key "validator_performances_testnet", "validators_testnet"
 end

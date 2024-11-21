@@ -1,8 +1,8 @@
 const BaseDaemon = require("./base-daemon");
 
 class ValidatorVotes extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
         this.seconds = 900; // 15 minutes - adjust as needed
         this.interval = undefined;
         this.lastProcessedProposal = 0;
@@ -214,7 +214,11 @@ class ValidatorVotes extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    new ValidatorVotes(redisUrl);
+    console.log(new Date(), "ValidatorVotes service starting using redis url: ", redisUrl);
+
+    ValidatorVotes.create(redisUrl).then(() => {
+        console.log(new Date(), "ValidatorVotes service start complete.");
+    });
 } else {
     console.log(new Date(), "ValidatorVotes detected test/development environment, not starting in systemd bootstrap.");
 }

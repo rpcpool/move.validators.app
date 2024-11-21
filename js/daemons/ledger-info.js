@@ -1,8 +1,8 @@
 const BaseDaemon = require("./base-daemon");
 
 class LedgerInfo extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
         this.seconds = 30; // Poll every 30 seconds
         this.interval = undefined;
         this.network = aptos.config.network;

@@ -1,8 +1,8 @@
 const BaseDaemon = require('./base-daemon');
 
 class CoinGeckoPrices extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher) {
-        super(redisClient, pubSubClient, jobDispatcher);
+    constructor(redisClient, jobDispatcher) {
+        super(redisClient, jobDispatcher);
         this.seconds = 300;
         this.interval = undefined;
         this.cache = {

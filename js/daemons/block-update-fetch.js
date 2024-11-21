@@ -1,8 +1,8 @@
 const BaseDaemon = require("./base-daemon");
 
 class BlockUpdateFetch extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
 
         this.network = aptos.config.network;
         this.rateLimit = 0; // no sleep

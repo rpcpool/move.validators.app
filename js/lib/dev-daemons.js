@@ -10,6 +10,7 @@ const ValidatorVotes = require("../daemons/validator-votes");
 const CoinGeckoPrices = require("../daemons/coin-gecko-prices");
 const Echo = require("../daemons/echo");
 const BlockUpdateFetch = require("../daemons/block-update-fetch");
+const ValidatorPerformance = require("../daemons/validator-performance");
 
 /**
  * This class will bootstrap all/any of the daemons we want to run in development mode only. It is not meant to
@@ -30,6 +31,12 @@ class DevDaemons {
             const redisClient = await createClient({url: redisUrl})
                 .on('error', err => console.log('Redis Client Error', err))
                 .connect();
+
+
+            // Echo - this is a dev daemon to test round-trip from rails -> node
+            const echo = await Echo.create(redisClient);
+            this.daemons.push(echo);
+
 
             // Set up each daemon here for management
             // Each daemon is run via a local systemd service, so they need to be able to start themselves based on
@@ -72,9 +79,9 @@ class DevDaemons {
             const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
             this.daemons.push(blockUpdateFetch);
 
-            // Echo
-            const echo = await Echo.create(redisClient);
-            this.daemons.push(echo);
+            // ValidatorPerformance
+            const validatorPerformance = await ValidatorPerformance.create(redisClient);
+            this.daemons.push(validatorPerformance);
 
         } catch (err) {
             console.error('Failed to start correctly:', err);

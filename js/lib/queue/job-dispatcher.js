@@ -2,9 +2,8 @@ const crypto = require("crypto");
 const {snakeCase} = require('case-anything');
 
 class JobDispatcher {
-    constructor(redisClient, pubSubClient) {
+    constructor(redisClient) {
         this.redisClient = redisClient; // This client should not be used for pub/sub
-        this.pubSubClient = pubSubClient; // Use this one for subscriptions
         this.subscriptions = new Map();
     }
 
@@ -19,14 +18,6 @@ class JobDispatcher {
             });
         });
     }
-
-    // getQueueKey(queue) {
-    //     if (!queue) return "queue.rake:default";
-    //     if (!queue.startsWith("queue.rake:")) {
-    //         return `queue:${queue}`;
-    //     }
-    //     return queue;
-    // }
 
     getQueueKey(queue) {
         if (!queue) return "queue:default";
@@ -83,7 +74,7 @@ class JobDispatcher {
         };
 
         // Start the message processing loop
-        processNextMessage();
+        processNextMessage().then();
     }
 
     async unsubscribe(jobName) {

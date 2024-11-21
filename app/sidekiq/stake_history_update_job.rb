@@ -9,7 +9,14 @@ class StakeHistoryUpdateJob
   include Sidekiq::Job
 
   def perform(data)
-    stake_history = StakeHistory.find(data["stake_history_id"])
+    id = data["stake_history_id"]
+    stake_history = StakeHistory.find_by(id: id)
+
+    if stake_history.nil?
+      puts "Stake history not found for id #{id} - exiting"
+      return
+    end
+
     block_data = data["block"]
 
     # Save block if we have block data

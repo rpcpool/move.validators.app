@@ -5,8 +5,8 @@ const {Aptos, AptosConfig, Network} = require('@aptos-labs/ts-sdk');
 
 class Transactions extends BaseDaemon {
     // Default polling interval is 5 seconds
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
         this.seconds = 5;
         this.interval = undefined;
         this.network = aptos.config.network;

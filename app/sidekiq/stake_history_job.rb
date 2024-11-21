@@ -11,6 +11,8 @@ class StakeHistoryJob
 
     return unless events&.any?
 
+    validator_id = "validators_#{NETWORK}_id"
+
     # Find or initialize validator
     validator = Validator.find_or_initialize_by(address: validator_address)
 
@@ -20,7 +22,7 @@ class StakeHistoryJob
         puts "\nProcessing event with version: #{version}"
 
         stake_history = StakeHistory.find_or_initialize_by(
-          validators_testnet_id: validator.id,
+          "#{validator_id}": validator.id,
           version: version,
           sequence_number: event["guid"]["creation_number"]
         )

@@ -4,8 +4,8 @@ const BaseDaemon = require("./base-daemon");
 
 
 class Echo extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
         this.interval = undefined;
     }
 

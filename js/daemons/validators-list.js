@@ -1,8 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const dns = require('node:dns');
 const util = require('node:util');
-const {Aptos, AptosConfig, Network} = require("@aptos-labs/ts-sdk");
 const geoIp = require('geoip2-api');
 const lookup = require('country-code-lookup');
 const BaseDaemon = require("./base-daemon");
@@ -23,9 +20,9 @@ const dnsReversePromise = util.promisify(dns.reverse);
 
 class ValidatorsList extends BaseDaemon {
     // Default seconds is 300 - 5m
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
-        this.seconds = 300;
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
+        this.seconds = 900; // 15 mins
         this.interval = undefined;
         this.cache = {};
         this.aptosCliWrapper = new AptosCliWrapper();
@@ -61,6 +58,7 @@ class ValidatorsList extends BaseDaemon {
 
         try {
 
+            await this.sleep(this.rateLimit);
             const resources = await this.aptos.account.getAccountResources({
                 accountAddress: "0x1",
             });
@@ -86,6 +84,7 @@ class ValidatorsList extends BaseDaemon {
                     data.networkAddress = validator.config.network_addresses;
 
                     // Fetch additional details or staking address
+                    await this.sleep(this.rateLimit);
                     const stakingResources = await this.aptos.account.getAccountResources({
                         accountAddress: validator.addr,
                     });
@@ -99,6 +98,7 @@ class ValidatorsList extends BaseDaemon {
                     }
 
                     // There should only be one Result
+                    await this.sleep(this.rateLimit);
                     const payload = this.getStakePoolDetails(validator.addr);
                     if (payload.error) {
                         this.log(`Error processing the stake pool details for ${validator.addr}, skipping.`);
@@ -227,8 +227,7 @@ class ValidatorsList extends BaseDaemon {
             url = `https://api.${network}.aptoslabs.com/v1/accounts/${address}/events/0x1::stake::StakePool/add_stake_events`;
             let stakeEvents;
             try {
-                const response = await fetch(url);
-                stakeEvents = await response.json(); // Parsing the response body as JSON
+                stakeEvents = await this.fetchWithDelay(url, this.rateLimit);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -237,8 +236,7 @@ class ValidatorsList extends BaseDaemon {
             if (version) {
                 url = `https://api.${network}.aptoslabs.com/v1/blocks/by_version/${version}`
                 try {
-                    const response = await fetch(url);
-                    const block = await response.json();
+                    const block = await this.fetchWithDelay(url, this.rateLimit);
 
                     const timestamp = block?.block_timestamp;
                     if (timestamp) return convertToDate(timestamp);
@@ -255,6 +253,7 @@ class ValidatorsList extends BaseDaemon {
     async getAccountResources(address, data) {
         try {
             // Fetch all resources for the validator
+            await this.sleep(this.rateLimit);
             const resources = await this.aptos.account.getAccountResources({
                 accountAddress: address,
             });

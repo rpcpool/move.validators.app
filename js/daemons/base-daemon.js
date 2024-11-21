@@ -3,9 +3,8 @@ const {createClient} = require("redis");
 const JobDispatcher = require("../lib/queue/job-dispatcher");
 
 class BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
+    constructor(redisClient, jobDispatcher, aptos) {
         this.redisClient = redisClient;
-        this.pubSubClient = pubSubClient;
         this.jobDispatcher = jobDispatcher;
         this.aptos = aptos;
         this.running = false;
@@ -19,7 +18,6 @@ class BaseDaemon {
      */
     static async create(redisUrlOrClient, ...args) {
         let redisClient = null;
-        let pubSubClient = null;
         let jobDispatcher = null;
 
         // Initialize Redis clients (main and pub/sub clients)
@@ -34,15 +32,8 @@ class BaseDaemon {
             redisClient = redisUrlOrClient;
         }
 
-        // Duplicate the existing redis client for pub/sub
-        // pubSubClient = redisClient.duplicate();
-        // Handle Pub/Sub client events
-        // pubSubClient.on('error', (err) => console.error("PubSub Redis client error:", err));
-
-        // await pubSubClient.connect();
-
         // Initialize JobDispatcher with both Redis clients
-        jobDispatcher = new JobDispatcher(redisClient, pubSubClient);
+        jobDispatcher = new JobDispatcher(redisClient);
 
         // Initialize Aptos SDK
         let network = Network.TESTNET;
@@ -54,7 +45,7 @@ class BaseDaemon {
         const aptos = new Aptos(aptosConfig);
 
         // Instantiate the daemon class (e.g., ValidatorsList, BlockInfo)
-        const self = new this(redisClient, pubSubClient, jobDispatcher, aptos, ...args);
+        const self = new this(redisClient, jobDispatcher, aptos, ...args);
 
         // Check if the subclass has a `start` method and call it
         if (typeof self.start === 'function') {

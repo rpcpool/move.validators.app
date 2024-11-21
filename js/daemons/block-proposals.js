@@ -1,12 +1,13 @@
 const BaseDaemon = require("./base-daemon");
 
 class BlockProposals extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
         this.seconds = 60;
         this.interval = undefined;
         this.network = aptos.config.network;
         this.lastProcessedHeight = 0;
+        this.rateLimit = 400; // since a lot of block are pulled, we need to throttle more
     }
 
     async fetchLedgerInfo() {
@@ -37,8 +38,9 @@ class BlockProposals extends BaseDaemon {
 
             let blocks = [];
             for (let height = startHeight + 1; height <= currentHeight; height++) {
+                await this.sleep(this.rateLimit);
                 const blockUrl = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_height/${height}?with_transactions=true`;
-                const block = await this.fetchWithDelay(blockUrl, this.rateLimit, true);
+                const block = await this.fetchWithDelay(blockUrl, this.rateLimit);
 
                 // Find the block_metadata_transaction
                 const blockMetadataTransaction = block.transactions?.find(tx => tx.type === 'block_metadata_transaction');

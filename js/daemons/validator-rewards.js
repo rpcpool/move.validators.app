@@ -4,8 +4,8 @@ const BaseDaemon = require("./base-daemon");
 const AptosCliWrapper = require("../lib/console/aptos-cli-wrapper");
 
 class ValidatorRewards extends BaseDaemon {
-    constructor(redisClient, pubSubClient, jobDispatcher, aptos) {
-        super(redisClient, pubSubClient, jobDispatcher, aptos);
+    constructor(redisClient, jobDispatcher, aptos) {
+        super(redisClient, jobDispatcher, aptos);
         this.seconds = 120;
         this.interval = undefined;
         this.cache = {};
