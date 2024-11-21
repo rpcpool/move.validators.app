@@ -48,4 +48,12 @@ namespace :deploy do
       end
     end
   end
+
+  task :systemctl_statuses do
+    on roles(:node_workers) do
+      fetch(:systemd_service_names).each do |service_name|
+        execute :systemctl, '--user status', "#{service_name}.service"
+      end
+    end
+  end
 end

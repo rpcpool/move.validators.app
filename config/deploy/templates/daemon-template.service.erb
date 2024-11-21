@@ -6,8 +6,8 @@ After=syslog.target network.target
 Environment=NODE_ENV=<%= node_env %>
 Environment=REDIS_URL=<%= redis_url %>
 Environment=APTOS_NETWORK=<%= aptos_network %>
-WorkingDirectory=<%= fetch(:current_dir) %>/js/daemons
-ExecStart=/usr/bin/node <%= fetch(:current_dir) %>/js/daemons/<%= js_daemon_script_filename %>
+WorkingDirectory=<%= fetch(:deploy_to) %>/current/js/daemons
+ExecStart=/usr/bin/node <%= fetch(:deploy_to) %>/current/js/daemons/<%= js_daemon_script_filename %>
 Restart=always
 RestartSec=10
 StandardError=syslog

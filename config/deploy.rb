@@ -31,6 +31,8 @@ credentials = YAML.safe_load(credentials_output).with_indifferent_access
 set :redis_full_url, credentials.dig(:redis, :full_url)
 
 set(:systemd_service_names, %w[
+  validators-list
+  coin-gecko-prices
   block-proposals
   block-update-fetch
   epoch-backfiller
@@ -41,9 +43,6 @@ set(:systemd_service_names, %w[
   validator-rewards
   validator-votes
 ])
-
-# validators-list
-# coingecko-prices
 
 # SIDEKIQ CONFIG
 set :sidekiq_roles, :sidekiq
