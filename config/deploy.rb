@@ -1,3 +1,5 @@
+require File.expand_path("./environment", __dir__)
+
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.16.0"
 
@@ -23,10 +25,13 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 
 set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }
 
+set :redis_url, Rails.application.credentials.dig(:redis, :url)
+set :redis_username, Rails.application.credentials[:redis][:username]
+set :redis_password, Rails.application.credentials[:redis][:password]
+
 set(:systemd_service_names, %w[
   block-proposals
   block-update-fetch
-  coingecko-prices
   epoch-backfiller
   epoch-history
   ledger-info
@@ -34,8 +39,10 @@ set(:systemd_service_names, %w[
   transactions
   validator-rewards
   validator-votes
-  validators-list
 ])
+
+# validators-list
+# coingecko-prices
 
 # SIDEKIQ CONFIG
 set :sidekiq_roles, :sidekiq

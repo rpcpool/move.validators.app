@@ -1,0 +1,17 @@
+[Unit]
+Description=<%= human_readable_name %> Service
+After=syslog.target network.target
+
+[Service]
+Environment=NODE_ENV=<%= node_env %>
+Environment=REDIS_URL=<%= redis_url %>
+Environment=APTOS_NETWORK=<%= aptos_network %>
+WorkingDirectory=<%= fetch(:current_dir) %>/js/daemons
+ExecStart=/usr/bin/node <%= fetch(:current_dir) %>/js/daemons/<%= js_daemon_script_filename %>
+Restart=always
+RestartSec=10
+StandardError=syslog
+SyslogIdentifier=<%= service_name %>
+
+[Install]
+WantedBy=multi-user.target
