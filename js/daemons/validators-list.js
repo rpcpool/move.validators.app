@@ -200,6 +200,9 @@ class ValidatorsList extends BaseDaemon {
         // ...
 
         try {
+
+            this.log(`stakePoolDetails: ${JSON.stringify(stakePoolDetails)}`);
+
             if (!stakePoolDetails?.Result?.[0]?.validator_network_addresses?.[0]) {
                 this.log(`No validator network addresses found`);
                 return "Unknown";

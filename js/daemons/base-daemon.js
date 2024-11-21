@@ -44,9 +44,6 @@ class BaseDaemon {
         const aptosConfig = new AptosConfig({network});
         const aptos = new Aptos(aptosConfig);
 
-        console.log(aptosConfig);
-        console.log(aptos);
-
         // Instantiate the daemon class (e.g., ValidatorsList, BlockInfo)
         const self = new this(redisClient, jobDispatcher, aptos, ...args);
 
