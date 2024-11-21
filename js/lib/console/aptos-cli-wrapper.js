@@ -29,7 +29,12 @@ class AptosCliWrapper {
             console.log(" > Aptos CLI fullCommand:", fullCommand);
 
             // Execute the command
-            let output = execSync(fullCommand, {encoding: 'utf-8'});
+            let output = execSync(fullCommand, {
+                encoding: 'utf-8',
+                env: {...process.env},
+                cwd: process.env.HOME,  // Set working directory if needed
+                shell: true  // Use shell for command interpretation
+            });
 
             console.log(" > Aptos response:", output);
 
