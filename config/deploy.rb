@@ -31,15 +31,15 @@ credentials = YAML.safe_load(credentials_output).with_indifferent_access
 set :redis_full_url, credentials.dig(:redis, :full_url)
 
 set(:systemd_service_names, %w[
-  validators-list
-  coin-gecko-prices
   block-proposals
   block-update-fetch
+  coin-gecko-prices
   epoch-backfiller
   epoch-history
   ledger-info
   stake-history
   transactions
+  validators-list
   validator-rewards
   validator-votes
 ])
