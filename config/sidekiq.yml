@@ -5,7 +5,7 @@ development:
   :concurrency: 4
 
 production:
-  :concurrency: 25
+  :concurrency: 50
 
 :queues:
   - high_priority

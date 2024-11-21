@@ -50,6 +50,22 @@ namespace :deploy do
     end
   end
 
+  task :stop_systemd_services do
+    on roles(:node_workers) do
+      fetch(:systemd_service_names).each do |service_name|
+        execute :systemctl, '--user stop', "#{service_name}.service"
+      end
+    end
+  end
+
+  task :start_systemd_services do
+    on roles(:node_workers) do
+      fetch(:systemd_service_names).each do |service_name|
+        execute :systemctl, '--user start', "#{service_name}.service"
+      end
+    end
+  end
+
   task :systemctl_statuses do
     on roles(:node_workers) do
       fetch(:systemd_service_names).each do |service_name|
