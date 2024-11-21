@@ -25,9 +25,10 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 
 set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }
 
-set :redis_url, Rails.application.credentials.dig(:redis, :url)
-set :redis_username, Rails.application.credentials[:redis][:username]
-set :redis_password, Rails.application.credentials[:redis][:password]
+credentials_output = `bundle exec rails credentials:show --environment production`
+credentials = YAML.safe_load(credentials_output).with_indifferent_access
+
+set :redis_full_url, credentials.dig(:redis, :full_url)
 
 set(:systemd_service_names, %w[
   block-proposals

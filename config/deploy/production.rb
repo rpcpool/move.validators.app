@@ -12,6 +12,3 @@ server(
 
 set :node_env, 'production'
 set :aptos_network, 'mainnet'
-
-# TODO: Set the correct Redis URL from Rails encrypted credentials
-set :redis_url, 'rediss://localhost:6379'

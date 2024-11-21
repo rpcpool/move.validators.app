@@ -10,10 +10,8 @@ namespace :deploy do
       target_dir = '/home/deploy/.config/systemd/user'
 
       node_env = fetch(:node_env)
-      redis_url = fetch(:redis_url)
+      redis_url = fetch(:redis_full_url)
       aptos_network = fetch(:aptos_network)
-
-      pp fetch(:redis_url)
 
       fetch(:systemd_service_names).each do |service_name|
         target_file = "#{target_dir}/#{service_name}.service"
@@ -27,7 +25,8 @@ namespace :deploy do
       end
     end
 
-    invoke 'deploy:add_systemd_services'
+    # invoke 'deploy:add_systemd_services'
+    invoke 'deploy:reload_systemd_services'
   end
 
   task :add_systemd_services do
