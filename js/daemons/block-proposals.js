@@ -8,6 +8,7 @@ class BlockProposals extends BaseDaemon {
         this.network = aptos.config.network;
         this.lastProcessedHeight = 0;
         this.rateLimit = 400; // since a lot of block are pulled, we need to throttle more
+        this.blocksToFetch = 50;
     }
 
     async fetchLedgerInfo() {
@@ -33,8 +34,8 @@ class BlockProposals extends BaseDaemon {
 
             // Start from last processed height or oldest available height
             let startHeight = this.lastProcessedHeight || ledgerInfo.oldestHeight;
-            // Don't process more than 100 blocks at once to avoid overload
-            startHeight = Math.max(startHeight, currentHeight - 100);
+            // Don't process more than 50 blocks at once to avoid overload
+            startHeight = Math.max(startHeight, currentHeight - this.blocksToFetch);
 
             let blocks = [];
             for (let height = startHeight + 1; height <= currentHeight; height++) {
