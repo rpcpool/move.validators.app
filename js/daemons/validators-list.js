@@ -189,7 +189,10 @@ class ValidatorsList extends BaseDaemon {
     }
 
     getStakePoolDetails(address) {
-        return this.aptosCliWrapper.execute('getStakePool', {ownerAddress: address});
+        return this.aptosCliWrapper.execute('getStakePool', {
+            ownerAddress: address,
+            url: `https://fullnode.${this.network}.aptoslabs.com`
+        });
     }
 
     extractNetworkHost(stakePoolDetails) {

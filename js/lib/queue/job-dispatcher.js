@@ -30,6 +30,7 @@ class JobDispatcher {
         }
 
         const jid = await JobDispatcher.generateJobId();
+        const jobKey = `job:${jid}`;  // Create unique key for each job
 
         const queue = this.getQueueKey(data.queue || 'default');
         const payload = {
@@ -37,13 +38,16 @@ class JobDispatcher {
             jid,
             queue,
             args: [data],
-            at: data.at
+            at: data.at,
+            created_at: Math.floor(Date.now() / 1000)
         };
 
         if (payload.at) {
             await this.redisClient.zAdd("schedule", payload.at, JSON.stringify(payload));
         } else {
-            await this.redisClient.lPush(payload.queue, JSON.stringify(payload));
+            // Store job with 5-minute expiry
+            await this.redisClient.setEx(jobKey, 300, JSON.stringify(payload));  // 300 seconds = 5 minutes
+            await this.redisClient.lPush(payload.queue, jobKey);  // Store job key instead of full payload
             await this.redisClient.sAdd("queues", payload.queue);
         }
     }
