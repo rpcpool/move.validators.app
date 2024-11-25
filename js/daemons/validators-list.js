@@ -106,7 +106,7 @@ class ValidatorsList extends BaseDaemon {
                         continue;
                     }
 
-                    this.log(`payload.Result ${payload.Result}`);
+                    this.log(`payload.Result ${JSON.stringify(payload.Result)}`);
 
                     const stakePoolDetails = payload.Result[0];
 
