@@ -1,4 +1,4 @@
-require 'active_support/core_ext/hash'
+# require 'active_support/core_ext/hash'
 
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.16.0"
@@ -26,9 +26,9 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/syst
 set :passenger_environment_variables, { path: '/usr/sbin/passenger-status:$PATH' }
 
 credentials_output = `bundle exec rails credentials:show --environment production`
-credentials = YAML.safe_load(credentials_output).with_indifferent_access
+credentials = YAML.safe_load(credentials_output) #.with_indifferent_access
 
-set :redis_full_url, credentials.dig(:redis, :full_url)
+set :redis_full_url, credentials["redis"]["full_url"]
 
 set(:systemd_service_names, %w[
   block-proposals
