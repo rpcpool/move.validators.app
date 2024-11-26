@@ -6,7 +6,7 @@ class ValidatorJob
   def perform(validator_data)
     return if validator_data.nil?
 
-    # puts "Received validator data: #{validator_data.to_json}"
+    puts "Received validator data: #{validator_data.to_json}"
 
     # Extract values and add safeguards
     address = validator_data['address']
@@ -39,6 +39,7 @@ class ValidatorJob
       validator = Validator.find_by(address: address)
 
       if validator
+        puts " > Updating validator with name #{name}"
         # If the validator exists, update its attributes explicitly
         validator.update!(
           name: name,
