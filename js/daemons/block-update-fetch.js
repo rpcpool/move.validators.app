@@ -6,6 +6,7 @@ class BlockUpdateFetch extends BaseDaemon {
 
         this.network = aptos.config.network;
         this.rateLimit = 0; // no sleep
+        this.started = false;
     }
 
     async fetchBlockForVersion(version) {
@@ -37,41 +38,46 @@ class BlockUpdateFetch extends BaseDaemon {
 
     async run() {
         try {
-            await this.jobDispatcher.listen("BlockFetchRequest", async (data) => {
-                const {version} = data;
-                this.log(`BlockFetchRequest received request for version ${version}`);
+            while (this.started) {
 
-                const blockData = await this.fetchBlockForVersion(version);
-                if (blockData && blockData.epoch) {
+                await this.jobDispatcher.listen("BlockFetchRequest", async (data) => {
+                    const {version} = data;
+                    this.log(`BlockFetchRequest received request for version ${version}`);
 
-                    // Each update job will be responsible for upserting the block info since
-                    // it needs to happen at the same time as the update does.
-
-                    // Tumble through the various id's to see where we dispatch back to
-                    if (data.stake_history_id) {
-                        const stakeHistoryId = data.stake_history_id;
-                        this.log(`BlockFetchRequest dispatching StakeHistoryUpdateJob for stake history id ${stakeHistoryId} and epoch ${blockData.epoch}`);
-                        // Queue stake history update
-                        await this.jobDispatcher.enqueue("StakeHistoryUpdateJob", {
-                            stake_history_id: stakeHistoryId,
-                            epoch: blockData.epoch
-                        });
+                    const blockData = await this.fetchBlockForVersion(version);
+                    if (blockData && blockData.epoch) {
+                        if (data.stake_history_id) {
+                            const stakeHistoryId = data.stake_history_id;
+                            this.log(`BlockFetchRequest dispatching StakeHistoryUpdateJob for stake history id ${stakeHistoryId} and epoch ${blockData.epoch}`);
+                            await this.jobDispatcher.enqueue("StakeHistoryUpdateJob", {
+                                stake_history_id: stakeHistoryId,
+                                epoch: blockData.epoch
+                            });
+                        }
+                    } else {
+                        this.log(`Error: block data epoch is missing: ${JSON.stringify(blockData)}`);
                     }
-                } else {
-                    this.log(`Error: block data epoch is missing: ${JSON.stringify(blockData)}`);
-                }
-            });
+                });
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
         } catch (error) {
             this.log(`Error in BlockUpdateFetch: ${error.message}`);
+            if (this.started) {  // Only restart if we're still supposed to be running
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                return this.run();
+            }
         }
     }
 
     start() {
+        this.started = true;
         this.run().then();
         this.log("BlockUpdateFetch started");
     }
 
     stop() {
+        this.started = false;
         this.log("BlockUpdateFetch stopped");
     }
 }
