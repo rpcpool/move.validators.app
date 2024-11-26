@@ -35,10 +35,8 @@ set(:systemd_service_names, %w[
   block-update-fetch
   coin-gecko-prices
   epoch-backfiller
-  epoch-history
   ledger-info
   stake-history
-  transactions
   validators-list
   validator-performance
   validator-rewards

@@ -76,4 +76,15 @@ class BlockUpdateFetch extends BaseDaemon {
     }
 }
 
+if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
+    const redisUrl = process.env.REDIS_URL;
+    console.log(new Date(), "BlockUpdateFetch service starting using redis url: ", redisUrl);
+
+    BlockUpdateFetch.create(redisUrl).then(() => {
+        console.log(new Date(), "BlockUpdateFetch service start complete.");
+    });
+} else {
+    console.log(new Date(), "BlockUpdateFetch detected test/development environment, not starting in systemd bootstrap.");
+}
+
 module.exports = BlockUpdateFetch;
