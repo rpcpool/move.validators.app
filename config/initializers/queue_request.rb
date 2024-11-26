@@ -8,5 +8,12 @@ require_relative '../../lib/extensions/queue/queue_request'
 # need to round trip in this direction will not work and there could be data gaps that break the analytics.
 
 Extensions::Queue::RedisConnection.configure do |config|
-  config.redis_url = Rails.application.credentials.dig(:redis, :url)
+  if Rails.env.production?
+    config.redis_url = Rails.application.credentials.dig(:redis, :url)
+    config.redis_username = Rails.application.credentials.dig(:redis, :username)
+    config.redis_password = Rails.application.credentials.dig(:redis, :password)
+    config.ssl = true
+  else
+    config.redis_url = Rails.application.credentials.dig(:redis, :url)
+  end
 end

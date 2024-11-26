@@ -7,12 +7,19 @@ module Extensions
         attr_accessor :configuration
 
         def configure
-          self.configuration ||= Extensions::Queue::Configuration.new
+          self.configuration ||= Configuration.new
           yield(configuration)
         end
 
         def client
-          @client ||= Redis.new(url: configuration.redis_url)
+          def client
+            @client ||= Redis.new(
+              url: configuration.redis_url,
+              username: configuration.redis_username,
+              password: configuration.redis_password,
+              ssl: configuration.ssl
+            )
+          end
         end
       end
     end

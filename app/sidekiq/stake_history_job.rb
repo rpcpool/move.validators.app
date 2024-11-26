@@ -79,7 +79,7 @@ class StakeHistoryJob
 
           # finally check to see if we were missing an epoch and if so, go do the fetch
           if epoch.nil?
-            puts " Mising epoch, beginning block fetch for version #{version} and stake history id #{stake_history.id}"
+            puts " Missing epoch, beginning block fetch for version #{version} and stake history id #{stake_history.id}"
             request_block_data(version, stake_history.id)
           end
         else
