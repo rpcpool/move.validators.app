@@ -41,6 +41,7 @@ class ValidatorJob
       if validator
         # If the validator exists, update its attributes explicitly
         validator.update!(
+          name: name,
           validator_index: validator_index,
           voting_power: voting_power,
           consensus_public_key: consensus_public_key,
