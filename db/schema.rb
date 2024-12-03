@@ -52,17 +52,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_145321) do
   create_table "blocks_testnet", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "block_height", null: false
     t.string "block_hash", null: false
+    t.string "epoch", null: false
     t.datetime "block_timestamp", null: false
     t.bigint "first_version", null: false
     t.bigint "last_version", null: false
     t.string "validator_address", null: false
+    t.json "raw_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "raw_data", size: :long
-    t.string "epoch"
     t.index ["block_hash"], name: "index_blocks_testnet_on_block_hash", unique: true
     t.index ["block_height"], name: "index_blocks_testnet_on_block_height", unique: true
-    t.index ["epoch"], name: "index_blocks_testnet_on_epoch"
     t.index ["first_version"], name: "index_blocks_testnet_on_first_version"
     t.index ["last_version"], name: "index_blocks_testnet_on_last_version"
     t.index ["validator_address"], name: "index_blocks_testnet_on_validator_address"
@@ -120,7 +119,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_145321) do
     t.string "event_guid"
     t.string "status"
     t.string "voting_power"
-    t.text "raw_data", size: :long
+    t.json "raw_data"
     t.datetime "blockchain_timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

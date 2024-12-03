@@ -59,7 +59,7 @@ en:
           comments: "Message"
           created_at: "Created at"
     validators:
-      title: "Move Validators"
+      title: "Validators that power Aptos"
       subtitle: "The tables below show each validator by name as well as some recent statistics."
       stats:
         active_validators: "Active Validators"

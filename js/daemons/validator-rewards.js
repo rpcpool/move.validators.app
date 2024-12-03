@@ -16,7 +16,7 @@ class ValidatorRewards extends BaseDaemon {
     async fetchVersionData(version) {
         const url = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_version/${version}`;
         try {
-            const json = await this.fetchWithDelay(url, this.rateLimit);
+            const json = await this.fetchWithQueue(url, this.rateLimit);
 
             return {
                 block_timestamp: json.block_timestamp,
@@ -38,14 +38,14 @@ class ValidatorRewards extends BaseDaemon {
         try {
             // get current validators
             let url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/resource/0x1::stake::ValidatorSet`;
-            const json = await this.fetchWithDelay(url, this.rateLimit);
+            const json = await this.fetchWithQueue(url, this.rateLimit);
             const activeValidators = json.data.active_validators;
 
             for (let validator of activeValidators) {
                 // this.log(`Validator: ${JSON.stringify(validator)}`);
                 // get the reward events
                 url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${validator.addr}/events/0x1::stake::StakePool/distribute_rewards_events`;
-                const json = await this.fetchWithDelay(url, this.rateLimit);
+                const json = await this.fetchWithQueue(url, this.rateLimit);
 
                 validator.rewards = json.map((event) => {
                     return {

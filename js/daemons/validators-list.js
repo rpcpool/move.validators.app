@@ -236,7 +236,7 @@ class ValidatorsList extends BaseDaemon {
             url = `https://api.${network}.aptoslabs.com/v1/accounts/${address}/events/0x1::stake::StakePool/add_stake_events`;
             let stakeEvents;
             try {
-                stakeEvents = await this.fetchWithDelay(url, this.rateLimit);
+                stakeEvents = await this.fetchWithQueue(url, this.rateLimit);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -245,7 +245,7 @@ class ValidatorsList extends BaseDaemon {
             if (version) {
                 url = `https://api.${network}.aptoslabs.com/v1/blocks/by_version/${version}`
                 try {
-                    const block = await this.fetchWithDelay(url, this.rateLimit);
+                    const block = await this.fetchWithQueue(url, this.rateLimit);
 
                     const timestamp = block?.block_timestamp;
                     if (timestamp) return convertToDate(timestamp);

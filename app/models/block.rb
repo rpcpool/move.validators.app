@@ -8,10 +8,10 @@
 #  block_hash        :string(255)      not null
 #  block_height      :bigint           not null
 #  block_timestamp   :datetime         not null
-#  epoch             :string(255)
+#  epoch             :string(255)      not null
 #  first_version     :bigint           not null
 #  last_version      :bigint           not null
-#  raw_data          :text(4294967295)
+#  raw_data          :json
 #  validator_address :string(255)      not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -20,7 +20,6 @@
 #
 #  index_blocks_testnet_on_block_hash         (block_hash) UNIQUE
 #  index_blocks_testnet_on_block_height       (block_height) UNIQUE
-#  index_blocks_testnet_on_epoch              (epoch)
 #  index_blocks_testnet_on_first_version      (first_version)
 #  index_blocks_testnet_on_last_version       (last_version)
 #  index_blocks_testnet_on_validator_address  (validator_address)

@@ -1,5 +1,6 @@
 const {createClient} = require("redis");
 require('dotenv').config()
+const RequestProcessor = require("../daemons/request-processor");
 const ValidatorsList = require("../daemons/validators-list");
 const EpochHistory = require("../daemons/epoch-history");
 const Transactions = require("../daemons/transactions");
@@ -8,9 +9,9 @@ const BlockProposals = require("../daemons/block-proposals");
 const LedgerInfo = require("../daemons/ledger-info");
 const ValidatorVotes = require("../daemons/validator-votes");
 const CoinGeckoPrices = require("../daemons/coin-gecko-prices");
-const Echo = require("../daemons/echo");
 const BlockUpdateFetch = require("../daemons/block-update-fetch");
 const ValidatorPerformance = require("../daemons/validator-performance");
+const Echo = require("../daemons/echo");
 
 /**
  * This class will bootstrap all/any of the daemons we want to run in development mode only. It is not meant to
@@ -20,7 +21,7 @@ const ValidatorPerformance = require("../daemons/validator-performance");
  */
 class DevDaemons {
     constructor() {
-        this.daemons = [];
+        this.services = [];
     }
 
     async start() {
@@ -33,9 +34,13 @@ class DevDaemons {
                 .connect();
 
 
-            // Echo - this is a dev daemon to test round-trip from rails -> node
-            const echo = await Echo.create(redisClient);
-            this.daemons.push(echo);
+            // Echo - this is a dev service to test round-trip from rails -> node
+            // const echo = await Echo.create(redisClient);
+            // this.services.push(echo);
+
+            // RequestProcessor - this is the service that provides the sync request queue
+            const requestProcessor = await RequestProcessor.create(redisClient);
+            this.services.push(requestProcessor);
 
 
             // Set up each daemon here for management
@@ -45,43 +50,43 @@ class DevDaemons {
 
             // EpochJob
             const ledgerInfo = await LedgerInfo.create(redisClient);
-            this.daemons.push(ledgerInfo);
+            this.services.push(ledgerInfo);
 
             // ValidatorsList
             const validatorsList = await ValidatorsList.create(redisClient);
-            this.daemons.push(validatorsList);
-
-            // ValidatorRewards
-            const validatorRewards = await ValidatorRewards.create(redisClient);
-            this.daemons.push(validatorRewards);
-
-            // EpochHistory
-            // const epochHistory = await EpochHistory.create(redisClient);
-            // this.daemons.push(epochHistory);
-
-            // Transactions
-            // const transactions = await Transactions.create(redisClient);
-            // this.daemons.push(transactions);
+            this.services.push(validatorsList);
 
             // Block info
             const blockProposals = await BlockProposals.create(redisClient);
-            this.daemons.push(blockProposals);
+            this.services.push(blockProposals);
+
+            // ValidatorRewards
+            const validatorRewards = await ValidatorRewards.create(redisClient);
+            this.services.push(validatorRewards);
+
+            // EpochHistory
+            // const epochHistory = await EpochHistory.create(redisClient);
+            // this.services.push(epochHistory);
+
+            // Transactions
+            // const transactions = await Transactions.create(redisClient);
+            // this.services.push(transactions);
 
             // ValidatorVotes
             const validatorVotes = await ValidatorVotes.create(redisClient);
-            this.daemons.push(validatorVotes);
+            this.services.push(validatorVotes);
 
             // APT Price
             const aptPrice = await CoinGeckoPrices.create(redisClient);
-            this.daemons.push(aptPrice);
+            this.services.push(aptPrice);
 
             // BlockUpdateFetch
             const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
-            this.daemons.push(blockUpdateFetch);
+            this.services.push(blockUpdateFetch);
 
             // ValidatorPerformance
             const validatorPerformance = await ValidatorPerformance.create(redisClient);
-            this.daemons.push(validatorPerformance);
+            this.services.push(validatorPerformance);
 
         } catch (err) {
             console.error('Failed to start correctly:', err);
@@ -89,9 +94,9 @@ class DevDaemons {
         }
     }
 
-    // Currently we don't have a need to stop the daemons, but we add that stub here.
+    // Currently we don't have a need to stop the services, but we add that stub here.
     async stop() {
-        for (let daemon of this.daemons) {
+        for (let daemon of this.services) {
             if (daemon && typeof daemon.start === 'function') await daemon.stop();
         }
     }

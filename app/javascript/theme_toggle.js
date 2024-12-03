@@ -44,7 +44,7 @@ function initializeThemeToggle() {
     // Toggle search bar visibility
     const searchToggle = document.getElementById('searchToggle');
     if (searchToggle) {
-        searchToggle.addEventListener('click', function() {
+        searchToggle.addEventListener('click', function () {
             const searchBar = document.getElementById('searchBar');
             if (searchBar) searchBar.classList.toggle('hidden');
         });

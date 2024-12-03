@@ -56,7 +56,7 @@ class ValidatorVotes extends BaseDaemon {
         try {
             // Get all proposal events from the framework account
             const url = `https://api.${this.aptos.config.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::aptos_governance::GovernanceEvents/vote_events`;
-            const votes = await this.fetchWithDelay(url, this.rateLimit);
+            const votes = await this.fetchWithQueue(url, this.rateLimit);
 
             // Filter for votes from our active validators
             const validatorVotes = votes.filter(vote =>
@@ -84,7 +84,7 @@ class ValidatorVotes extends BaseDaemon {
 
             while (true) {
                 const url = `https://api.${this.aptos.config.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::aptos_governance::GovernanceEvents/vote_events?start=${start}&limit=${limit}`;
-                const events = await this.fetchWithDelay(url, this.rateLimit);
+                const events = await this.fetchWithQueue(url, this.rateLimit);
 
                 if (events.length === 0) break;
 
@@ -134,7 +134,7 @@ class ValidatorVotes extends BaseDaemon {
     async getCurrentEpoch() {
         try {
             const url = `https://api.${this.aptos.config.network}.aptoslabs.com/v1/`;
-            const response = await this.fetchWithDelay(url, this.rateLimit);
+            const response = await this.fetchWithQueue(url, this.rateLimit);
             this.log(`Got ledger info: chain_id=${response.chain_id}, epoch=${response.epoch}`);
             return response.epoch;
         } catch (error) {

@@ -14,7 +14,7 @@
 #  pending_active_stake   :string(255)
 #  pending_inactive_stake :string(255)
 #  pool_address           :string(255)
-#  raw_data               :text(4294967295)
+#  raw_data               :json
 #  sequence_number        :string(255)
 #  status                 :string(255)
 #  version                :string(255)      not null

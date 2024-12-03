@@ -97,7 +97,6 @@ class ValidatorPerformance extends BaseDaemon {
         this.running = true;
         this.log("ValidatorPerformance run started");
 
-
         try {
             const currentEpoch = await this.getCurrentEpoch();
             if (!currentEpoch) return;
@@ -118,9 +117,9 @@ class ValidatorPerformance extends BaseDaemon {
                     epoch: lastEpochData.epoch,
                     performances: lastEpochPerformances
                 });
-                console.log("enqueued job", lastEpochData.epoch);
+
             } else {
-                console.log("lastEpochData missing epoch?", lastEpochData.epoch, " or lastEpochData.validators 0 ? ", lastEpochData.validators.length);
+                this.log(`ValidatorPerformance lastEpochData missing epoch? ${lastEpochData.epoch} or lastEpochData.validators 0 ? ${lastEpochData.validators.length}`);
             }
 
             // Fetches current ongoing performance
@@ -139,9 +138,8 @@ class ValidatorPerformance extends BaseDaemon {
                     epoch: currentEpoch,
                     performances: currentPerformances
                 });
-                console.log("enqueued job", currentEpoch);
             } else {
-                console.log("performance length 0?", performance.length, " or validators 0 ? ", validators.length);
+                this.log(`ValidatorPerformance performance length 0? ${performance.length} or validators 0 ? ${validators.length}`);
             }
 
             this.log("ValidatorPerformance run finished");

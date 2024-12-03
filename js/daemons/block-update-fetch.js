@@ -12,7 +12,7 @@ class BlockUpdateFetch extends BaseDaemon {
     async fetchBlockForVersion(version) {
         const url = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_version/${version}?with_transactions=true`;
         try {
-            const block = await this.fetchWithDelay(url, this.rateLimit);
+            const block = await this.fetchWithQueue(url, this.rateLimit);
 
             // Find block_metadata_transaction to get epoch
             const blockMetadataTransaction = block.transactions?.find(
@@ -38,27 +38,28 @@ class BlockUpdateFetch extends BaseDaemon {
 
     async run() {
         try {
-            while (this.started) {
+            // Move the listener outside the while loop
+            await this.jobDispatcher.listen("BlockFetchRequest", async (data) => {
+                const {version} = data;
+                this.log(`BlockFetchRequest received request for version ${version}`);
 
-                await this.jobDispatcher.listen("BlockFetchRequest", async (data) => {
-                    const {version} = data;
-                    this.log(`BlockFetchRequest received request for version ${version}`);
-
-                    const blockData = await this.fetchBlockForVersion(version);
-                    if (blockData && blockData.epoch) {
-                        if (data.stake_history_id) {
-                            const stakeHistoryId = data.stake_history_id;
-                            this.log(`BlockFetchRequest dispatching StakeHistoryUpdateJob for stake history id ${stakeHistoryId} and epoch ${blockData.epoch}`);
-                            await this.jobDispatcher.enqueue("StakeHistoryUpdateJob", {
-                                stake_history_id: stakeHistoryId,
-                                epoch: blockData.epoch
-                            });
-                        }
-                    } else {
-                        this.log(`Error: block data epoch is missing: ${JSON.stringify(blockData)}`);
+                const blockData = await this.fetchBlockForVersion(version);
+                if (blockData && blockData.epoch) {
+                    if (data.stake_history_id) {
+                        const stakeHistoryId = data.stake_history_id;
+                        this.log(`BlockFetchRequest dispatching StakeHistoryUpdateJob for stake history id ${stakeHistoryId} and epoch ${blockData.epoch}`);
+                        await this.jobDispatcher.enqueue("StakeHistoryUpdateJob", {
+                            stake_history_id: stakeHistoryId,
+                            epoch: blockData.epoch
+                        });
                     }
-                });
+                } else {
+                    this.log(`Error: block data epoch is missing: ${JSON.stringify(blockData)}`);
+                }
+            });
 
+            // Keep the daemon alive
+            while (this.started) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
         } catch (error) {

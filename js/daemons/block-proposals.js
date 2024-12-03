@@ -14,7 +14,7 @@ class BlockProposals extends BaseDaemon {
     async fetchLedgerInfo() {
         const url = `https://api.${this.network}.aptoslabs.com/v1/`;
         try {
-            const ledgerInfo = await this.fetchWithDelay(url, this.rateLimit);
+            const ledgerInfo = await this.fetchWithQueue(url, this.rateLimit);
             return {
                 currentHeight: parseInt(ledgerInfo.block_height),
                 oldestHeight: parseInt(ledgerInfo.oldest_block_height)
@@ -41,7 +41,7 @@ class BlockProposals extends BaseDaemon {
             for (let height = startHeight + 1; height <= currentHeight; height++) {
                 await this.sleep(this.rateLimit);
                 const blockUrl = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_height/${height}?with_transactions=true`;
-                const block = await this.fetchWithDelay(blockUrl, this.rateLimit);
+                const block = await this.fetchWithQueue(blockUrl, this.rateLimit);
 
                 // Find the block_metadata_transaction
                 const blockMetadataTransaction = block.transactions?.find(tx => tx.type === 'block_metadata_transaction');
@@ -73,7 +73,7 @@ class BlockProposals extends BaseDaemon {
                     last_version: block.last_version,
                     validator_address: proposer,
                     epoch: epoch,  // Include the extracted epoch
-                    raw_data: JSON.stringify(block)  // Store raw data for reference
+                    // raw_data: JSON.stringify(block)  // Store raw data for reference
                 });
             }
 
@@ -110,6 +110,8 @@ class BlockProposals extends BaseDaemon {
             if (blocks.length > 0) {
                 await this.jobDispatcher.enqueue("BlockProposalsJob", {blocks});
                 this.log(`Enqueued ${blocks.length} new block proposals from height ${blocks[0].block_height} to ${blocks[blocks.length - 1].block_height}`);
+            } else {
+                this.log(`BlockProposals blocks length == 0, nothing to enqueue.`);
             }
 
         } catch (error) {

@@ -5,14 +5,22 @@ const JobDispatcher = require("../lib/queue/job-dispatcher");
 class BaseDaemon {
     constructor(redisClient, jobDispatcher, aptos) {
         this.redisClient = redisClient;
+        this.blockingClient = redisClient.duplicate(); // for bprop sync calls
         this.jobDispatcher = jobDispatcher;
         this.aptos = aptos;
         this.running = false;
-        this.rateLimit = 300;
+        this.rateLimit = 300; // in ms
+
+        this.pendingRequests = new Map();
+        this.responseQueueKey = `response_queue:${this.constructor.name}`;
+        this.requestTimeout = 30000; // 30 seconds timeout
+        this.popWait = 5; // seconds to wait for timeout
     }
 
     /**
      * Static method to create an instance of BaseDaemon with asynchronous initialization.
+     * THIS IS THE ONLY WAY TO CREATE NEW SERVICES/DAEMONS SINCE IT MANAGES ALL THE REDIS CONNECTION AND
+     * INSTANTIATION CORRECTLY.
      * @param {string | Object} redisUrlOrClient - Redis connection URL or a Redis client instance.
      * @returns {Promise<BaseDaemon>} A promise that resolves to a fully initialized BaseDaemon instance.
      */
@@ -45,14 +53,20 @@ class BaseDaemon {
         const aptos = new Aptos(aptosConfig);
 
         // Instantiate the daemon class (e.g., ValidatorsList, BlockInfo)
-        const self = new this(redisClient, jobDispatcher, aptos, ...args);
+        const instance = new this(redisClient, jobDispatcher, aptos, ...args);
+        // Make sure we connect the blocking client
+        await instance.blockingClient.connect();
+
+        // Start listening for responses
+        await instance.listenForResponses();
+        console.log(new Date(), `${instance.constructor.name} listening for request responses..`);
 
         // Check if the subclass has a `start` method and call it
-        if (typeof self.start === 'function') {
-            await self.start();
+        if (typeof instance.start === 'function') {
+            await instance.start();
         }
 
-        return self;
+        return instance;
     }
 
     /**
@@ -102,39 +116,113 @@ class BaseDaemon {
     }
 
     /**
-     * Fetches an url after sleeeping provided rate limit time
-     * @param url
-     * @returns {Promise<any>}
+     * Generates a unique request ID
+     * @returns {string}
      */
-    async fetchWithDelay(url, rateLimit, debug = false) {
-        await this.sleep(rateLimit);
-        const response = await fetch(url);
+    generateRequestId() {
+        return `${this.constructor.name}:${Date.now()}:${Math.random().toString(36).substr(2, 9)}`;
+    }
 
-        if (debug) {
-            console.log(" URL:", url);
-            console.log(" Status:", response.status);
+    /**
+     * Submits a request to the queue
+     * @param {string} url
+     * @param {Object} options
+     * @returns {Promise<{requestId: string, promise: Promise}>}
+     */
+    async submitRequestToQueue(url, options = {}) {
+        const requestId = this.generateRequestId();
+        const requestData = {
+            id: requestId,
+            url,
+            options,
+            responseQueue: this.responseQueueKey, // Use the consistent queue key
+            source: this.constructor.name,        // Add source for debugging
+            timestamp: Date.now()
+        };
 
-            let rawBody;
+        // Create promise and set up timeout as before
+        const responsePromise = new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                this.pendingRequests.delete(requestId);
+                reject(new Error(`Request timeout: ${requestId}`));
+            }, this.requestTimeout);
+
+            this.pendingRequests.set(requestId, {resolve, reject, timeout});
+        });
+
+        this.log(` * pushing to request_queue: ${url}`);
+        await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
+
+        return {
+            requestId,
+            promise: responsePromise
+        };
+    }
+
+    /**
+     * Sets up listen to the proper response queue
+     */
+    async listenForResponses() {
+        this.log(`Starting to listen for responses on queue: ${this.responseQueueKey}`);
+
+        const processNextResponse = async () => {
             try {
-                rawBody = await response.text();
-                if (response.status !== 200) console.log(" Response body:", rawBody);
-            } catch (e) {
-                console.log(" Error reading response body:", e.message);
-                return undefined;
-            }
+                const result = await this.blockingClient.brPop(this.responseQueueKey, this.popWait);
 
-            if (rawBody && response.ok) {
-                try {
-                    return JSON.parse(rawBody);
-                } catch (e) {
-                    console.log(" Error parsing JSON:", e.message);
-                    return undefined;
+                if (result) {
+                    const response = JSON.parse(result.element);
+                    const pending = this.pendingRequests.get(response.requestId);
+
+                    if (pending) {
+                        clearTimeout(pending.timeout);
+                        this.pendingRequests.delete(response.requestId);
+
+                        if (response.error) {
+                            pending.reject(new Error(response.error));
+                        } else {
+                            pending.resolve(response.data);
+                        }
+                        this.log(`Completed processing response for: ${response.requestId}`);
+                    }
                 }
+            } catch (error) {
+                this.log(`Error processing response: ${error.message}`);
             }
-            return undefined;
-        }
 
-        return response.json();
+            // Ensure we continue the loop
+            setImmediate(processNextResponse);
+        };
+
+        // Start the processing loop
+        processNextResponse().catch(error => {
+            this.log(`Fatal error in response processor: ${error.message}`);
+        });
+
+        this.log(`${this.constructor.name} response listener setup complete`);
+    }
+
+    /**
+     * Places a url on the queue and returns the response once received
+     * @param url
+     * @returns {JSON}
+     */
+    async fetchWithQueue(url, rateLimit, debug = false) {
+        try {
+            const {promise} = await this.submitRequestToQueue(url, {debug});
+            const response = await promise;
+
+            if (debug) {
+                console.log(" URL:", url);
+                console.log(" Response body:", response);
+            }
+
+            return response;
+        } catch (error) {
+            if (debug) {
+                console.log(" Error:", error.message);
+            }
+            throw error;
+        }
     }
 
 }

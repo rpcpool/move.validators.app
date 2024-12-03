@@ -20,7 +20,7 @@ class CreateStakeHistories < ActiveRecord::Migration[7.1]
     t.string :voting_power # Validator's voting power
 
     # Raw data for future reference
-    t.longtext :raw_data
+    t.json :raw_data
 
     t.datetime :blockchain_timestamp # Timestamp from the blockchain
     t.timestamps # Created/updated timestamps for our records

@@ -12,7 +12,7 @@ class StakeHistory extends BaseDaemon {
     async fetchValidatorStakePool(validatorAddr) {
         const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${validatorAddr}/resource/0x1::stake::StakePool`;
         try {
-            const response = await this.fetchWithDelay(url, this.rateLimit);
+            const response = await this.fetchWithQueue(url, this.rateLimit);
             // console.log("fetchValidatorStakePool:", response);
             return response.data;
         } catch (error) {
@@ -99,7 +99,7 @@ class StakeHistory extends BaseDaemon {
 
                 const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${validatorAddr}/events/${eventHandlePaths[eventType]}`;
 
-                const response = await this.fetchWithDelay(`${url}?start=${start}&limit=${limit}`, this.rateLimit);
+                const response = await this.fetchWithQueue(`${url}?start=${start}&limit=${limit}`, this.rateLimit);
                 this.log(`Fetched ${response.length} ${eventType} events for ${validatorAddr} starting at ${start}`);
 
                 if (response.length > 0) {
@@ -136,7 +136,7 @@ class StakeHistory extends BaseDaemon {
     async fetchActiveValidators() {
         const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/resource/0x1::stake::ValidatorSet`;
         try {
-            const response = await this.fetchWithDelay(url, this.rateLimit);
+            const response = await this.fetchWithQueue(url, this.rateLimit);
             return {
                 active: response.data.active_validators,
                 pending: response.data.pending_active

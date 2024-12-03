@@ -8,7 +8,7 @@ class CreateBlocks < ActiveRecord::Migration[7.1]
       t.bigint :first_version, null: false
       t.bigint :last_version, null: false
       t.string :validator_address, null: false
-      t.longtext :raw_data
+      t.json :raw_data
 
       t.timestamps
     end

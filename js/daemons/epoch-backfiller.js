@@ -13,7 +13,7 @@ class EpochBackfiller extends BaseDaemon {
     async fetchLedgerInfo() {
         const url = `https://api.${this.network}.aptoslabs.com/v1/`;
         try {
-            const ledgerInfo = await this.fetchWithDelay(url, this.rateLimit);
+            const ledgerInfo = await this.fetchWithQueue(url, this.rateLimit);
             return {
                 currentEpoch: parseInt(ledgerInfo.epoch),
                 currentHeight: parseInt(ledgerInfo.block_height),
@@ -55,7 +55,7 @@ class EpochBackfiller extends BaseDaemon {
                 this.log(`\nAttempt ${attempts} of ${MAX_ATTEMPTS}`);
 
                 const blockEventUrl = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::block::BlockResource/new_block_events?start=${startSequence}&limit=${LIMIT}`;
-                const events = await this.fetchWithDelay(blockEventUrl, this.rateLimit);
+                const events = await this.fetchWithQueue(blockEventUrl, this.rateLimit);
 
                 if (events.length === 0) {
                     this.log("No events found.");
@@ -176,7 +176,7 @@ class EpochBackfiller extends BaseDaemon {
         for (let blockHeight = startHeight; blockHeight <= endHeight; blockHeight++) {
             try {
                 const blockUrl = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_height/${blockHeight}?with_transactions=true`;
-                const block = await this.fetchWithDelay(blockUrl, this.rateLimit);
+                const block = await this.fetchWithQueue(blockUrl, this.rateLimit);
 
                 const blockMetadataTransaction = block.transactions?.find(tx =>
                     tx.type === 'block_metadata_transaction'

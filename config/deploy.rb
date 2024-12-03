@@ -31,6 +31,7 @@ credentials = YAML.safe_load(credentials_output) #.with_indifferent_access
 set :redis_full_url, credentials["redis"]["full_url"]
 
 set(:systemd_service_names, %w[
+  request-processor
   block-proposals
   block-update-fetch
   coin-gecko-prices

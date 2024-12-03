@@ -52,7 +52,7 @@ class StakeHistoryJob
           operator_address: event["data"]["pool_address"],
           status: status,
           event_guid: "#{event["guid"]["creation_number"]}_#{event["guid"]["account_address"]}",
-          raw_data: event.to_json,
+          # raw_data: event.to_json,
           blockchain_timestamp: Time.current,
           voting_power: validator.voting_power.presence || "0"
         )
