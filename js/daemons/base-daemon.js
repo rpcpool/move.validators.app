@@ -14,7 +14,7 @@ class BaseDaemon {
         this.pendingRequests = new Map();
         this.responseQueueKey = `response_queue:${this.constructor.name}`;
         this.requestTimeout = 30000; // 30 seconds timeout
-        this.popWait = 5; // seconds to wait for timeout
+        this.popWait = 15; // seconds to wait for timeout
     }
 
     /**
