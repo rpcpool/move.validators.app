@@ -15,6 +15,8 @@ class ValidatorPerformance extends BaseDaemon {
             const json = await this.fetchWithQueue(url, this.rateLimit);
             const lastCompleted = json.data.last_completed.vec[0];
 
+            this.log(`fetchLastEpochAndValidators: ${lastCompleted}`);
+
             return {
                 lastEpoch: lastCompleted.metadata.dealer_epoch,
                 validators: lastCompleted.metadata.dealer_validator_set
@@ -28,6 +30,14 @@ class ValidatorPerformance extends BaseDaemon {
     async fetchLastEpochPerformance() {
         try {
             const {lastEpoch, validators} = await this.fetchLastEpochAndValidators();
+            if (lastEpoch === null) {
+                this.log(`Error: fetchLastEpochPerformance was null, cannot continue with performance.`);
+                return {
+                    epoch: null,
+                    validators: [],
+                    performance: []
+                };
+            }
             const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/resources?ledger_version=${lastEpoch}`;
 
             const resources = await this.fetchWithQueue(url, this.rateLimit);
