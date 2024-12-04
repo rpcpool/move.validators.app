@@ -2,7 +2,9 @@ class EpochJob
   include Sidekiq::Job
 
   def perform(epoch_data)
-    puts "Received epoch data: #{epoch_data}"
+    puts ""
+    puts "> Received epoch data: #{epoch_data}"
+    puts ""
 
     # {"chain_id"=>2, "epoch"=>"19702", "ledger_version"=>"6297808749", "oldest_ledger_version"=>"0", "ledger_timestamp"=>"1732135228936948", "node_role"=>"full_node", "oldest_block_height"=>"0", "block_height"=>"397930556", "git_hash"=>"a0ec6ba11bfe4cfc5b586edc9e227aba4909e8fe", "recorded_at"=>"2024-11-20T20:40:29.384Z"}
 

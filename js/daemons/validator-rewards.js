@@ -47,20 +47,21 @@ class ValidatorRewards extends BaseDaemon {
                 url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${validator.addr}/events/0x1::stake::StakePool/distribute_rewards_events`;
                 const json = await this.fetchWithQueue(url, this.rateLimit);
 
-                validator.rewards = json.map((event) => {
+                validator.rewards = json.map(async (event) => {
                     return {
                         version: event.version,
                         sequence: event.sequence_number,
-                        amount: event.data.rewards_amount
+                        amount: event.data.rewards_amount,
+                        version_info: await this.fetchVersionData(event.version)
                     }
                 });
 
                 // Fetch version data for each of the rewards
-                if (validator.rewards.length > 0) {
-                    for (let reward of validator.rewards) {
-                        reward.version_info = await this.fetchVersionData(reward.version);
-                    }
-                }
+                // if (validator.rewards.length > 0) {
+                //     for (let reward of validator.rewards) {
+                //         reward.version_info = await this.fetchVersionData(reward.version);
+                //     }
+                // }
 
                 validators[validator.addr] = validator;
                 this.log(`Rewards updated and enqueued for: ${validator.addr}`);
