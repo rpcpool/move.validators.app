@@ -12,42 +12,20 @@ class ValidatorVotes extends BaseDaemon {
     async fetchActiveValidators() {
         this.log(' fetchActiveValidators..');
         try {
-            const resources = await this.aptos.account.getAccountResources({
-                accountAddress: "0x1",
-            });
-            // this.log(`resources: ${JSON.stringify(resources.length)}`);
+            const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/resources`;
+            const resources = await this.fetchWithQueue(url, this.rateLimit);
 
-            const validatorSetResource = resources.find(
-                (resource) => resource.type === "0x1::stake::ValidatorSet",
-            );
+            const validatorSet = resources.find(r => r.type === "0x1::stake::ValidatorSet");
 
-            // this.log(`validatorSetResource: ${JSON.stringify(validatorSetResource)}`);
-
-            if (validatorSetResource) {
-                const validators = validatorSetResource.data.active_validators;
-                return validators.map(v => v.addr);
+            if (!validatorSet) {
+                this.log('No ValidatorSet resources..');
+                return [];
             }
-            this.log('No ValidatorSet resources..');
-            return [];
+
+            return validatorSet.data.active_validators.map(v => v.addr);
 
         } catch (error) {
-            this.log(`Error fetching active validators on ${this.aptos.config.network}: ${error.message}`);
-            return [];
-        }
-    }
-
-    async fetchProposals() {
-        try {
-            // Get governance proposals
-            const governance = await this.aptos.account.getAccountResource(
-                "0x1",
-                "0x1::aptos_governance::GovernanceResponsibility"
-            );
-
-            const proposals = governance.data.proposals || [];
-            return proposals.filter(p => parseInt(p.proposal_id) > this.lastProcessedProposal);
-        } catch (error) {
-            this.log(`Error fetching proposals: ${error.message}`);
+            this.log(`Error fetching active validators on ${this.network}: ${error.message}`);
             return [];
         }
     }
@@ -55,7 +33,7 @@ class ValidatorVotes extends BaseDaemon {
     async fetchRecentProposals(activeAddresses) {
         try {
             // Get all proposal events from the framework account
-            const url = `https://api.${this.aptos.config.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::aptos_governance::GovernanceEvents/vote_events`;
+            const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::aptos_governance::GovernanceEvents/vote_events`;
             const votes = await this.fetchWithQueue(url, this.rateLimit);
 
             // Filter for votes from our active validators
@@ -83,7 +61,7 @@ class ValidatorVotes extends BaseDaemon {
             const limit = 100;
 
             while (true) {
-                const url = `https://api.${this.aptos.config.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::aptos_governance::GovernanceEvents/vote_events?start=${start}&limit=${limit}`;
+                const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/events/0x1::aptos_governance::GovernanceEvents/vote_events?start=${start}&limit=${limit}`;
                 const events = await this.fetchWithQueue(url, this.rateLimit);
 
                 if (events.length === 0) break;

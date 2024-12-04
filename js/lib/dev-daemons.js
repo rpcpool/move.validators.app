@@ -42,7 +42,6 @@ class DevDaemons {
             const requestProcessor = await RequestProcessor.create(redisClient);
             this.services.push(requestProcessor);
 
-
             // Set up each daemon here for management
             // Each daemon is run via a local systemd service, so they need to be able to start themselves based on
             // instantiation.

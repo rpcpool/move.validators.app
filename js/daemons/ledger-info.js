@@ -13,9 +13,9 @@ class LedgerInfo extends BaseDaemon {
         const url = `https://api.${this.network}.aptoslabs.com/v1/`;
         try {
             const json = await this.fetchWithQueue(url, this.rateLimit);
-            console.log("");
-            this.log(`fetchLedgerInfo: ${JSON.stringify(json)}`);
-            console.log("");
+            // console.log("");
+            // this.log(`fetchLedgerInfo: ${JSON.stringify(json)}`);
+            // console.log("");
 
             return {
                 chain_id: parseInt(json.chain_id),
