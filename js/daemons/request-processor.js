@@ -12,6 +12,7 @@ class RequestProcessor extends BaseDaemon {
         let lastProcessTime = 0;  // Track last request time
 
         const processNextRequest = async () => {
+            let url;
             try {
                 // Calculate time since last request
                 const now = Date.now();
@@ -27,8 +28,9 @@ class RequestProcessor extends BaseDaemon {
                     lastProcessTime = Date.now();  // Update last request time
                     const {element} = result;
                     const requestData = JSON.parse(element);
+                    url = requestData.url;
 
-                    this.log(`RequestProcessor making fetch for url ${requestData.url}`);
+                    this.log(`RequestProcessor making fetch for url ${url}`);
 
                     const response = await fetch(requestData.url);
                     const responseBody = await response.text();
@@ -42,7 +44,7 @@ class RequestProcessor extends BaseDaemon {
                     }));
                 }
             } catch (error) {
-                this.log(`Error processing request: ${error.message}`);
+                this.log(`Error processing request: ${error.message} (url: ${url ? url : ''})`);
             }
 
             if (this.running) {
