@@ -80,3 +80,8 @@ input:focus, select:focus {
 .w-42 {
     width: 10.5rem;
 }
+
+.chart-tooltip {
+    width: 200px;
+    word-wrap: break-word;
+}

@@ -54,8 +54,8 @@ export default class extends Controller {
             isDarkMode
         );
 
-        const lastEpochBlocks = this.getChildValue(this.lastEpochBlocksTarget, "last-epoch-blocks");
-        const lastEpochValue = parseFloat(lastEpochBlocks) || 0;
+        const lastEpochPercent = this.getChildValue(this.lastEpochBlocksTarget, "last-epoch-blocks-percent");
+        const lastEpochValue = parseFloat(lastEpochPercent) || 0;
         this.renderDonutChart(
             this.lastEpochBlocksTarget,
             "Last Epoch Performance",
@@ -123,7 +123,34 @@ export default class extends Controller {
             options: {
                 responsive: false, // Disable auto-resizing
                 maintainAspectRatio: true, // Keep aspect ratio
-                plugins: {legend: {display: false}},
+                plugins: {
+                    legend: {display: false},
+                    tooltip: target === this.lastEpochBlocksTarget ? {
+                        // Special tooltip for Last Epoch Performance
+                        enabled: true,
+                        displayColors: true,
+                        callbacks: {
+                            label: (context) => {
+                                if (context.dataIndex === 0) {
+                                    return this.getChildValue(target, "last-epoch-blocks");
+                                }
+                                return null;
+                            }
+                        }
+                    } : {
+                        // Default tooltip for other charts
+                        enabled: true,
+                        displayColors: true,
+                        callbacks: {
+                            label: (context) => {
+                                if (context.dataIndex === 0) {
+                                    return `${context.raw}`;
+                                }
+                                return null;
+                            }
+                        }
+                    }
+                },
             },
         });
 
