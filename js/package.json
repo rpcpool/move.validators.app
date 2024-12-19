@@ -6,7 +6,9 @@
     "test": "node lib/test/run-tests.js",
     "dev-daemons": "nodemon --watch daemons --watch lib --watch queue --ignore lib/test --ignore test lib/dev-daemons.js",
     "monitor": "node daemons/cli/queue-monitor.js",
-    "test-queue": "node daemons/cli/test-queue.js"
+    "test-queue": "node daemons/cli/test-queue.js",
+    "redis-clear-queue": "node scripts/redis-clear-queue.js",
+    "redis-check-memory": "node scripts/redis-check-memory.js"
   },
   "dependencies": {
     "@aptos-labs/aptos-cli": "^1.0.2",
