@@ -12,26 +12,58 @@ class BlockUpdateFetch extends BaseDaemon {
     async fetchBlockForVersion(version) {
         const url = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_version/${version}?with_transactions=true`;
         try {
+            this.log(`Fetching block for version ${version}`);
             const block = await this.fetchWithQueue(url, this.rateLimit);
 
+            if (!block || !block.transactions) {
+                this.log(`Invalid block data received for version ${version}`);
+                return null;
+            }
+
             // Find block_metadata_transaction to get epoch
-            const blockMetadataTransaction = block.transactions?.find(
+            const blockMetadataTransaction = block.transactions.find(
                 tx => tx.type === 'block_metadata_transaction'
             );
 
-            return {
+            if (!blockMetadataTransaction || !blockMetadataTransaction.epoch) {
+                this.log(`No valid block metadata transaction found for version ${version}`);
+                return null;
+            }
+
+            const blockData = {
                 block_height: block.block_height,
                 block_hash: block.block_hash,
                 block_timestamp: block.block_timestamp,
                 first_version: block.first_version,
                 last_version: block.last_version,
-                epoch: blockMetadataTransaction?.epoch,
-                validator_address: blockMetadataTransaction?.proposer,
+                epoch: blockMetadataTransaction.epoch,
+                validator_address: blockMetadataTransaction.proposer,
                 raw_data: JSON.stringify(block)
             };
+
+            // Validate required fields
+            const requiredFields = ['block_height', 'block_hash', 'block_timestamp', 'first_version', 'last_version', 'epoch'];
+            const missingFields = requiredFields.filter(field => !blockData[field]);
+            
+            if (missingFields.length > 0) {
+                this.log(`Missing required fields for version ${version}: ${missingFields.join(', ')}`);
+                return null;
+            }
+
+            this.log(`Successfully parsed block data for version ${version} with epoch ${blockData.epoch}`);
+            return blockData;
         } catch (error) {
-            this.log(`Error fetching block for version ${version}: ${error.message}`);
-            this.log(` url: ${url}`);
+            if (error.status === 429) {
+                this.log(`Rate limited while fetching block for version ${version}`);
+                // Add delay before retrying on rate limit
+                await this.sleep(1000);
+            } else {
+                this.log(`Error fetching block for version ${version}: ${error.message}`);
+                this.log(` url: ${url}`);
+                if (error.status) {
+                    this.log(` status: ${error.status}`);
+                }
+            }
             return null;
         }
     }
@@ -47,14 +79,15 @@ class BlockUpdateFetch extends BaseDaemon {
                 if (blockData && blockData.epoch) {
                     if (data.stake_history_id) {
                         const stakeHistoryId = data.stake_history_id;
-                        this.log(`BlockFetchRequest dispatching StakeHistoryUpdateJob for stake history id ${stakeHistoryId} and epoch ${blockData.epoch}`);
                         await this.jobDispatcher.enqueue("StakeHistoryUpdateJob", {
                             stake_history_id: stakeHistoryId,
-                            epoch: blockData.epoch
+                            epoch: blockData.epoch,
+                            block: blockData // Pass full block data to update block record
                         });
+                        this.log(`Enqueued StakeHistoryUpdateJob for stake history ${stakeHistoryId} with epoch ${blockData.epoch}`);
                     }
                 } else {
-                    this.log(`Error: block data epoch is missing: ${JSON.stringify(blockData)}`);
+                    this.log(`Failed to get valid block data for version ${version}`);
                 }
             });
 

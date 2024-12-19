@@ -92,13 +92,23 @@ class JobDispatcher {
                 }
             } catch (error) {
                 this.log(`Error processing ${jobName} message: ${error}`);
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Wait on error
             }
-            // Schedule next check
-            setImmediate(processNextMessage);
+
+            // Continue processing without delay if connected
+            if (this.redisClient.isReady) {
+                setImmediate(processNextMessage);
+            } else {
+                // Wait before retry if disconnected
+                setTimeout(processNextMessage, 1000);
+            }
         };
 
         // Start the message processing loop
-        processNextMessage().then();
+        processNextMessage().catch(error => {
+            this.log(`Fatal error in message processor: ${error}`);
+            setTimeout(() => this.listen(jobName, callback), 1000);
+        });
     }
 
     async unsubscribe(jobName) {

@@ -48,11 +48,6 @@ class DevDaemons {
 
             // Start daemons with staggered delays to prevent API rate limit issues
 
-            // RequestProcessor - starts immediately (no API calls)
-            // const requestProcessor = await this.createDaemonWithDelay(RequestProcessor, redisClient, 0);
-            // this.services.push(requestProcessor);
-
-
             // RequestManager - starts immediately (no API calls)
             const requestManager = await RequestManager.create(redisClient);
             this.services.push(requestManager);
@@ -93,14 +88,14 @@ class DevDaemons {
             const epochHistory = await EpochHistory.create(redisClient);
             this.services.push(epochHistory);
 
+            // BlockUpdateFetch
+            const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
+            this.services.push(blockUpdateFetch);
+
             // Commented out services
             // Transactions
             // const transactions = await Transactions.create(redisClient);
             // this.services.push(transactions);
-
-            // BlockUpdateFetch
-            // const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
-            // this.services.push(blockUpdateFetch);
 
         } catch (err) {
             console.error(new Date(), padClassName('DevDaemons'), 'Failed to start correctly:', err);

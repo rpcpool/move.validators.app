@@ -11,13 +11,15 @@ class RequestManager {
         this.running = false;
         this.maxRequestsPerInterval = 4000; // 4000 requests per 5 minutes
         this.intervalMs = 300000; // 5 minutes in milliseconds
-        this.requestInterval = 75; // 75ms between requests
+        this.requestInterval = 125; // 125ms between requests (8 RPS target)
+        this.maxRPS = 8; // Maximum requests per second to stay under Aptos rate limits
+        this.rpsWindow = 1000; // 1 second window for RPS calculation
 
         // Request tracking
-        this.requestQueue = [];
-        this.activeRequests = new Map();
-        this.requestHistory = new Map(); // For deduplication
+        this.activeRequests = new Map(); // For tracking timeouts
+        this.requestHistory = new Map(); // For 30-second deduplication
         this.requestTiming = []; // For rate limiting
+        this.rpsTimestamps = []; // For RPS tracking
 
         // Monitoring stats
         this.stats = {
@@ -25,11 +27,16 @@ class RequestManager {
             successfulRequests: 0,
             failedRequests: 0,
             duplicateRequests: 0,
-            currentQueueSize: 0,
             averageResponseTime: 0,
             totalResponseTime: 0,
+            errorRate: 0,
+            rateLimitHits: 0,
+            currentRPS: 0,
             lastUpdated: Date.now()
         };
+
+        // Reset stats from Redis if available
+        this.loadStats();
 
         // Initialize logger
         this.logger = new FileLog({
@@ -49,6 +56,23 @@ class RequestManager {
     }
 
     /**
+     * Load stats from Redis if available
+     */
+    async loadStats() {
+        try {
+            const monitoringInfo = await this.redisClient.get('request_manager:monitoring');
+            if (monitoringInfo) {
+                const info = JSON.parse(monitoringInfo);
+                if (info.stats) {
+                    this.stats = info.stats;
+                }
+            }
+        } catch (error) {
+            this.log(`Error loading stats: ${error.message}`);
+        }
+    }
+
+    /**
      * Start periodic monitoring updates to Redis
      */
     startMonitoringUpdates() {
@@ -61,36 +85,57 @@ class RequestManager {
      * Update monitoring info in Redis
      */
     async updateMonitoringInfo() {
-        const monitoringInfo = {
-            stats: this.stats,
-            activeRequests: Array.from(this.activeRequests.values()).map(req => ({
-                url: req.url,
-                timestamp: req.timestamp,
-                caller: req.caller,
-                elapsedMs: Date.now() - req.timestamp
-            })),
-            queueSize: this.requestQueue.length,
-            currentRate: this.requestTiming.length,
-            maxRate: this.maxRequestsPerInterval,
-            lastUpdated: Date.now()
-        };
-
         try {
-            await this.redisClient.set(
-                'request_manager:monitoring',
-                JSON.stringify(monitoringInfo)
-            );
+            // Calculate current RPS
+            const now = Date.now();
+            this.rpsTimestamps = this.rpsTimestamps.filter(time => now - time < this.rpsWindow);
+            this.stats.currentRPS = this.rpsTimestamps.length;
+
+            const monitoringInfo = {
+                stats: this.stats,
+                lastUpdated: now
+            };
+            await this.redisClient.set('request_manager:monitoring', JSON.stringify(monitoringInfo));
         } catch (error) {
-            this.log(`Error updating monitoring info: ${error.message}`);
+            // Silently fail monitoring updates
         }
+    }
+
+    /**
+     * Check if we're within RPS limits
+     */
+    checkRPSLimit() {
+        const now = Date.now();
+        this.rpsTimestamps = this.rpsTimestamps.filter(time => now - time < this.rpsWindow);
+        return this.rpsTimestamps.length < this.maxRPS;
     }
 
     /**
      * Submit a new request to be processed
      */
     async submitRequest(url, options = {}) {
+        // Check RPS limit first
+        if (!this.checkRPSLimit()) {
+            this.stats.rateLimitHits++;
+            throw new Error(`RPS limit exceeded: ${this.maxRPS} requests per second`);
+        }
+
+        // Update request timing array for 5-minute window
+        const now = Date.now();
+        this.requestTiming = this.requestTiming.filter(time => now - time < this.intervalMs);
+        
+        // Check 5-minute rate limit
+        if (this.requestTiming.length >= this.maxRequestsPerInterval) {
+            this.stats.rateLimitHits++;
+            throw new Error(`Rate limit exceeded: ${this.maxRequestsPerInterval} requests per ${this.intervalMs/1000} seconds`);
+        }
+        
+        // Add current request timestamp to both tracking arrays
+        this.requestTiming.push(now);
+        this.rpsTimestamps.push(now);
+
         const requestId = this.generateRequestId();
-        const timestamp = Date.now();
+        const timestamp = now;
         const caller = options.source || 'unknown';
         const responseQueue = `response_queue:${caller}`;
 
@@ -98,7 +143,6 @@ class RequestManager {
         const existingRequest = this.findDuplicateRequest(url);
         if (existingRequest) {
             this.stats.duplicateRequests++;
-            this.log(`Duplicate request detected for ${url} from ${caller}`);
             return existingRequest.promise;
         }
 
@@ -124,16 +168,12 @@ class RequestManager {
         };
 
         // Add to tracking
-        this.requestQueue.push(request);
         this.activeRequests.set(requestId, request);
         this.requestHistory.set(url, {
             promise: requestPromise,
             timestamp,
             caller
         });
-
-        this.stats.totalRequests++;
-        this.stats.currentQueueSize = this.requestQueue.length;
 
         // Push request to Redis queue for processing
         const requestData = {
@@ -144,8 +184,12 @@ class RequestManager {
             responseQueue
         };
 
-        await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
-        this.log(`Request queued: ${url} from ${caller}`);
+        try {
+            await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
+        } catch (error) {
+            this.log(`Redis error queueing request: ${error.message}`);
+            throw new Error(`Failed to queue request: ${error.message}`);
+        }
 
         return requestPromise;
     }
@@ -159,93 +203,95 @@ class RequestManager {
         const processNextRequest = async () => {
             try {
                 const result = await this.blockingClient.brPop('request_queue', 5);
-                if (result) {
-                    const {element} = result;
-                    const requestData = JSON.parse(element);
-                    const url = requestData.url;
+                
+                // Always schedule next check regardless of result
+                setImmediate(processNextRequest);
+                
+                if (!result) {
+                    return;
+                }
 
-                    this.log(`Processing request from ${requestData.source}: ${url}`);
+                const {element} = result;
+                let requestData;
+                try {
+                    requestData = JSON.parse(element);
+                    this.stats.totalRequests++;
+                    if (!requestData || !requestData.url || !requestData.id || !requestData.responseQueue) {
+                        throw new Error('Invalid request data format');
+                    }
+                } catch (error) {
+                    this.log(`Failed to parse request data: ${error.message}`);
+                    return;
+                }
 
+                const url = requestData.url;
+                const startTime = Date.now();
+                this.log(`[PROCESSING] ${requestData.url} (${requestData.id})`);
+
+                // Add delay between API requests
+                await new Promise(resolve => setTimeout(resolve, this.requestInterval));
+
+                // Make request with timeout
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 15000);
+
+                try {
                     const response = await fetch(requestData.url, {
                         ...requestData.options,
                         headers: {
                             'Accept': 'application/json',
                             ...(requestData.options?.headers || {})
-                        }
+                        },
+                        signal: controller.signal
                     });
 
-                    // Handle 429 Too Many Requests - fail fast
-                    if (response.status === 429) {
-                        const error = new Error('Rate limit exceeded');
-                        this.log(`Rate limited on ${url}, dropping request`);
+                    clearTimeout(timeout);
 
-                        const errorResponse = {
+                    // Process response
+                    let responseData;
+                    if (response.ok) {
+                        const data = await response.json();
+                        responseData = {
                             requestId: requestData.id,
-                            error: error.message,
-                            status: 429
+                            status: response.status,
+                            data: data
                         };
-
-                        await this.redisClient.lPush(requestData.responseQueue, JSON.stringify(errorResponse));
-                        return;
-                    }
-
-                    // Handle non-200 responses
-                    if (!response.ok) {
-                        const error = new Error(`HTTP ${response.status}`);
-                        this.log(`Request failed: ${url} (status ${response.status})`);
-
-                        const errorResponse = {
+                        this.stats.successfulRequests++;
+                        this.log(`[SUCCESS] ${requestData.url} (${requestData.id})`);
+                    } else {
+                        responseData = {
                             requestId: requestData.id,
-                            error: error.message,
+                            error: `HTTP ${response.status}`,
                             status: response.status
                         };
-
-                        await this.redisClient.lPush(requestData.responseQueue, JSON.stringify(errorResponse));
-                        return;
+                        this.stats.failedRequests++;
+                        this.log(`[ERROR] ${requestData.url} (${requestData.id}) - ${response.status}`);
                     }
 
-                    // Process successful response
-                    const responseBody = await response.text();
-                    let data;
-                    try {
-                        data = responseBody ? JSON.parse(responseBody) : null;
-                    } catch (error) {
-                        this.log(`Failed to parse JSON response: ${error.message}`);
-                        const errorResponse = {
-                            requestId: requestData.id,
-                            error: 'Invalid JSON response',
-                            status: response.status
-                        };
-                        await this.redisClient.lPush(requestData.responseQueue, JSON.stringify(errorResponse));
-                        return;
-                    }
-
-                    const responseData = {
-                        requestId: requestData.id,
-                        status: response.status,
-                        data: data
-                    };
-
+                    // Send response
                     await this.redisClient.lPush(requestData.responseQueue, JSON.stringify(responseData));
-                    this.log(`Request completed: ${url} (status ${response.status})`);
+
+                } catch (error) {
+                    // Handle any errors (timeout, network, etc)
+                    const errorResponse = {
+                        requestId: requestData.id,
+                        error: error.message,
+                        status: error.name === 'AbortError' ? 408 : 500
+                    };
+                    this.stats.failedRequests++;
+                    this.log(`[ERROR] ${requestData.url} (${requestData.id}) - ${error.message}`);
+                    
+                    try {
+                        await this.redisClient.lPush(requestData.responseQueue, JSON.stringify(errorResponse));
+                    } catch (e) {
+                        this.log(`Redis error sending error response: ${e.message}`);
+                    }
+                } finally {
+                    clearTimeout(timeout);
+                    this.cleanupRequest(requestData.id);
                 }
             } catch (error) {
                 this.log(`Error processing request: ${error.message}`);
-
-                // Ensure we send an error response back to the queue
-                if (requestData && requestData.responseQueue) {
-                    try {
-                        const errorResponse = {
-                            requestId: requestData.id,
-                            status: 500,
-                            error: error.message
-                        };
-
-                        await this.redisClient.lPush(requestData.responseQueue, JSON.stringify(errorResponse));
-                    } catch (e) {
-                        this.log(`Failed to push error response to queue: ${e.message}`);
-                    }
-                }
             }
 
             if (this.running) {
@@ -253,9 +299,11 @@ class RequestManager {
             }
         };
 
-        // Start the processing loop
+        // Start the processing loop and exit on fatal error
         processNextRequest().catch(error => {
             this.log(`Fatal error in request processor: ${error.message}`);
+            this.stop();
+            process.exit(1); // Exit on fatal error to allow systemd to restart
         });
     }
 
@@ -266,10 +314,11 @@ class RequestManager {
         const request = this.activeRequests.get(requestId);
         if (request) {
             const error = new Error(`Request timeout after 30000ms`);
-            this.stats.failedRequests++;
-            request.reject(error);
+                    this.stats.failedRequests++;
+                    this.stats.errorRate = this.stats.failedRequests / this.stats.totalRequests;
+                    request.reject(error);
             this.cleanupRequest(requestId);
-            this.log(`Request timeout for ${request.url}`);
+            this.log(`[TIMEOUT] ${request.url} (${requestId})`);
         }
     }
 
@@ -281,16 +330,27 @@ class RequestManager {
         if (request) {
             clearTimeout(request.timeout);
             this.activeRequests.delete(requestId);
-            this.requestHistory.delete(request.url);
+            // Don't remove from request history - let it expire naturally
+            // this.requestHistory.delete(request.url);
         }
     }
 
     /**
-     * Find a duplicate request if one exists
+     * Find a duplicate request if one exists and prune old requests
      */
     findDuplicateRequest(url) {
+        const now = Date.now();
+        
+        // Prune old requests first
+        for (const [storedUrl, request] of this.requestHistory.entries()) {
+            if (now - request.timestamp >= 30000) {
+                this.requestHistory.delete(storedUrl);
+            }
+        }
+
+        // Check for duplicate
         const existing = this.requestHistory.get(url);
-        if (existing && (Date.now() - existing.timestamp) < 30000) {
+        if (existing && (now - existing.timestamp) < 30000) {
             return existing;
         }
         return null;
@@ -307,7 +367,17 @@ class RequestManager {
      * Helper method to log messages
      */
     log(message) {
-        console.log(new Date().toISOString(), padClassName('RequestManager'), message);
+        const timestamp = new Date().toISOString();
+        // Format message to highlight URLs
+        const formattedMessage = message.includes('http') 
+            ? message.replace(/(https?:\/\/[^\s)]+)/g, '\x1b[36m$1\x1b[0m') // Cyan color for URLs
+            : message;
+            
+        const logMessage = `${timestamp} ${padClassName('RequestManager')} ${formattedMessage}`;
+        console.log(logMessage);
+        
+        // Publish log to Redis
+        this.redisClient.publish('request_manager:logs', logMessage).catch(() => {});
     }
 
     /**
@@ -317,7 +387,9 @@ class RequestManager {
         this.running = true;
         this.log('Request manager started');
         this.startMonitoringUpdates();
-        await this.run();
+        this.run().catch(error => {
+            this.log(`Fatal error in request processor: ${error.message}`);
+        });
     }
 
     /**

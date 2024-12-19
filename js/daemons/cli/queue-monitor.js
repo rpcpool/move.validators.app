@@ -4,6 +4,7 @@ require('dotenv').config();
 const blessed = require('blessed');
 const Redis = require('redis');
 const {snakeCase} = require('case-anything');
+const updateMs = 250; // Update every 500ms for smoother RPS calculation
 
 // Create blessed screen
 const screen = blessed.screen({
@@ -92,98 +93,83 @@ screen.append(queueBox);
 screen.append(debugBox);
 
 // Quit on Escape, q, or Control-C
-screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+screen.key(['escape', 'q', 'C-c'], function (ch, key) {
     return process.exit(0);
 });
 
 // Enable scrolling for all boxes
-screen.key(['pageup'], function() {
+screen.key(['pageup'], function () {
     debugBox.scroll(-debugBox.height || -1);
     screen.render();
 });
 
-screen.key(['pagedown'], function() {
+screen.key(['pagedown'], function () {
     debugBox.scroll(debugBox.height || 1);
     screen.render();
 });
 
 // Keep track of debug lines
-const maxDebugLines = 1000;
+const maxDebugLines = 100;
 let debugLines = [];
 
 function debug(message) {
-    const timestamp = new Date().toISOString();
-    const line = `${timestamp} ${message}`;
-    
-    // Add to our lines array
-    debugLines.push(line);
-    
-    // Keep only the last maxDebugLines
-    if (debugLines.length > maxDebugLines) {
-        debugLines = debugLines.slice(-maxDebugLines);
+    // Only show processing and success messages
+    if (message.includes('[PROCESSING]') || message.includes('[SUCCESS]')) {
+        // Extract timestamp and format message
+        const timestamp = message.slice(0, 24); // Keep only the first timestamp
+        const urlMatch = message.match(/\[(PROCESSING|SUCCESS)\] (.*?) \(/);
+        if (urlMatch) {
+            const status = urlMatch[1];
+            const url = urlMatch[2];
+            const formattedMessage = `${timestamp} [${status}] ${url}`;
+            debugLines.push(formattedMessage);
+
+            // Keep only the last maxDebugLines
+            if (debugLines.length > maxDebugLines) {
+                debugLines = debugLines.slice(-maxDebugLines);
+            }
+
+            // Update content and scroll to bottom
+            debugBox.setContent(debugLines.join('\n'));
+            debugBox.setScrollPerc(100);
+            screen.render();
+        }
     }
-    
-    // Update content and scroll to bottom
-    debugBox.setContent(debugLines.join('\n'));
-    debugBox.setScrollPerc(100);
-    screen.render();
 }
+
+let lastTotalRequests = null;
+let lastStatsTime = null;
 
 async function updateRequestManagerDisplay(redis) {
     try {
-        // Get monitoring info
-        const monitoringInfo = await redis.get('request_manager:monitoring');
-        debug(`Raw monitoring info: ${monitoringInfo}`);
-        
-        let data = {
-            stats: {
-                totalRequests: 0,
-                successfulRequests: 0,
-                failedRequests: 0,
-                duplicateRequests: 0,
-                currentQueueSize: 0,
-                averageResponseTime: 0,
-                totalResponseTime: 0,
-                lastUpdated: Date.now()
-            },
-            activeRequests: [],
-            queueSize: 0,
-            currentRate: 0,
-            maxRate: 0,
-            lastUpdated: Date.now()
-        };
-
-        if (monitoringInfo) {
-            try {
-                data = JSON.parse(monitoringInfo);
-                debug(`Parsed monitoring info - Queue size: ${data.queueSize}, Active requests: ${data.activeRequests.length}`);
-            } catch (e) {
-                debug(`Error parsing monitoring info: ${e.message}`);
-            }
-        }
+        // Get queue size and monitoring info
+        const [queueSize, monitoringInfo] = await Promise.all([
+            redis.lLen('request_queue'),
+            redis.get('request_manager:monitoring')
+        ]);
 
         let content = '';
 
-        // Display queue status
-        content += `Request Queue Status:\n`;
-        content += `Current Size: ${data.queueSize}\n`;
-        content += `Rate Limit Status: ${data.currentRate}/${data.maxRate} requests\n`;
-        content += `Last Update: ${new Date(data.lastUpdated).toLocaleTimeString()}\n\n`;
+        if (monitoringInfo) {
+            const info = JSON.parse(monitoringInfo);
+            if (info.stats) {
+                const rps = info.stats.currentRPS || 0;
+                const rateLimitHits = info.stats.rateLimitHits || 0;
 
-        // Display stats
-        content += `Request Statistics:\n`;
-        content += `Total Requests: ${data.stats.totalRequests}\n`;
-        content += `Successful: ${data.stats.successfulRequests}\n`;
-        content += `Failed: ${data.stats.failedRequests}\n`;
-        content += `Duplicates: ${data.stats.duplicateRequests}\n`;
-        content += `Avg Response Time: ${Math.round(data.stats.averageResponseTime)}ms\n\n`;
+                // Color code RPS based on limit (8 RPS)
+                let rpsColor;
+                if (rps === 0) rpsColor = '\x1b[90m'; // Gray for idle
+                else if (rps <= 5) rpsColor = '\x1b[32m'; // Green for normal
+                else if (rps <= 7) rpsColor = '\x1b[33m'; // Yellow for warning
+                else rpsColor = '\x1b[31m'; // Red for at/over limit
 
-        // Display active requests
-        content += `Active Requests (${data.activeRequests.length}):\n`;
-        data.activeRequests.forEach(req => {
-            content += `[${req.caller}] ${req.url} (${req.elapsedMs}ms)\n`;
-        });
-
+                content += `${rpsColor}${rps} req/s\x1b[0m`.padEnd(20) + `Queue: ${queueSize || 0}\n`;
+                content += `Rate Limit Hits: ${rateLimitHits}\n\n`;
+                content += `Success: ${info.stats.successfulRequests || 0}`.padEnd(20);
+                content += `Failed: ${info.stats.failedRequests || 0}\n`;
+                content += `Total: ${info.stats.totalRequests || 0}`;
+            }
+        }
         requestBox.setContent(content);
     } catch (error) {
         debug(`Error updating request manager display: ${error.message}`);
@@ -195,20 +181,24 @@ async function updateQueueDisplay(redis) {
     try {
         // First get all queue keys directly
         const keys = await redis.keys('queue:*');
-        debug(`Found queue keys: ${keys.join(', ')}`);
-        
+        // Skip debug log for queue keys
+
         let content = '';
-        
-        for (const queueKey of keys) {
+
+        // Sort keys to keep queue order consistent
+        const sortedKeys = keys.sort();
+
+        for (const queueKey of sortedKeys) {
             const length = await redis.lLen(queueKey);
             const queueName = queueKey.replace('queue:', '');
-            debug(`Queue ${queueName} length: ${length}`);
-            
+            // Skip debug log for queue length
+
             // Get all jobs in queue
             const jobs = await redis.lRange(queueKey, 0, -1);
-            
-            content += `\nQueue ${queueName} (${length} jobs):\n`;
-            
+
+            // Add timestamp to queue header
+            content += `\nQueue ${queueName} (${length} jobs) - Last Updated: ${new Date().toLocaleTimeString()} (GMT: ${new Date().toISOString().slice(11, 19)})\n`;
+
             // Parse and display each job
             jobs.forEach((job, index) => {
                 try {
@@ -217,7 +207,7 @@ async function updateQueueDisplay(redis) {
                     content += `Class: ${parsed.class}\n`;
                     content += `JID: ${parsed.jid}\n`;
                     content += `Queue: ${parsed.queue}\n`;
-                    
+
                     // Special handling for ValidatorRewardsJob to show validator count
                     if (parsed.class === 'ValidatorRewardsJob' && parsed.args[0]) {
                         const validatorCount = Object.keys(parsed.args[0]).length;
@@ -225,20 +215,19 @@ async function updateQueueDisplay(redis) {
                     } else {
                         content += `Args: ${JSON.stringify(parsed.args, null, 2)}\n`;
                     }
-                    
+
                     content += '-'.repeat(50) + '\n';
                 } catch (e) {
                     content += `Error parsing job ${index + 1}: ${e.message}\n`;
-                    debug(`Error parsing job: ${e.message}`);
-                    debug(`Raw job data: ${job}`);
+                    // Skip debug logs for job parsing errors
                 }
             });
         }
-        
+
         if (!content) {
-            content = 'No queues found';
+            content = 'No jobs found';
         }
-        
+
         queueBox.setContent(content);
     } catch (error) {
         debug(`Error updating queue display: ${error.message}`);
@@ -259,23 +248,37 @@ async function main() {
         url: process.env.REDIS_URL
     });
 
+    // Create subscriber client for logs
+    const subscriber = redis.duplicate();
+
     try {
-        await redis.connect();
+        await Promise.all([
+            redis.connect(),
+            subscriber.connect()
+        ]);
         debug('Connected to Redis');
-        
+
+        // Subscribe to request manager logs
+        await subscriber.subscribe('request_manager:logs', (message) => {
+            debug(message);
+        });
+
         // Initial update
         await updateDisplay(redis);
-        
-        // Update every second
-        setInterval(() => updateDisplay(redis), 1000);
-        
+
+        // Update display frequently for accurate RPS
+        setInterval(() => updateDisplay(redis), updateMs);
+
     } catch (error) {
         debug(`Fatal error: ${error.message}`);
         process.exit(1);
     }
 
     process.on('SIGINT', async () => {
-        await redis.quit();
+        await Promise.all([
+            redis.quit(),
+            subscriber.quit()
+        ]);
         process.exit(0);
     });
 }

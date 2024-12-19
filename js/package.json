@@ -4,7 +4,7 @@
   "description": "This is the js portion of the move validators app.",
   "scripts": {
     "test": "node lib/test/run-tests.js",
-    "dev-daemons": "nodemon --watch daemons --watch lib --watch queue --ignore lib/test --ignore test lib/dev-daemons.js",
+    "dev-daemons": "nodemon --watch daemons --watch lib --watch queue --ignore lib/test --ignore test --ignore daemons/cli lib/dev-daemons.js",
     "monitor": "node daemons/cli/queue-monitor.js",
     "test-queue": "node daemons/cli/test-queue.js",
     "redis-clear-queue": "node scripts/redis-clear-queue.js",
@@ -18,6 +18,7 @@
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
     "geoip2-api": "^1.0.8",
+    "minimist": "^1.2.8",
     "pm2": "^5.4.3",
     "redis": "^4.7.0",
     "winston": "^3.17.0",

@@ -132,31 +132,49 @@ class BaseDaemon {
                     const pending = this.pendingRequests.get(response.requestId);
 
                     if (pending) {
+                        this.log(`[${response.requestId}] < Processing response`);
+
+                        // Clean up the pending request before processing to prevent memory leaks
                         this.pendingRequests.delete(response.requestId);
+                        clearTimeout(pending.timeout);
 
                         if (response.error) {
-                            pending.reject(new Error(response.error));
+                            const error = new Error(response.error);
+                            error.status = response.status;
+                            this.log(`[${response.requestId}] < Error response: ${response.error} (${response.status})`);
+                            pending.reject(error);
                         } else {
+                            this.log(`[${response.requestId}] < Success response (${response.status})`);
                             pending.resolve(response.data);
                         }
-                        // Log response with ID for easier correlation with request
-                        this.log(`[${response.requestId}] < completed processing response`);
+                    } else {
+                        this.log(`Warning: Received response for unknown request ${response.requestId}`);
                     }
                 }
             } catch (error) {
                 this.log(`Error processing response: ${error.message}`);
             }
 
-            // Ensure we continue the loop
-            setImmediate(processNextResponse);
+            // Ensure we continue the loop with error handling
+            if (this.running) {
+                setImmediate(() => {
+                    processNextResponse().catch(error => {
+                        this.log(`Error in response processor: ${error.message}`);
+                        // Add delay before retry on error
+                        setTimeout(processNextResponse, 1000);
+                    });
+                });
+            }
         };
 
         // Start the processing loop
+        this.running = true;
         processNextResponse().catch(error => {
             this.log(`Fatal error in response processor: ${error.message}`);
+            if (this.running) {
+                setTimeout(() => processNextResponse(), 1000);
+            }
         });
-
-        this.log(`${this.constructor.name} response listener setup complete`);
     }
 
     /**
@@ -166,6 +184,7 @@ class BaseDaemon {
      */
     async fetchWithQueue(url, debug = false) {
         const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const startTime = Date.now();
 
         let requestResolve, requestReject;
         const requestPromise = new Promise((resolve, reject) => {
@@ -173,10 +192,24 @@ class BaseDaemon {
             requestReject = reject;
         });
 
-        // Create request object for tracking
+        // Create request object for tracking with timeout
+        const timeoutMs = 30000; // 30 second timeout
+        const timeout = setTimeout(() => {
+            const pending = this.pendingRequests.get(requestId);
+            if (pending) {
+                this.pendingRequests.delete(requestId);
+                const error = new Error(`Request timeout after ${timeoutMs}ms`);
+                error.status = 408;
+                this.log(`[${requestId}] ! Request timeout for ${url}`);
+                requestReject(error);
+            }
+        }, timeoutMs);
+
         const request = {
             resolve: requestResolve,
-            reject: requestReject
+            reject: requestReject,
+            timeout: timeout,
+            startTime: startTime
         };
 
         // Add to pending requests
@@ -186,32 +219,41 @@ class BaseDaemon {
         const requestData = {
             id: requestId,
             url,
+            timestamp: startTime,
             source: this.constructor.name,
             options: {
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Connection': 'keep-alive'
                 },
+                keepalive: true,
                 ...debug ? {debug} : {}
             },
             responseQueue: this.responseQueueKey
         };
 
-        await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
-
-        if (debug) {
-            this.log(`URL: ${url}`);
-        }
-
         try {
+            this.log(`[${requestId}] > Queueing request to ${url}`);
+            await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
+
             const response = await requestPromise;
+            const duration = Date.now() - startTime;
+
             if (debug) {
-                this.log(`Response: ${JSON.stringify(response)}`);
+                this.log(`[${requestId}] < Response received in ${duration}ms: ${JSON.stringify(response)}`);
+            } else {
+                this.log(`[${requestId}] < Response received in ${duration}ms`);
             }
+
             return response;
         } catch (error) {
-            if (debug) {
-                this.log(`Error: ${error.message}`);
-            }
+            const duration = Date.now() - startTime;
+            this.log(`[${requestId}] ! Error after ${duration}ms: ${error.message}`);
+
+            // Clean up the pending request on error
+            this.pendingRequests.delete(requestId);
+            clearTimeout(timeout);
+
             throw error;
         }
     }
