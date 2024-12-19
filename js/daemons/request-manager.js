@@ -328,4 +328,16 @@ class RequestManager {
     }
 }
 
+// For systemd, this is how we launch
+if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
+    const redisUrl = process.env.REDIS_URL;
+    console.log(new Date(), padClassName("RequestManager"), "service starting using redis url: ", redisUrl);
+
+    RequestManager.create(redisUrl).then(() => {
+        console.log(new Date(), padClassName("RequestManager"), "service start complete.");
+    });
+} else {
+    console.log(new Date(), padClassName("RequestManager"), "detected test/development environment, not starting in systemd bootstrap.");
+}
+
 module.exports = RequestManager;
