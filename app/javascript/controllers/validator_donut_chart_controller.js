@@ -31,11 +31,11 @@ export default class extends Controller {
 
         // Render charts with different colors for each metric
         const overallScore = this.getChildValue(this.overallScoreTarget, "overall-score");
-
+        const overallValue = parseFloat(overallScore) || 0;
         this.renderDonutChart(
             this.overallScoreTarget,
             "Overall Score",
-            [parseFloat(overallScore), 100 - parseFloat(overallScore)],
+            [overallValue, 100 - overallValue],
             "#3ABAB4",
             "#E6FFFA",
             isDarkMode
@@ -43,20 +43,23 @@ export default class extends Controller {
 
         const votingRecord = this.getChildValue(this.votingRecordTarget, "voting-record");
         const [current, max] = votingRecord.split(" / ").map(Number);
+        // Handle 0/0 case by showing empty donut
+        const votingData = max === 0 ? [0, 100] : [current, max - current];
         this.renderDonutChart(
             this.votingRecordTarget,
             "Voting Record",
-            [current, max - current],
+            votingData,
             "#9F7AEA",
             "#FAF5FF",
             isDarkMode
         );
 
         const lastEpochBlocks = this.getChildValue(this.lastEpochBlocksTarget, "last-epoch-blocks");
+        const lastEpochValue = parseFloat(lastEpochBlocks) || 0;
         this.renderDonutChart(
             this.lastEpochBlocksTarget,
             "Last Epoch Performance",
-            [parseFloat(lastEpochBlocks), 100 - parseFloat(lastEpochBlocks)],
+            [lastEpochValue, 100 - lastEpochValue],
             "#667EEA",
             "#EBF4FF",
             isDarkMode,
@@ -64,10 +67,11 @@ export default class extends Controller {
         );
 
         const blockPerformance = this.getChildValue(this.blockPerformanceTarget, "block-performance");
+        const perfValue = parseFloat(blockPerformance) || 0;
         this.renderDonutChart(
             this.blockPerformanceTarget,
             "Block Performance",
-            [parseFloat(blockPerformance), 100 - parseFloat(blockPerformance)],
+            [perfValue, 100 - perfValue],
             "#ED64A6",
             "#FFF5F7",
             isDarkMode,
@@ -75,10 +79,11 @@ export default class extends Controller {
         );
 
         const datacenterScore = this.getChildValue(this.datacenterScoreTarget, "datacenter-score");
+        const datacenterValue = parseFloat(datacenterScore) || 0;
         this.renderDonutChart(
             this.datacenterScoreTarget,
             "Datacenter Score",
-            [parseFloat(datacenterScore), 100 - parseFloat(datacenterScore)],
+            [datacenterValue, 100 - datacenterValue],
             "#F6E05E",
             "#FEFCBF",
             isDarkMode
@@ -128,7 +133,8 @@ export default class extends Controller {
         if (showPercentage) {
             const displayElement = target.closest('dd').querySelector('.text-gray-500');
             if (displayElement) {
-                displayElement.textContent = `${data[0]}%`;
+                const value = isNaN(data[0]) ? '0' : data[0];
+                displayElement.textContent = `${value}%`;
             }
         }
     }
