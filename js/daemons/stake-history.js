@@ -21,6 +21,17 @@ class StakeHistory extends BaseDaemon {
         }
     }
 
+    async fetchCoinStore(validatorAddr) {
+        const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${validatorAddr}/resource/0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`;
+        try {
+            const response = await this.fetchWithQueue(url, this.rateLimit);
+            return response.data;
+        } catch (error) {
+            this.log(`Error fetching coin store for ${validatorAddr}: ${error.message}`);
+            return null;
+        }
+    }
+
     async fetchBulkStakeEvents(startVersion = '0', limit = 100) {
         try {
             const {active, pending} = await this.fetchActiveValidators();
@@ -150,6 +161,18 @@ class StakeHistory extends BaseDaemon {
     async processValidatorEvents(validator) {
         const stakePool = await this.fetchValidatorStakePool(validator.addr);
         if (!stakePool) return [];
+
+        // Always create balance record, even if coin store is missing
+        const coinStore = await this.fetchCoinStore(validator.addr);
+        await this.jobDispatcher.enqueue("ValidatorBalanceJob", {
+            validator_address: validator.addr,
+            version: validator.config.validator_index,
+            epoch: validator.config.validator_index,
+            total_balance: stakePool.active?.value || "0",
+            staked_amount: stakePool.active?.value || "0",
+            available_amount: coinStore?.coin?.value || "0",
+            recorded_at: new Date().toISOString()
+        });
 
         const events = [];
         const eventTypes = [

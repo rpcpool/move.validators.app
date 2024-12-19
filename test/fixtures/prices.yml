@@ -1,0 +1,13 @@
+apt_usd:
+  coin: apt
+  currency: usd
+  price: 2.50
+  daily_change: 0.5
+  daily_volume: 1000000
+
+apt_eur:
+  coin: apt
+  currency: eur
+  price: 2.30
+  daily_change: 0.4
+  daily_volume: 900000

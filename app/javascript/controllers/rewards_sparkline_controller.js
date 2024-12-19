@@ -11,14 +11,18 @@ export default class extends Controller {
         const rewards = JSON.parse(this.element.dataset.rewardsSparklineRewards || "[]");
         const sequences = JSON.parse(this.element.dataset.rewardsSparklineSequences || "[]");
 
+        // Reverse both arrays to show latest data on the right
+        const reversedRewards = [...rewards].reverse();
+        const reversedSequences = [...sequences].reverse();
+
         // Initialize the chart
         new Chart(this.sparklineTarget, {
             type: "line",
             data: {
-                labels: sequences, // Use sequence numbers as x-axis labels
+                labels: reversedSequences, // Use reversed sequence numbers as x-axis labels
                 datasets: [
                     {
-                        data: rewards,
+                        data: reversedRewards,
                         borderColor: "#3B82F6", // Tailwind blue-500
                         borderWidth: 2,
                         pointRadius: 1.5,

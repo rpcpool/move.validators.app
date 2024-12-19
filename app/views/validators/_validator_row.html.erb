@@ -11,7 +11,11 @@
     </div>
   </td>
   <td class="whitespace-nowrap px-3 py-4 text-sm text-center"><%= validator[:validator_index] %></td>
-  <td class="whitespace-nowrap px-3 py-4 text-sm"><%= !validator.address.blank? ? ellipsize(validator.address, 6) : '' %></td>
+  <td class="whitespace-nowrap px-3 py-4 text-sm">
+    <span title="Stake Pool Address"><%= ellipsize(validator.address, 6) %></span>
+    <br/>
+    <span title="Operator Address"><%= ellipsize(validator.operator_address, 6) %></span>
+  </td>
   <td class="whitespace-nowrap px-3 py-4 text-sm"><%= octas_to_apt(validator.active_stake) %></td>
   <td class="whitespace-nowrap px-3 py-4 text-sm"><%= validator.performance %>%</td>
   <td class="whitespace-nowrap px-3 py-4 text-sm rounded-r-lg">

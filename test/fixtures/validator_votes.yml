@@ -1,11 +1,45 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: validator_votes_testnet
+#
+vote_one:
+  validator_address: "0x123abc" # matches validator_one
+  proposal_id: "proposal_1"
+  epoch: "100"
+  vote_status: "participated"
+  recorded_at: <%= Time.current %>
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+vote_two:
+  validator_address: "0x123abc"
+  proposal_id: "proposal_2"
+  epoch: "100"
+  vote_status: "missed"
+  recorded_at: <%= 1.hour.ago %>
+
+vote_three:
+  validator_address: "0x123abc"
+  proposal_id: "proposal_3"
+  epoch: "99"
+  vote_status: "participated"
+  recorded_at: <%= 1.day.ago %>
+
+vote_four:
+  validator_address: "0x456def" # matches validator_two
+  proposal_id: "proposal_1"
+  epoch: "100"
+  vote_status: "participated"
+  recorded_at: <%= Time.current %>
+
+vote_five:
+  validator_address: "0x456def"
+  proposal_id: "proposal_2"
+  epoch: "100"
+  vote_status: "participated"
+  recorded_at: <%= 1.hour.ago %>
+
+vote_six:
+  validator_address: "0x456def"
+  proposal_id: "proposal_3"
+  epoch: "99"
+  vote_status: "participated"
+  recorded_at: <%= 1.day.ago %>

@@ -4,10 +4,12 @@ const geoIp = require('geoip2-api');
 const lookup = require('country-code-lookup');
 const BaseDaemon = require("./base-daemon");
 const AptosCliWrapper = require("../lib/console/aptos-cli-wrapper");
-const {isIpAddress, extractDomain} = require("../lib/utils");
+const {isIpAddress, extractDomain, padClassName} = require("../lib/utils");
 
 const dnsLookupPromise = util.promisify(dns.lookup);
 const dnsReversePromise = util.promisify(dns.reverse);
+
+const railsJob = "ValidatorJob";
 
 /**
  * The validators list is responsible for fetching the 'general' validator info on-chain.
@@ -17,175 +19,269 @@ const dnsReversePromise = util.promisify(dns.reverse);
  * Once the data is fetched, it is scrubbed/verified and then dropped on the queue.rake to be processed
  * on the Rails side.
  */
-
 class ValidatorsList extends BaseDaemon {
-    // Default seconds is 300 - 5m
     constructor(redisClient, jobDispatcher, aptos) {
         super(redisClient, jobDispatcher, aptos);
+        this.running = false;
         this.seconds = 900; // 15 mins
         this.interval = undefined;
         this.cache = {};
         this.aptosCliWrapper = new AptosCliWrapper();
         this.network = aptos.config.network;
+
+        // Allow test mocks to override these
+        this.dnsLookupPromise = dnsLookupPromise;
+        this.dnsReversePromise = dnsReversePromise;
     }
 
-    start() {
+    /**
+     * Initialize the daemon
+     */
+    async start() {
         if (this.interval) {
             clearInterval(this.interval);
         }
-
+        
         this.interval = setInterval(() => {
             if (!this.running) this.run().then();
         }, this.seconds * 1000);
 
-        // run immediately
+        // Run immediately
         this.run().then();
 
-        this.log("ValidatorsList started");
+        this.log('ValidatorsList daemon started');
     }
 
-    stop() {
+    /**
+     * Stop the daemon
+     */
+    async stop() {
         if (this.interval) {
             clearInterval(this.interval);
         }
-        this.log("ValidatorsList stopped");
+        this.running = false;
+        this.log('ValidatorsList daemon stopping');
     }
 
+    /**
+     * Main run method
+     */
     async run() {
-        this.running = true;
+        if (this.running) {
+            this.log("Previous run still in progress, skipping");
+            return;
+        }
 
+        this.running = true;
         this.log("ValidatorsList run started");
 
         try {
+            const validators = await this.fetchValidatorSet();
+            if (!validators) {
+                this.log("No validators found");
+                return;
+            }
 
-            await this.sleep(this.rateLimit);
-            const resources = await this.aptos.account.getAccountResources({
-                accountAddress: "0x1",
-            });
-
-            const validatorSetResource = resources.find(
-                (resource) => resource.type === "0x1::stake::ValidatorSet",
-            );
-
-            if (validatorSetResource) {
-                const validators = validatorSetResource.data.active_validators;
-
-                for (const [index, validator] of validators.entries()) {
-                    const data = {};
-
-                    this.log(`Starting data for: ${validator.addr}`)
-
-                    data.index = index + 1;
-                    data.validatorIndex = validator.config.validator_index;
-                    data.address = validator.addr;
-                    data.votingPower = validator.voting_power;
-                    data.consensusPublicKey = validator.config.consensus_pubkey;
-                    data.fullnodeAddress = validator.config.fullnode_addresses;
-                    data.networkAddress = validator.config.network_addresses;
-
-                    // Fetch additional details or staking address
-                    await this.sleep(this.rateLimit);
-                    const stakingResources = await this.aptos.account.getAccountResources({
-                        accountAddress: validator.addr,
-                    });
-
-                    // See if we can find the staking address
-                    const stakingResource = stakingResources.find(
-                        (resource) => resource.type === "0x1::stake::StakingConfig",
-                    );
-                    if (stakingResource) {
-                        data.stakingAddress = stakingResource.data.staking_address;
-                    }
-
-                    // There should only be one Result
-                    await this.sleep(this.rateLimit);
-                    const payload = this.getStakePoolDetails(validator.addr);
-                    if (payload.error) {
-                        this.log(`Error processing the stake pool details for ${validator.addr}, skipping.`);
-                        this.log(payload.message);
-                        continue;
-                    }
-
-                    this.log(`payload.Result ${JSON.stringify(payload.Result)}`);
-
-                    const stakePoolDetails = payload.Result[0];
-
-                    // Tease out any kind of domain name, if available
-                    data.host = this.extractNetworkHost(stakePoolDetails);
-
-                    this.log(`Host: ${data.host}`);
-
-                    let host = data.host;
-
-                    if (host === 'Unknown') {
-                        data.host = 'Private/Unknown';
-                    } else if (!isIpAddress(host)) {
-                        const response = await dnsLookupPromise(host);
-                        data.ip = response.address;
-                    } else {
-                        try {
-                            const response = await dnsReversePromise(data.host);
-                            this.log(`reverse response: ${response}`);
-                            data.host = response[0];
-                        } catch (e) {
-                            this.log(`Caught reverse lookup error: ${e.message}`);
-                            data.host = 'Private/Unknown';
-                        }
-                    }
-
-                    try {
-                        const ipData = await geoIp.get(data.ip);
-                        if (ipData.success) {
-                            const country = lookup.byIso(ipData.data.country);
-                            data.ip_data = {
-                                country_code: country.internet,
-                                country: country.country,
-                                city: ipData.data.city,
-                                region: ipData.data.region, // for US, it's a state
-                                timezone: ipData.data.timezone,
-                                lat: ipData.data.ll[0],
-                                lng: ipData.data.ll[1],
-                            };
-                        }
-                    } catch (e) {
-                        // console.log("Caught get ip error:", e);
-                        // continue;
-                    }
-
-                    // If we have a valid host, get the domain
-                    if (data.host && data.host !== 'Private/Unknown' && data.host !== data.ip) {
-                        data.name = extractDomain(data.host);
-                    } else {
-                        data.name = 'Private/Unknown';
-                    }
-
-                    data.start_date = await this.getEpochTimestamp(validator.addr);
-
-                    // Check if data has changed
-                    if (!this.cache[validator.addr] || JSON.stringify(this.cache[validator.addr]) !== JSON.stringify(data)) {
-                        const finalData = await this.getAccountResources(validator.addr, data);
-                        await this.jobDispatcher.enqueue("ValidatorJob", finalData);
-                        this.cache[validator.addr] = data; // Update cache
-                        this.log(`Data updated and enqueued for: ${validator.addr}`);
-                    } else {
-                        this.log(`No changes for: ${validator.addr}`);
-                    }
-
-                    this.log(`Finished data for: ${validator.addr}`);
-                }
-            } else {
-                console.log("ValidatorSet resource not found.");
+            this.log(`Processing ${validators.length} validators`);
+            
+            // Process each validator
+            for (let i = 0; i < validators.length; i++) {
+                await this.processValidator(validators[i], i);
             }
 
             this.log("ValidatorsList run complete");
-
         } catch (error) {
-            this.log("Error fetching validators list");
-            this.log(error);
+            this.log(`Error in ValidatorsList run: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
         } finally {
             this.running = false;
         }
+    }
 
+    /**
+     * Process a single validator and enqueue job if changes detected
+     */
+    async processValidator(validator, index) {
+        try {
+            const data = {
+                index: index + 1,
+                validatorIndex: validator.config.validator_index,
+                address: validator.addr,
+                operator_address: null,
+                votingPower: validator.voting_power || "0",
+                consensusPublicKey: validator.config.consensus_pubkey || "",
+                fullnodeAddress: validator.config.fullnode_addresses || "",
+                networkAddress: validator.config.network_addresses || "",
+                name: "Private/Unknown",
+                host: "Private/Unknown",
+                merged: {
+                    data: {
+                        stake_pool_active_value: "0",
+                        coin_store_value: "0"
+                    }
+                }
+            };
+
+            this.log(`Processing validator: ${validator.addr}`);
+
+            // Use aptosCliWrapper for stake pool details
+            const payload = this.getStakePoolDetails(validator.addr);
+            if (!payload.error) {
+                const stakePoolDetails = payload.Result[0];
+
+                if (stakePoolDetails?.pool_address) {
+                    data.operator_address = `0x${stakePoolDetails.operator_address}`;
+                    this.log(`Found operator address: ${data.operator_address}`);
+                }
+
+                const host = this.extractNetworkHost(stakePoolDetails);
+
+                if (host !== "Unknown") {
+                    try {
+                        if (!isIpAddress(host)) {
+                            const response = await this.dnsLookupPromise(host);
+                            data.ip = response.address;
+                            data.host = host;
+                            data.name = extractDomain(host);
+
+                            // Try reverse lookup on the IP
+                            try {
+                                const reverseResponse = await this.dnsReversePromise(response.address);
+                                if (reverseResponse && reverseResponse[0]) {
+                                    data.host = reverseResponse[0];
+                                    data.name = extractDomain(reverseResponse[0]);
+                                }
+                            } catch (error) {
+                                this.log(`Reverse lookup error: ${error.message}`);
+                                if (error.stack) {
+                                    this.log(`Stack trace: ${error.stack}`);
+                                }
+                                throw error;
+                            }
+                        } else {
+                            data.ip = host;
+                            try {
+                                const reverseResponse = await this.dnsReversePromise(host);
+                                if (reverseResponse && reverseResponse[0]) {
+                                    data.host = reverseResponse[0];
+                                    data.name = extractDomain(reverseResponse[0]);
+                                }
+                            } catch (error) {
+                                this.log(`Reverse lookup error: ${error.message}`);
+                                if (error.stack) {
+                                    this.log(`Stack trace: ${error.stack}`);
+                                }
+                                throw error;
+                            }
+                        }
+
+                        if (data.ip) {
+                            try {
+                                const ipData = await geoIp.get(data.ip);
+                                if (ipData.success) {
+                                    const country = lookup.byIso(ipData.data.country);
+                                    data.ip_data = {
+                                        country_code: country.internet,
+                                        country: country.country,
+                                        city: ipData.data.city,
+                                        region: ipData.data.region,
+                                        timezone: ipData.data.timezone,
+                                        lat: ipData.data.ll[0].toString(),
+                                        lng: ipData.data.ll[1].toString()
+                                    };
+                                }
+                            } catch (error) {
+                                this.log(`Error fetching IP data: ${error.message}`);
+                                if (error.stack) {
+                                    this.log(`Stack trace: ${error.stack}`);
+                                }
+                                throw error;
+                            }
+                        }
+                    } catch (error) {
+                        this.log(`DNS resolution error: ${error.message}`);
+                        if (error.stack) {
+                            this.log(`Stack trace: ${error.stack}`);
+                        }
+                        data.host = "Private/Unknown";
+                        data.name = "Private/Unknown";
+                    }
+                }
+            }
+
+            data.start_date = await this.getEpochTimestamp(validator.addr);
+
+            const resources = await this.getAccountResources(validator.addr, data);
+            if (resources) {
+                const hasChanges = this.hasSignificantChanges(this.cache[validator.addr], resources);
+                if (hasChanges) {
+                    await this.jobDispatcher.enqueue(railsJob, resources);
+                    this.cache[validator.addr] = resources;
+                    this.log(`Enqueued validator job - Address: ${validator.addr}, Stake Pool: ${resources.operator_address || 'unknown'}`);
+                } else {
+                    this.log(`No significant changes for validator: ${validator.addr}`);
+                }
+            }
+        } catch (error) {
+            this.log(`Error processing validator ${validator.addr}: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
+            throw error;
+        }
+    }
+
+    async fetchValidatorSet() {
+        const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/0x1/resource/0x1::stake::ValidatorSet`;
+        try {
+            const response = await this.fetchWithQueue(url);
+            return response.data.active_validators;
+        } catch (error) {
+            this.log(`Error fetching validator set: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
+            throw error;
+        }
+    }
+
+    async fetchAccountResources(address) {
+        const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${address}/resources`;
+        try {
+            return await this.fetchWithQueue(url);
+        } catch (error) {
+            this.log(`Error fetching account resources for ${address}: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
+            throw error;
+        }
+    }
+
+    hasSignificantChanges(oldData, newData) {
+        if (!oldData) return true;
+
+        const significantFields = [
+            'votingPower',
+            'consensusPublicKey',
+            'fullnodeAddress',
+            'networkAddress',
+            'validatorIndex',
+            'operator_address',
+            'name',
+            ['merged', 'data', 'stake_pool_active_value'],
+            ['merged', 'data', 'coin_store_value']
+        ];
+
+        return significantFields.some(field => {
+            if (Array.isArray(field)) {
+                return field.reduce((obj, key) => obj?.[key], oldData) !==
+                    field.reduce((obj, key) => obj?.[key], newData);
+            }
+            return oldData[field] !== newData[field];
+        });
     }
 
     getStakePoolDetails(address) {
@@ -196,18 +292,8 @@ class ValidatorsList extends BaseDaemon {
     }
 
     extractNetworkHost(stakePoolDetails) {
-        // ...
-        //       "validator_network_addresses": [
-        //         "/dns/aptos-testnet-figment-dp-1.staking.production.figment.io/tcp/6180/noise-ik/0x57a5cd66f86cc022897bcf146917fcb3da2fd5c4dac7a3bfb4e75afd0416e839/handshake/0"
-        //       ],
-        //       "fullnode_network_addresses": [
-        //         "/dns/aptos-testnet-figment-vfn-1.staking.production.figment.io/tcp/6182/noise-ik/0x87cd3dce1649d889d0f5909acc7208d9940ef485c41992cc42102c4d38a7386a/handshake/0"
-        //       ],
-        // ...
-
         try {
-
-            this.log(`stakePoolDetails: ${JSON.stringify(stakePoolDetails)}`);
+            this.log(`Processing stake pool details: ${JSON.stringify(stakePoolDetails)}`);
 
             if (!stakePoolDetails?.validator_network_addresses?.[0]) {
                 this.log(`No validator network addresses found`);
@@ -215,80 +301,71 @@ class ValidatorsList extends BaseDaemon {
             }
             const data = stakePoolDetails.validator_network_addresses[0];
             const host = data.split('/')[2];
-            this.log(`Got host: ${host}`);
+            this.log(`Extracted host: ${host}`);
             return host;
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            this.log(`Error extracting network host: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
             return "Unknown";
         }
     }
 
-    async getEpochTimestamp(address, network = "testnet") {
+    async getEpochTimestamp(address) {
         function convertToDate(microseconds) {
-            const milliseconds = parseInt(microseconds) / 1000; // Convert to milliseconds
-            const date = new Date(milliseconds); // Convert to Date object
-            return date.toISOString(); // Convert to ISO string format
+            const milliseconds = parseInt(microseconds) / 1000;
+            const date = new Date(milliseconds);
+            return date.toISOString();
         }
 
-        let url;
         try {
-
-            url = `https://api.${network}.aptoslabs.com/v1/accounts/${address}/events/0x1::stake::StakePool/add_stake_events`;
-            let stakeEvents;
-            try {
-                stakeEvents = await this.fetchWithQueue(url, this.rateLimit);
-            } catch (error) {
-                console.error('Error fetching events:', error);
-            }
+            const url = `https://api.${this.network}.aptoslabs.com/v1/accounts/${address}/events/0x1::stake::StakePool/add_stake_events`;
+            const stakeEvents = await this.fetchWithQueue(url);
 
             const version = stakeEvents?.[0]?.version;
             if (version) {
-                url = `https://api.${network}.aptoslabs.com/v1/blocks/by_version/${version}`
-                try {
-                    const block = await this.fetchWithQueue(url, this.rateLimit);
+                const blockUrl = `https://api.${this.network}.aptoslabs.com/v1/blocks/by_version/${version}`;
+                const block = await this.fetchWithQueue(blockUrl);
 
-                    const timestamp = block?.block_timestamp;
-                    if (timestamp) return convertToDate(timestamp);
-                } catch (error) {
-                    console.error('Error fetching events:', error);
-                }
+                const timestamp = block?.block_timestamp;
+                if (timestamp) return convertToDate(timestamp);
             }
-
+            return new Date().toISOString(); // Fallback to current time
         } catch (error) {
-            console.error(`Error:`, error);
+            this.log(`Error fetching epoch timestamp: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
+            throw error;
         }
     }
 
     async getAccountResources(address, data) {
         try {
-            // Fetch all resources for the validator
-            await this.sleep(this.rateLimit);
-            const resources = await this.aptos.account.getAccountResources({
-                accountAddress: address,
-            });
+            const resources = await this.fetchAccountResources(address);
+            if (!resources) {
+                return data;
+            }
 
             const stakePool = resources.find(r => r.type === "0x1::stake::StakePool")?.data;
             const coinStore = resources.find(r => r.type === "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>")?.data;
 
-            const coin_store_value = coinStore?.coin?.value || "0";
-            const stake_pool_active_value = stakePool?.active?.value || "0";
+            if (stakePool?.active?.value) {
+                data.merged.data.stake_pool_active_value = stakePool.active.value;
+            }
+            if (coinStore?.coin?.value) {
+                data.merged.data.coin_store_value = coinStore.coin.value;
+            }
 
-            const processedData = {
-                address: address,
-                coin_store_value,
-                stake_pool_active_value
-            };
-
-            data.merged = {
-                data: processedData
-            };
-
-            this.log(`Basic resources fetched for ${address} - bal: ${coin_store_value} - stake: ${stake_pool_active_value}`);
+            this.log(`Resources fetched for ${address} - Balance: ${data.merged.data.coin_store_value}, Stake: ${data.merged.data.stake_pool_active_value}`);
             return data;
         } catch (error) {
             this.log(`Error fetching resources for ${address}: ${error.message}`);
-            data.merged = {data: {resources: []}};
-            return data;
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
+            throw error;
         }
     }
 }
@@ -296,13 +373,13 @@ class ValidatorsList extends BaseDaemon {
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    console.log(new Date(), "ValidatorsList service starting using redis url: ", redisUrl);
+    console.log(new Date(), padClassName('ValidatorsList'), "service starting using redis url: ", redisUrl);
 
     ValidatorsList.create(redisUrl).then(() => {
-        console.log(new Date(), "ValidatorsList service start complete.");
+        console.log(new Date(), padClassName('ValidatorsList'), "service start complete.");
     });
 } else {
-    console.log(new Date(), "ValidatorsList detected test/development environment, not starting in systemd bootstrap.");
+    console.log(new Date(), padClassName('ValidatorsList'), "detected test/development environment, not starting in systemd bootstrap.");
 }
 
 module.exports = ValidatorsList;

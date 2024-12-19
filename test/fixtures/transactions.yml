@@ -1,31 +1,79 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: transactions_testnet
+#
+transaction_one:
+  txn_hash: "0xtxn123hash1"
+  txn_version: "1000000"
+  proposer: "0x123abc" # matches validator_one
+  epoch: "100"
+  timestamp: <%= Time.current.to_i %>
+  success: true
+  vm_status: "Executed successfully"
+  gas_used: "1000"
+  accumulator_root_hash: "0xroot123"
+  event_root_hash: "0xevent123"
+  state_change_hash: "0xstate123"
+  state_checkpoint_hash: "0xcheckpoint123"
+  round: "1"
+  txn_changes: [{"type": "write_resource", "address": "0x123abc"}]
+  txn_events: [{"type": "stake_pool_add", "amount": 1000}]
+  failed_proposer_indices: []
+  previous_block_votes_bitvec: []
 
-one:
-  version: MyString
-  txn_hash: MyString
-  state_change_hash: MyString
-  event_root_hash: MyString
-  state_checkpoint_hash: MyString
-  gas_used: MyString
+transaction_two:
+  txn_hash: "0xtxn123hash2"
+  txn_version: "990000"
+  proposer: "0x123abc"
+  epoch: "99"
+  timestamp: <%= 1.day.ago.to_i %>
   success: false
-  vm_status: MyString
-  accumulator_root_hash: MyString
-  epoch: MyString
-  round: MyString
-  proposer: MyString
-  timestamp: 
+  vm_status: "Out of gas"
+  gas_used: "2000"
+  accumulator_root_hash: "0xroot456"
+  event_root_hash: "0xevent456"
+  state_change_hash: "0xstate456"
+  state_checkpoint_hash: "0xcheckpoint456"
+  round: "2"
+  txn_changes: [{"type": "write_resource", "address": "0x123abc"}]
+  txn_events: []
+  failed_proposer_indices: [1, 2]
+  previous_block_votes_bitvec: []
 
-two:
-  version: MyString
-  txn_hash: MyString
-  state_change_hash: MyString
-  event_root_hash: MyString
-  state_checkpoint_hash: MyString
-  gas_used: MyString
-  success: false
-  vm_status: MyString
-  accumulator_root_hash: MyString
-  epoch: MyString
-  round: MyString
-  proposer: MyString
-  timestamp: 
+transaction_three:
+  txn_hash: "0xtxn456hash1"
+  txn_version: "1000001"
+  proposer: "0x456def" # matches validator_two
+  epoch: "100"
+  timestamp: <%= Time.current.to_i %>
+  success: true
+  vm_status: "Executed successfully"
+  gas_used: "1500"
+  accumulator_root_hash: "0xroot789"
+  event_root_hash: "0xevent789"
+  state_change_hash: "0xstate789"
+  state_checkpoint_hash: "0xcheckpoint789"
+  round: "1"
+  txn_changes: [{"type": "write_resource", "address": "0x456def"}]
+  txn_events: [{"type": "stake_pool_add", "amount": 2000}]
+  failed_proposer_indices: []
+  previous_block_votes_bitvec: []
+
+transaction_four:
+  txn_hash: "0xtxn456hash2"
+  txn_version: "990001"
+  proposer: "0x456def"
+  epoch: "99"
+  timestamp: <%= 1.day.ago.to_i %>
+  success: true
+  vm_status: "Executed successfully"
+  gas_used: "1200"
+  accumulator_root_hash: "0xroot012"
+  event_root_hash: "0xevent012"
+  state_change_hash: "0xstate012"
+  state_checkpoint_hash: "0xcheckpoint012"
+  round: "3"
+  txn_changes: [{"type": "write_resource", "address": "0x456def"}]
+  txn_events: [{"type": "stake_pool_add", "amount": 1800}]
+  failed_proposer_indices: []
+  previous_block_votes_bitvec: []

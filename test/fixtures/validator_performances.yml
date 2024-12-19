@@ -1,11 +1,43 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: validator_performances_testnet
+#
+perf_validator_one_epoch_one:
+  validator_address: "0x123abc" # matches validator_one
+  epoch: 100
+  performance_score: 95.50
+  successful_proposals: 191
+  total_proposals: 200
+  voting_power: 1000000
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_one) %>
+  epoch_histories_testnet_id: <%= ActiveRecord::FixtureSet.identify(:epoch_one) %>
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+perf_validator_one_epoch_two:
+  validator_address: "0x123abc" # matches validator_one
+  epoch: 99
+  performance_score: 94.00
+  successful_proposals: 188
+  total_proposals: 200
+  voting_power: 950000
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_one) %>
+  epoch_histories_testnet_id: <%= ActiveRecord::FixtureSet.identify(:epoch_two) %>
+
+perf_validator_two_epoch_one:
+  validator_address: "0x456def" # matches validator_two
+  epoch: 100
+  performance_score: 98.00
+  successful_proposals: 196
+  total_proposals: 200
+  voting_power: 2000000
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_two) %>
+  epoch_histories_testnet_id: <%= ActiveRecord::FixtureSet.identify(:epoch_one) %>
+
+perf_validator_two_epoch_two:
+  validator_address: "0x456def" # matches validator_two
+  epoch: 99
+  performance_score: 97.50
+  successful_proposals: 195
+  total_proposals: 200
+  voting_power: 1900000
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_two) %>
+  epoch_histories_testnet_id: <%= ActiveRecord::FixtureSet.identify(:epoch_two) %>

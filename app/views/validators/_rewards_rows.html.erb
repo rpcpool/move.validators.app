@@ -6,6 +6,6 @@
       <%= time_ago_in_words(reward.reward_datetime) %> ago
     </td>
     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300"><%= reward.sequence %></td>
-    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300"><%= number_to_currency(reward.amount.to_i / 100_000_000.0, unit: 'APT ') %></td>
+    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300"><%= number_to_currency(octas_to_apt(reward.amount), unit: 'APT ') %></td>
   </tr>
 <% end %>

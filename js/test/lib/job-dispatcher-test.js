@@ -59,28 +59,32 @@ test("JobDispatcher enqueue schedules a job with a future timestamp", async () =
   );
   const job = JSON.parse(data["schedule"][0].value);
   assert.strictEqual(job.class, workerClass, "Expected job class to match");
-  assert.strictEqual(job.args[0].queue, payload.queue, "Expected job queue.rake to match");
+  assert.strictEqual(job.args[0].queue, payload.queue, "Expected job queue to match");
   assert.strictEqual(job.args[0].at, payload.at, "Expected job timestamp to match");
 });
 
-test("JobDispatcher enqueue adds a job to the correct queue.rake", async () => {
+test("JobDispatcher enqueue adds a job to the correct queue", async () => {
   const redisClient = createMockRedisClient();
   const jobDispatcher = new JobDispatcher(redisClient);
   const workerClass = "SomeWorker";
-  const queue = jobDispatcher.getQueueKey("high");
-  const payload = { queue };
+  const queueName = "high";
+  const expectedQueueKey = jobDispatcher.getQueueKey(queueName);
+  const payload = { queue: queueName };
 
   await jobDispatcher.enqueue(workerClass, payload);
 
   const data = redisClient.getData();
 
-  assert.strictEqual(Object.keys(data).length, 2);
-  assert.strictEqual(Object.keys(data)[0], "queue.rake:high");
-  assert.strictEqual(Object.keys(data)[1], "queues");
-  assert.strictEqual(data["queue.rake:high"].length, 1);
-  const job = JSON.parse(data["queue:high"][0]);
-  assert.strictEqual(job.class, workerClass);
-  assert.strictEqual(job.queue, payload.queue);
-  assert.strictEqual(data["queues"].size, 1);
-  assert.strictEqual([...data["queues"]][0], "queue.rake:high");
+  assert.strictEqual(Object.keys(data).length, 2, "Expected two keys in data");
+  assert(Object.keys(data).includes(expectedQueueKey), "Expected queue key to be present");
+  assert(Object.keys(data).includes("queues"), "Expected queues key to be present");
+  assert.strictEqual(data[expectedQueueKey].length, 1, "Expected one job in queue");
+  
+  const job = JSON.parse(data[expectedQueueKey][0]);
+  assert.strictEqual(job.class, workerClass, "Expected job class to match");
+  assert.strictEqual(job.queue, expectedQueueKey, "Expected job queue to match");
+  
+  assert(data["queues"] instanceof Set, "Expected queues to be a Set");
+  assert.strictEqual(data["queues"].size, 1, "Expected one queue in set");
+  assert(data["queues"].has(expectedQueueKey), "Expected queue name in set");
 });

@@ -11,7 +11,7 @@ export default class extends BaseAnalyticsChartController {
     }
 
     connect() {
-        this.loadChartData('week');
+        this.loadChartData('15epochs');
     }
 
     getChartColors() {

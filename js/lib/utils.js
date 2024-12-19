@@ -27,5 +27,17 @@ module.exports = {
             console.error('Error parsing hostname:', error.message);
             return null;
         }
+    },
+
+    paddingChars: 22,
+    padClassName: function (name) {
+        // Use paddingChars directly from module.exports
+        const paddingChars = module.exports.paddingChars;
+        // Calculate total length needed for [name] part
+        const bracketedLength = name.length + 2; // +3 for [ ] and space
+        // Calculate remaining padding needed to reach paddingChars
+        const padding = Math.max(0, paddingChars - bracketedLength);
+        // Return [name] followed by padding spaces
+        return `[${name}${' '.repeat(padding)}] `;
     }
 }

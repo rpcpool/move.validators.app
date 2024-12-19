@@ -1,11 +1,31 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: validator_stakes_testnet
+#
+stake_one:
+  validator_address: "0x123abc" # matches validator_one
+  amount: "2000000"
+  epoch: "100"
+  recorded_at: <%= Time.current %>
+  version: 1000000
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+stake_two:
+  validator_address: "0x123abc" # matches validator_one, older stake
+  amount: "1800000"
+  epoch: "99"
+  recorded_at: <%= 1.day.ago %>
+  version: 990000
+
+stake_three:
+  validator_address: "0x456def" # matches validator_two
+  amount: "4000000"
+  epoch: "100"
+  recorded_at: <%= Time.current %>
+  version: 1000001
+
+stake_four:
+  validator_address: "0x456def" # matches validator_two, older stake
+  amount: "3800000"
+  epoch: "99"
+  recorded_at: <%= 1.day.ago %>
+  version: 990001

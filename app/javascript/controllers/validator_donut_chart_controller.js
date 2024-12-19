@@ -55,11 +55,12 @@ export default class extends Controller {
         const lastEpochBlocks = this.getChildValue(this.lastEpochBlocksTarget, "last-epoch-blocks");
         this.renderDonutChart(
             this.lastEpochBlocksTarget,
-            "Last Epoch Blocks",
-            [parseFloat(lastEpochBlocks), 5000 - parseFloat(lastEpochBlocks)], // Assuming 5000 as max
+            "Last Epoch Performance",
+            [parseFloat(lastEpochBlocks), 100 - parseFloat(lastEpochBlocks)],
             "#667EEA",
             "#EBF4FF",
-            isDarkMode
+            isDarkMode,
+            true
         );
 
         const blockPerformance = this.getChildValue(this.blockPerformanceTarget, "block-performance");
@@ -69,7 +70,8 @@ export default class extends Controller {
             [parseFloat(blockPerformance), 100 - parseFloat(blockPerformance)],
             "#ED64A6",
             "#FFF5F7",
-            isDarkMode
+            isDarkMode,
+            true
         );
 
         const datacenterScore = this.getChildValue(this.datacenterScoreTarget, "datacenter-score");
@@ -90,7 +92,7 @@ export default class extends Controller {
     }
 
     // Render donut chart with dynamic colors
-    renderDonutChart(target, label, data, primaryColor, lightColor, isDarkMode) {
+    renderDonutChart(target, label, data, primaryColor, lightColor, isDarkMode, showPercentage = false) {
         if (this.chartInstances.has(target)) {
             this.chartInstances.get(target).destroy(); // Destroy existing chart
             this.chartInstances.delete(target);
@@ -121,6 +123,14 @@ export default class extends Controller {
         });
 
         this.chartInstances.set(target, chart); // Store the chart instance
+
+        // Update the display value with percentage if needed
+        if (showPercentage) {
+            const displayElement = target.closest('dd').querySelector('.text-gray-500');
+            if (displayElement) {
+                displayElement.textContent = `${data[0]}%`;
+            }
+        }
     }
 
     observeThemeChanges() {

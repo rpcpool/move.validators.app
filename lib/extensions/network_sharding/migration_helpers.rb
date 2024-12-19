@@ -13,6 +13,12 @@ module Extensions
         drop_table(table_name, *args, **options, &block)
       end
 
+      def add_sharded_column(model_class_or_name, column_name, type, **options)
+        model_class_name = model_class_or_name.is_a?(Symbol) ? model_class_or_name.to_s : model_class_or_name.name.tableize
+        table_name = NetworkSharding::TableNameHelper.sharded_table_name(model_class_name)
+        add_column(table_name, column_name, type, **options)
+      end
+
       def add_sharded_index(model_class_or_name, column_name, **options)
         model_class_name = model_class_or_name.is_a?(Symbol) ? model_class_or_name.to_s : model_class_or_name.name.tableize
         table_name = NetworkSharding::TableNameHelper.sharded_table_name(model_class_name)

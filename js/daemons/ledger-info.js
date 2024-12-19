@@ -1,72 +1,22 @@
-const BaseDaemon = require("./base-daemon");
+const BaseDaemon = require('./base-daemon');
+const {padClassName} = require('../lib/utils');
 
 class LedgerInfo extends BaseDaemon {
     constructor(redisClient, jobDispatcher, aptos) {
         super(redisClient, jobDispatcher, aptos);
-        this.seconds = 30; // Poll every 30 seconds
+        this.running = false;
+        this.seconds = 60; // 1 minute interval
         this.interval = undefined;
-        this.network = aptos.config.network;
-        this.lastLedgerVersion = null;
     }
 
-    async fetchLedgerInfo() {
-        const url = `https://api.${this.network}.aptoslabs.com/v1/`;
-        try {
-            const json = await this.fetchWithQueue(url, this.rateLimit);
-            // console.log("");
-            // this.log(`fetchLedgerInfo: ${JSON.stringify(json)}`);
-            // console.log("");
-
-            return {
-                chain_id: parseInt(json.chain_id),
-                epoch: json.epoch,
-                ledger_version: json.ledger_version,
-                oldest_ledger_version: json.oldest_ledger_version,
-                ledger_timestamp: json.ledger_timestamp,
-                node_role: json.node_role,
-                oldest_block_height: json.oldest_block_height,
-                block_height: json.block_height,
-                git_hash: json.git_hash,
-                recorded_at: new Date().toISOString()
-            };
-        } catch (error) {
-            this.log(`Error fetching ledger info: ${error.message}`);
-            return null;
-        }
-    }
-
-    async run() {
-        this.running = true;
-        this.log("LedgerInfo run started");
-
-        try {
-            const ledgerInfo = await this.fetchLedgerInfo();
-
-            if (!ledgerInfo) {
-                this.log("Failed to fetch ledger info");
-                return;
-            }
-
-            // Only enqueue if we have new information
-            if (ledgerInfo.ledger_version !== this.lastLedgerVersion) {
-                await this.jobDispatcher.enqueue("EpochJob", ledgerInfo);
-                this.lastLedgerVersion = ledgerInfo.ledger_version;
-
-                this.log(`Enqueued ledger info: Epoch ${ledgerInfo.epoch}, Height ${ledgerInfo.block_height}, Version ${ledgerInfo.ledger_version}`);
-            }
-
-        } catch (error) {
-            this.log(`Error in LedgerInfo run: ${error.message}`);
-        } finally {
-            this.running = false;
-        }
-    }
-
-    start() {
+    /**
+     * Initialize the daemon
+     */
+    async start() {
         if (this.interval) {
             clearInterval(this.interval);
         }
-
+        
         this.interval = setInterval(() => {
             if (!this.running) this.run().then();
         }, this.seconds * 1000);
@@ -74,27 +24,101 @@ class LedgerInfo extends BaseDaemon {
         // Run immediately
         this.run().then();
 
-        this.log("LedgerInfo started");
+        this.log('LedgerInfo daemon started');
     }
 
-    stop() {
+    /**
+     * Stop the daemon
+     */
+    async stop() {
         if (this.interval) {
             clearInterval(this.interval);
         }
-        this.log("LedgerInfo stopped");
+        this.running = false;
+        this.log('LedgerInfo daemon stopping');
+    }
+
+    /**
+     * Main run method
+     */
+    async run() {
+        if (this.running) {
+            this.log("Previous run still in progress, skipping");
+            return;
+        }
+
+        this.running = true;
+        this.log("LedgerInfo run started");
+
+        try {
+            const network = this.aptos.config.network;
+            const url = `https://api.${network}.aptoslabs.com/v1/`;
+            
+            this.log(`Fetching ledger info from ${url}`);
+            const data = await this.fetchWithQueue(url);
+            await this.processLedgerInfo(data);
+
+        } catch (error) {
+            this.log(`Error in LedgerInfo run: ${error.message}`);
+            if (error.stack) {
+                this.log(`Stack trace: ${error.stack}`);
+            }
+        } finally {
+            this.running = false;
+        }
+    }
+
+    /**
+     * Process ledger info response and enqueue job
+     */
+    async processLedgerInfo(data) {
+        try {
+            // Extract key information
+            const {
+                chain_id,
+                epoch,
+                ledger_version,
+                oldest_ledger_version,
+                ledger_timestamp,
+                block_height
+            } = data;
+
+            // Prepare job data with all required fields
+            const jobData = {
+                chain_id: chain_id.toString(),
+                epoch: epoch.toString(),
+                ledger_version: ledger_version.toString(),
+                oldest_ledger_version: oldest_ledger_version.toString(),
+                ledger_timestamp: ledger_timestamp.toString(),
+                block_height: block_height.toString(),
+                // Additional required fields
+                node_role: 'full_node',  // Default role for API node
+                oldest_block_height: '0', // Default since not provided by API
+                git_hash: process.env.GIT_HASH || 'unknown', // From env or default
+                recorded_at: new Date().toISOString()
+            };
+
+            // Enqueue job for processing
+            await this.jobDispatcher.enqueue("EpochJob", jobData);
+            this.log(`Enqueued epoch job - Epoch: ${epoch}, Block: ${block_height}`);
+
+        } catch (error) {
+            this.log(`Error processing ledger info: ${error.message}`);
+            throw error;
+        }
     }
 }
 
 // For systemd, this is how we launch
 if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_ENV)) {
     const redisUrl = process.env.REDIS_URL;
-    console.log(new Date(), "LedgerInfo service starting using redis url: ", redisUrl);
+    console.log(new Date(), padClassName('LedgerInfo'), "service starting using redis url: ", redisUrl);
 
     LedgerInfo.create(redisUrl).then(() => {
-        console.log(new Date(), "LedgerInfo service start complete.");
+        console.log(new Date(), padClassName('LedgerInfo'), "service start complete.");
     });
 } else {
-    console.log(new Date(), "LedgerInfo detected test/development environment, not starting in systemd bootstrap.");
+    console.log(new Date(), padClassName('LedgerInfo'), "detected test/development environment, not starting in systemd bootstrap.");
 }
 
 module.exports = LedgerInfo;

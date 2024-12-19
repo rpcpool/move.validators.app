@@ -21,9 +21,9 @@ class CoingeckoPriceJob
     )
 
     if price.save
-      puts "Created new price record for APT/#{price_data['currency'].upcase}: #{price_data['price']}"
+      Rails.logger.info "Created new price record for APT/#{price_data['currency'].upcase}: #{price_data['price']}"
     else
-      puts "Failed to save price: #{price.errors.full_messages.join(', ')}"
+      Rails.logger.info "Failed to save price: #{price.errors.full_messages.join(', ')}"
     end
   rescue => e
     puts "Error processing price for APT/#{price_data['currency'].upcase}: #{e.message}"

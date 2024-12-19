@@ -23,6 +23,11 @@ Rails.application.routes.draw do
   get "/_/:filename", to: "assets#serve_js", constraints: { filename: /.*\.js/ }
 
   root to: 'public#home'
+  get 'getting-started', to: 'public#getting_started', as: :getting_started
+  get 'about', to: 'public#about', as: :about
+  get 'cookie-policy', to: 'public#cookie_policy', as: :cookie_policy
+  get 'privacy-policy', to: 'public#privacy_policy', as: :privacy_policy
+  get 'terms', to: 'public#terms', as: :terms
 
   resources :validators, only: [:index, :show] do
     member do

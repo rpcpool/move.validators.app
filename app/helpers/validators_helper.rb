@@ -1,59 +1,87 @@
 module ValidatorsHelper
+  # Assuming each epoch is roughly 1 day
   TIME_RANGES = [
-    { days: 7, value: 'week', label: 'Last 7 Days' },
-    { days: 14, value: '14days', label: 'Last 14 Days' },
-    { days: 30, value: 'month', label: 'Last Month' },
-    { days: 90, value: '3months', label: 'Last 3 Months' }
+    { epochs: 1, value: 'day', label: 'Last Epoch' },
+    { epochs: 7, value: 'week', label: 'Last 7 Epochs' },
+    { epochs: 15, value: '15epochs', label: 'Last 15 Epochs' },
+    { epochs: 30, value: 'month', label: 'Last 30 Epochs' }
   ].freeze
 
-  DAY_CHUNK_SIZE = 7.0.freeze
+  EPOCH_CHUNK_SIZE = 7.0.freeze
+
+  def current_epoch
+    ValidatorReward.maximum(:sequence) || 0
+  end
+
+  def epoch_to_datetime(sequence)
+    return Time.current unless sequence
+
+    # Try to find a record with this sequence number
+    record = ValidatorReward.where(sequence: sequence.to_i).order(created_at: :desc).first ||
+             Block.where(sequence: sequence.to_i).order(created_at: :desc).first
+    
+    record&.created_at || Time.current
+  end
+
+  def octas_to_apt(octas, precision = 8)
+    return 0.0 if octas.nil? || (octas.is_a?(String) && octas.blank?)
+    
+    # Convert to decimal if it's a string, otherwise use as is
+    value = octas.is_a?(String) ? octas.to_d : octas
+    
+    # Convert octas to APT (8 decimal places)
+    (value / 100_000_000.0).round(precision)
+  end
 
   def time_range(range_value)
     range = TIME_RANGES.find { |r| r[:value] == range_value }
-    range&.fetch(:days)
+    range&.fetch(:epochs)
   end
 
-  def calculate_available_ranges(earliest_date)
-    return [] unless earliest_date
+  def calculate_available_ranges(earliest_sequence)
+    return [] unless earliest_sequence
 
-    now = Time.current
-    days_of_history = (now - earliest_date).to_i / 1.day
+    # Convert to integer if it's not already
+    earliest_sequence = earliest_sequence.to_i if earliest_sequence.respond_to?(:to_i)
+    latest_sequence = current_epoch
+    sequences_of_history = latest_sequence - earliest_sequence
     ranges = []
 
     TIME_RANGES.each do |range|
-      ranges << range.slice(:value, :label) if days_of_history >= range[:days]
+      ranges << range.slice(:value, :label) if sequences_of_history >= range[:epochs]
     end
 
     ranges
   end
 
   def aggregate_rewards(rewards, range_value)
-    days = time_range(range_value)
-    return [] unless days
+    num_epochs = time_range(range_value)
+    return [] unless num_epochs
 
-    end_date = Time.current.end_of_day
-    start_date = (end_date - (days - 1).days).beginning_of_day
+    latest_sequence = rewards.maximum(:sequence) || 0
+    start_sequence = latest_sequence - (num_epochs - 1)
 
-    # Generate all dates in range
-    dates = (0..days - 1).map { |n| end_date - n.days }.reverse
+    # Generate all sequences in range
+    sequences = (start_sequence..latest_sequence).to_a
 
-    # Group rewards by date
-    rewards_by_date = rewards
-                        .where('reward_datetime >= ?', start_date)
-                        .group_by { |r| r.reward_datetime.beginning_of_day }
+    # Group rewards by sequence
+    rewards_by_sequence = rewards
+                          .where(sequence: start_sequence..latest_sequence)
+                          .group_by(&:sequence)
 
-    # Map dates to rewards, using 0 for dates with no rewards
-    dates.map do |date|
-      daily_rewards = rewards_by_date[date.beginning_of_day] || []
-      total_amount = daily_rewards.sum { |r| r.amount.to_d }
+    # Map sequences to rewards, using 0 for sequences with no rewards
+    sequences.map do |seq|
+      sequence_rewards = rewards_by_sequence[seq] || []
+      total_amount = sequence_rewards.sum { |r| r.amount.to_d }
+      latest_reward = sequence_rewards.max_by(&:created_at)
 
       {
-        datetime: date.iso8601,
+        datetime: latest_reward&.created_at&.iso8601 || Time.current.iso8601,
         amount: total_amount.to_s,
-        block_height: daily_rewards.last&.block_height || 0,
-        version: daily_rewards.last&.version || 0
+        block_height: latest_reward&.block_height.to_i,
+        version: latest_reward&.version.to_i,
+        epoch: seq
       }
     end
   end
-
 end

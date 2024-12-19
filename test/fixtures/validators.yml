@@ -1,7 +1,67 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: validators_testnet
+#
+validator_one:
+  address: "0x123abc"
+  name: "Validator One"
+  validator_index: 1
+  voting_power: "1000000"
+  consensus_public_key: "0xpubkey123"
+  fullnode_address: "fullnode_addr_1"
+  network_address: "network_addr_1"
+  active_stake: "2000000"
+  balance: "3000000"
+  city: "San Francisco"
+  country: "United States"
+  country_code: "US"
+  region: "California"
+  timezone: "America/Los_Angeles"
+  lat: 37.7749
+  lng: -122.4194
+  domain: "validator1.test"
+  start_date: "2023-01-01T00:00:00Z"
+  blocks_purposed_day: 1000
+  blocks_purposed_week: 7000
+  blocks_purposed_month: 30440
+  data_center_score: 85.5
+  overall_score: 92.3
+  performance: 95.0
+  voting_record: "95 / 100"
+  voting_record_score: 95.0
+  last_epoch_perf: "0.95"
+  last_epoch_score: 95.0
+  rewards: "500000"
+  rewards_growth: 5.5
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+validator_two:
+  address: "0x456def"
+  name: "Validator Two"
+  validator_index: 2
+  voting_power: "2000000"
+  consensus_public_key: "0xpubkey456"
+  fullnode_address: "fullnode_addr_2"
+  network_address: "network_addr_2"
+  active_stake: "4000000"
+  balance: "5000000"
+  city: "New York"
+  country: "United States"
+  country_code: "US"
+  region: "New York"
+  timezone: "America/New_York"
+  lat: 40.7128
+  lng: -74.0060
+  domain: "validator2.test"
+  start_date: "2023-02-01T00:00:00Z"
+  blocks_purposed_day: 1200
+  blocks_purposed_week: 8400
+  blocks_purposed_month: 36528
+  data_center_score: 88.0
+  overall_score: 94.5
+  performance: 97.0
+  voting_record: "98 / 100"
+  voting_record_score: 98.0
+  last_epoch_perf: "0.98"
+  last_epoch_score: 98.0
+  rewards: "600000"
+  rewards_growth: 6.0

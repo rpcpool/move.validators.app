@@ -10,21 +10,19 @@ class ValidatorsController < ApplicationController
     # Order validators dynamically and paginate
     @validators = Validator.order("#{sort_column} #{sort_direction}").page(params[:page])
 
-    # Fetch the latest epoch stats and count the active validators
-    epoch_history = EpochHistory.order(epoch: :desc).limit(1).first
+    # Fetch validator stats
     count = Validator.count
     average_stake = Validator.average("CAST(active_stake AS DECIMAL(65,0))")
     total_stake = Validator.sum("CAST(active_stake AS DECIMAL(65,0))")
+    latest_sequence = ValidatorReward.maximum(:sequence) || 0
     @stats = {
-      epoch: epoch_history.epoch,
+      epoch: latest_sequence,
       active_validators: count,
       average_stake: average_stake,
       total_stake: total_stake
     }
-
   end
 
-  # Controller action
   def show
     @rewards = ValidatorReward
                  .where(validator_address: @validator.address)
@@ -32,10 +30,8 @@ class ValidatorsController < ApplicationController
                  .page(params[:page])
                  .per(25)
 
-    @total_rewards = ValidatorReward
-                       .where(validator_address: @validator.address)
-                       .sum { |reward| reward.amount.to_d }
-                       .to_d / 100_000_000.0
+    # Use the validator's rewards column which is kept up to date by ValidatorRewardsJob
+    @total_rewards = @validator.rewards.present? ? (@validator.rewards.to_i / 100_000_000.0) : 0
   rescue => e
     Rails.logger.error "Error fetching rewards for validator #{@validator.address}: #{e.message}"
     # Instead of setting to empty array, use empty scope
@@ -50,7 +46,7 @@ class ValidatorsController < ApplicationController
     begin
       rewards_list = ValidatorReward
                        .where(validator_address: validator_address)
-                       .recent # This uses the scope we defined: order(reward_datetime: :desc)
+                       .order(sequence: :desc) # Use sequence instead of reward_datetime
                        .limit(20)
                        .includes(:validator) # If you need validator info in the view
 
@@ -71,7 +67,7 @@ class ValidatorsController < ApplicationController
     metrics = Services::Analytics::Metrics::ValidatorMetrics.new(@validator)
 
     @rewards_history = @validator.validator_rewards.order(sequence: :desc).limit(100)
-    earliest_reward = @validator.validator_rewards.minimum(:reward_datetime)
+    earliest_reward = @validator.validator_rewards.minimum(:sequence)
     # @available_time_ranges = calculate_available_ranges(earliest_reward)
 
     @performance_data = {
@@ -95,166 +91,267 @@ class ValidatorsController < ApplicationController
 
   def rewards_history
     rewards = @validator.validator_rewards
-    earliest_reward = rewards.order(reward_datetime: :asc).first
-    earliest_date = earliest_reward&.reward_datetime
-    available_ranges = calculate_available_ranges(earliest_date)
+    # Get the sequence range for this validator
+    latest_sequence = (rewards.maximum(:sequence) || 0).to_i
+    num_epochs = time_range(params[:time_range] || '15epochs')
+    start_sequence = latest_sequence - (num_epochs - 1) if num_epochs && latest_sequence
 
-    rewards_data = aggregate_rewards(rewards, params[:time_range] || 'default')
+    # Always include at least one epoch range
+    available_ranges = if rewards.empty?
+      [{ value: 'day', label: 'Last Epoch' }]
+    else
+      earliest_reward = rewards.order(sequence: :asc).first
+      ranges = calculate_available_ranges(earliest_reward&.sequence)
+      ranges.empty? ? [{ value: 'day', label: 'Last Epoch' }] : ranges
+    end
+
+    # Generate all sequences in range
+    sequences = (start_sequence..latest_sequence).to_a
+
+    # Get rewards directly from validator_rewards
+    rewards_by_sequence = if rewards.empty?
+      {}
+    else
+      rewards
+        .where(sequence: start_sequence..latest_sequence)
+        .group(:sequence)
+        .sum("CAST(amount AS DECIMAL) / 100000000.0")
+    end
+
+    # Map sequences to rewards, using 0 for sequences with no rewards
+    rewards_data = if sequences.empty?
+      [{
+        datetime: Time.current.iso8601,
+        amount: "0",
+        epoch: latest_sequence
+      }]
+    else
+      sequences.map do |seq|
+        reward = rewards.where(sequence: seq).order(created_at: :desc).first
+        {
+          datetime: reward&.created_at&.iso8601 || Time.current.iso8601,
+          amount: rewards_by_sequence[seq].to_f.round(8).to_s,
+          epoch: seq
+        }
+      end
+    end
 
     render json: {
       rewards: rewards_data,
       available_ranges: available_ranges,
-      current_range: params[:time_range] || 'default'
+      current_range: params[:time_range] || '15epochs'
     }
   end
 
-  # With rewards growth, we need to have a handle on all the rewards in our system from the beginning per
-  # validator address. Then we offer up slices for the time range.
   def rewards_growth
     rewards = @validator.validator_rewards
-    earliest_reward = rewards.order(reward_datetime: :asc).first
-    earliest_date = earliest_reward&.reward_datetime
-    available_ranges = calculate_available_ranges(earliest_date)
+    # Get the sequence range for this validator
+    latest_sequence = (rewards.maximum(:sequence) || 0).to_i
+    num_epochs = time_range(params[:time_range] || '15epochs')
+    start_sequence = latest_sequence - (num_epochs - 1) if num_epochs && latest_sequence
 
-    # Get all daily totals with proper group by
-    daily_totals = rewards
-                     .select(
-                       "DATE(reward_datetime) as date",
-                       "SUM(CAST(amount AS DECIMAL)) as daily_amount"
-                     )
-                     .group("DATE(reward_datetime)")
-                     .order("DATE(reward_datetime)")
-
-    # Calculate cumulative totals
-    running_total = 0
-    all_growth_data = daily_totals.map do |day|
-      running_total += day.daily_amount
-      {
-        datetime: day.date.to_datetime.iso8601,
-        amount: day.daily_amount.to_s,
-        cumulative_amount: running_total.to_s
-      }
+    # Always include at least one epoch range
+    available_ranges = if rewards.empty?
+      [{ value: 'day', label: 'Last Epoch' }]
+    else
+      earliest_reward = rewards.order(sequence: :asc).first
+      ranges = calculate_available_ranges(earliest_reward&.sequence)
+      ranges.empty? ? [{ value: 'day', label: 'Last Epoch' }] : ranges
     end
 
-    # Slice the window based on time range
-    days = time_range(params[:time_range] || 'default')
-    start_date = (Time.current - (days - 1).days).beginning_of_day if days
+    # Generate all sequences in range
+    sequences = (start_sequence..latest_sequence).to_a
 
-    growth_data = days ? all_growth_data.select { |d| Time.parse(d[:datetime]) >= start_date } : all_growth_data
+    # Get rewards directly from validator_rewards
+    rewards_by_sequence = if rewards.empty?
+      {}
+    else
+      rewards
+        .where(sequence: start_sequence..latest_sequence)
+        .group(:sequence)
+        .sum("CAST(amount AS DECIMAL) / 100000000.0")
+    end
+
+    # Map sequences to rewards and calculate cumulative totals
+    running_total = 0
+    growth_data = if sequences.empty?
+      [{
+        datetime: Time.current.iso8601,
+        amount: "0",
+        cumulative_amount: "0",
+        epoch: latest_sequence
+      }]
+    else
+      sequences.map do |seq|
+        reward = rewards.where(sequence: seq).order(created_at: :desc).first
+        amount = rewards_by_sequence[seq].to_f.round(8)
+        running_total += amount
+        {
+          datetime: reward&.created_at&.iso8601 || Time.current.iso8601,
+          amount: amount.to_s,
+          cumulative_amount: running_total.round(8).to_s,
+          epoch: seq
+        }
+      end
+    end
 
     render json: {
       rewards_growth: growth_data,
       available_ranges: available_ranges,
-      current_range: params[:time_range] || 'default'
+      current_range: params[:time_range] || '15epochs'
     }
   end
 
   def balance_vs_rewards
     rewards = @validator.validator_rewards
-    earliest_reward = rewards.order(reward_datetime: :asc).first
-    earliest_date = earliest_reward&.reward_datetime
-    available_ranges = calculate_available_ranges(earliest_date)
-
-    # Get daily rewards totals
-    daily_totals = rewards
-                     .select(
-                       "DATE(reward_datetime) as date",
-                       "SUM(CAST(amount AS DECIMAL)) as daily_amount"
-                     )
-                     .group("DATE(reward_datetime)")
-                     .order("DATE(reward_datetime)")
-
-    # Calculate cumulative rewards
-    running_total = 0
-    all_data = daily_totals.map do |day|
-      running_total += day.daily_amount
-      {
-        datetime: day.date.to_datetime.iso8601,
-        rewards: day.daily_amount.to_s,
-        cumulative_rewards: running_total.to_s,
-        balance: day.daily_amount.to_s # Need to integrate with balance data
-      }
+    balances = @validator.validator_balances
+    
+    # Get the sequence range for this validator
+    latest_sequence = (rewards.maximum(:sequence) || 0).to_i
+    earliest_reward = rewards.order(sequence: :asc).first
+    
+    # Always include at least one epoch range
+    available_ranges = if rewards.empty?
+      [{ value: 'day', label: 'Last Epoch' }]
+    else
+      ranges = calculate_available_ranges(earliest_reward&.sequence)
+      ranges.empty? ? [{ value: 'day', label: 'Last Epoch' }] : ranges
     end
 
-    days = time_range(params[:time_range] || 'default')
-    start_date = (Time.current - (days - 1).days).beginning_of_day if days
+    num_epochs = time_range(params[:time_range] || '15epochs')
+    start_sequence = latest_sequence - (num_epochs - 1) if num_epochs && latest_sequence
 
-    chart_data = days ? all_data.select { |d| Time.parse(d[:datetime]) >= start_date } : all_data
+    # Handle empty data cases
+    if rewards.empty? && balances.empty?
+      # No rewards or balances
+      all_data = [{
+        datetime: Time.current.iso8601,
+        rewards: "0",
+        cumulative_rewards: "0",
+        balance: "0",
+        epoch: latest_sequence
+      }]
+    elsif rewards.empty?
+      # Only balances, no rewards
+      # Get the most recent balance
+      balance = balances.order(version: :desc).first
+      balance_in_apt = balance&.total_balance.present? ? (balance.total_balance.to_i / 100_000_000.0).round(2) : 0
+
+      # Create data points for each epoch with the same balance
+      all_data = (start_sequence..latest_sequence).map do |epoch|
+          {
+            datetime: balance.created_at.iso8601,
+            rewards: "0",
+            cumulative_rewards: "0",
+            balance: balance_in_apt.to_s,
+            epoch: epoch
+          }
+        end
+    else
+      # Get rewards and balances by sequence
+      epoch_data = rewards
+                    .where(sequence: start_sequence..latest_sequence)
+                    .group(:sequence)
+                    .select(
+                      'sequence as epoch',
+                      'SUM(CAST(amount AS DECIMAL) / 100000000.0) as epoch_amount'
+                    )
+                    .order(:sequence)
+                    .map do |epoch_reward|
+          # Find the balance for this sequence
+          # Get the most recent balance record we have
+          balance = balances.order(version: :desc).first
+
+          balance_in_apt = if balance&.total_balance.present?
+            (balance.total_balance.to_i / 100_000_000.0).round(2)
+          else
+            0
+          end
+          
+          {
+            epoch: epoch_reward.epoch,
+            epoch_amount: (epoch_reward.epoch_amount || 0).round(2),
+            balance: balance_in_apt.to_s
+          }
+        end
+
+      # Calculate cumulative rewards
+      running_total = 0
+      all_data = epoch_data.map do |data|
+        running_total += (data[:epoch_amount] || 0)
+        {
+          datetime: rewards.where(sequence: data[:epoch]).order(created_at: :desc).first&.created_at&.iso8601 || Time.current.iso8601,
+          rewards: data[:epoch_amount].to_s,
+          cumulative_rewards: running_total.round(2).to_s,
+          balance: data[:balance],
+          epoch: data[:epoch]
+        }
+      end
+    end
+
+    # Filter by epoch range if needed
+    chart_data = start_sequence ? all_data.select { |d| d[:epoch] >= start_sequence } : all_data
 
     render json: {
       balance_rewards: chart_data,
       available_ranges: available_ranges,
-      current_range: params[:time_range] || 'default'
+      current_range: params[:time_range] || '15epochs'
     }
+  rescue => e
+    Rails.logger.error "Balance vs Rewards Error: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    render json: { error: 'Error fetching balance and rewards data' }, status: :internal_server_error
   end
-
-  # def block_production
-  #   blocks_by_epoch = Block.where(validator_address: @validator.address)
-  #                          .where.not(epoch: nil)
-  #                          .group(:epoch)
-  #                          .order(epoch: :desc)
-  #                          .limit(10) # Get last 10 epochs
-  #                          .count
-  #
-  #   data = blocks_by_epoch.map do |epoch, block_count|
-  #     {
-  #       epoch: epoch,
-  #       block_count: block_count
-  #     }
-  #   end
-  #
-  #   respond_to do |format|
-  #     format.json { render json: data }
-  #   rescue StandardError => e
-  #     Rails.logger.error "Block Production Error: #{e.class} - #{e.message}"
-  #     Rails.logger.error e.backtrace.join("\n")
-  #     render json: {
-  #       error: 'Error fetching block production data',
-  #       details: e.message,
-  #       backtrace: e.backtrace
-  #     }, status: :internal_server_error
-  #   end
-  # end
 
   def block_production
     blocks = Block.where(validator_address: @validator.address)
-    earliest_block = blocks.order(block_timestamp: :asc).first
-    earliest_date = earliest_block&.block_timestamp
-    puts ">>> earliest date: #{earliest_date.inspect}"
-    available_ranges = calculate_available_ranges(earliest_date)
-    puts ">>> available_ranges: #{available_ranges.inspect}"
+    # Get the sequence range for this validator
+    latest_epoch = (blocks.maximum(:epoch) || 0).to_i
+    earliest_block = blocks.order(epoch: :asc).first
 
-    # Get daily block counts
-    daily_blocks = blocks
-                     .select("DATE(block_timestamp) as date", "COUNT(*) as block_count")
-                     .group("DATE(block_timestamp)")
-                     .order("DATE(block_timestamp)")
+    # Always include at least one epoch range
+    available_ranges = if blocks.empty?
+      [{ value: 'day', label: 'Last Epoch' }]
+    else
+      ranges = calculate_available_ranges(earliest_block&.epoch)
+      ranges.empty? ? [{ value: 'day', label: 'Last Epoch' }] : ranges
+    end
+
+    num_epochs = time_range(params[:time_range] || '15epochs')
+    start_epoch = latest_epoch - (num_epochs - 1) if num_epochs && latest_epoch
+
+    # Get blocks by epoch
+    epoch_blocks = blocks
+                    .where(epoch: (start_epoch.to_i..latest_epoch.to_i).map(&:to_s))
+                    .group(:epoch)
+                    .select(
+                      'epoch',
+                      'COUNT(*) as block_count'
+                    )
+                    .order(Arel.sql('CAST(epoch AS UNSIGNED)'))
 
     # Calculate running totals
     running_total = 0
-    all_data = daily_blocks.map do |day|
-      running_total += day.block_count
+    all_data = epoch_blocks.map do |epoch_data|
+      block = blocks.where(epoch: epoch_data.epoch).order(created_at: :desc).first
+      running_total += epoch_data.block_count
       {
-        datetime: day.date.to_datetime.iso8601,
-        daily_blocks: day.block_count,
-        cumulative_blocks: running_total
+        datetime: block&.created_at&.iso8601 || Time.current.iso8601,
+        epoch_blocks: epoch_data.block_count,
+        cumulative_blocks: running_total,
+        epoch: epoch_data.epoch
       }
     end
 
-    # Filter by time range
-    days = time_range(params[:time_range] || 'default')
-    start_date = (Time.current - (days - 1).days).beginning_of_day if days
-
-    chart_data = days ? all_data.select { |d| Time.parse(d[:datetime]) >= start_date } : all_data
+    # Filter by epoch range if needed
+    chart_data = start_epoch ? all_data.select { |d| d[:epoch].to_i >= start_epoch.to_i } : all_data
 
     render json: {
       block_production: chart_data,
       available_ranges: available_ranges,
-      current_range: params[:time_range] || 'default'
+      current_range: params[:time_range] || '15epochs'
     }
   end
-
-  # Below actions might be deprecated
 
   def performance_metrics
     metrics = Services::Analytics::Metrics::ValidatorMetrics.new(@validator)
@@ -275,18 +372,22 @@ class ValidatorsController < ApplicationController
   end
 
   def active_stake_history
-    epoch_range = (params[:epoch_range] || 5).to_i
+    sequence_range = (params[:epoch_range] || 5).to_i
 
-    epochs = StakeHistory.where(pool_address: @validator.address)
+    # Get the latest sequence range
+    latest_sequence = ValidatorReward.maximum(:sequence) || 0
+    start_sequence = latest_sequence - (sequence_range - 1)
+
+    sequences = StakeHistory.where(pool_address: @validator.address)
                          .where.not(epoch: nil)
+                         .where(epoch: (start_sequence..latest_sequence).map(&:to_s))
                          .distinct
-                         .order(epoch: :desc)
-                         .limit(epoch_range)
                          .pluck(:epoch)
+                         .map(&:to_i)
                          .sort
 
-    data = epochs.map do |epoch|
-      stakes = StakeHistory.where(pool_address: @validator.address, epoch: epoch)
+    data = sequences.map do |seq|
+      stakes = StakeHistory.where(pool_address: @validator.address, epoch: seq.to_s)
 
       current_stake = stakes.order(version: :desc).first&.active_stake
 
@@ -296,7 +397,7 @@ class ValidatorsController < ApplicationController
                     .sum { |s| JSON.parse(s.raw_data)['data']['amount_added'].to_i }
 
       {
-        epoch: epoch,
+        epoch: seq,
         current_stake: current_stake.to_i,
         withdrawn: withdrawn,
         added: added
@@ -305,7 +406,7 @@ class ValidatorsController < ApplicationController
 
     render json: {
       data: data,
-      epoch_range: epoch_range
+      epoch_range: sequence_range
     }
   end
 
@@ -331,18 +432,16 @@ class ValidatorsController < ApplicationController
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
   end
 
-  def fetch_rewards_history(time_range = nil)
-    base_query = @validator.validator_rewards.order(sequence: :desc)
+    def fetch_rewards_history(time_range = nil)
+    rewards = @validator.validator_rewards
+    base_query = rewards.order(sequence: :desc)
 
-    case time_range
-    when 'week'
-      base_query.where('reward_datetime >= ?', 1.week.ago)
-    when '14days'
-      base_query.where('reward_datetime >= ?', 14.days.ago)
-    when 'month'
-      base_query.where('reward_datetime >= ?', 1.month.ago)
-    when '3months'
-      base_query.where('reward_datetime >= ?', 3.months.ago)
+    latest_sequence = (rewards.maximum(:sequence) || 0).to_i
+    num_epochs = time_range(time_range || '15epochs')
+    start_sequence = latest_sequence - (num_epochs - 1) if num_epochs && latest_sequence
+
+    if start_sequence
+      base_query.where(sequence: start_sequence..latest_sequence)
     else
       base_query.limit(100) # Your default case
     end

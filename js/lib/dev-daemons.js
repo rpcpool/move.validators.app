@@ -12,6 +12,9 @@ const CoinGeckoPrices = require("../daemons/coin-gecko-prices");
 const BlockUpdateFetch = require("../daemons/block-update-fetch");
 const ValidatorPerformance = require("../daemons/validator-performance");
 const Echo = require("../daemons/echo");
+const {padClassName} = require("./utils");
+const RequestManager = require("../daemons/request-manager");
+const StakeHistory = require("../daemons/stake-history");
 
 /**
  * This class will bootstrap all/any of the daemons we want to run in development mode only. It is not meant to
@@ -26,28 +29,35 @@ class DevDaemons {
 
     async start() {
         try {
+            // Check for required REDIS_URL
+            if (!process.env.REDIS_URL) {
+                console.error(new Date(), padClassName('DevDaemons'), "ERROR: REDIS_URL environment variable is not set");
+                process.exit(1);
+            }
+
             // Init redis
             const redisUrl = process.env.REDIS_URL;
-            console.log(new Date(), " DevDaemons start using redis url: ", redisUrl);
+            console.log(new Date(), padClassName('DevDaemons'), "start using redis url: ", redisUrl);
             const redisClient = await createClient({url: redisUrl})
-                .on('error', err => console.log('Redis Client Error', err))
+                .on('error', err => console.log(new Date(), padClassName('DevDaemons'), 'Redis Client Error', err))
                 .connect();
-
 
             // Echo - this is a dev service to test round-trip from rails -> node
             // const echo = await Echo.create(redisClient);
             // this.services.push(echo);
 
-            // RequestProcessor - this is the service that provides the sync request queue
-            const requestProcessor = await RequestProcessor.create(redisClient);
-            this.services.push(requestProcessor);
+            // Start daemons with staggered delays to prevent API rate limit issues
 
-            // Set up each daemon here for management
-            // Each daemon is run via a local systemd service, so they need to be able to start themselves based on
-            // instantiation.
-            // Below we define the ones we want to run locally.
+            // RequestProcessor - starts immediately (no API calls)
+            // const requestProcessor = await this.createDaemonWithDelay(RequestProcessor, redisClient, 0);
+            // this.services.push(requestProcessor);
 
-            // EpochJob
+
+            // RequestManager - starts immediately (no API calls)
+            const requestManager = await RequestManager.create(redisClient);
+            this.services.push(requestManager);
+
+            // LedgerInfo - lightweight API calls
             const ledgerInfo = await LedgerInfo.create(redisClient);
             this.services.push(ledgerInfo);
 
@@ -59,36 +69,41 @@ class DevDaemons {
             const blockProposals = await BlockProposals.create(redisClient);
             this.services.push(blockProposals);
 
+            // StakeHistory
+            const stakeHistory = await StakeHistory.create(redisClient);
+            this.services.push(stakeHistory);
+
             // ValidatorRewards
             const validatorRewards = await ValidatorRewards.create(redisClient);
             this.services.push(validatorRewards);
-
-            // EpochHistory
-            // const epochHistory = await EpochHistory.create(redisClient);
-            // this.services.push(epochHistory);
-
-            // Transactions
-            // const transactions = await Transactions.create(redisClient);
-            // this.services.push(transactions);
 
             // ValidatorVotes
             const validatorVotes = await ValidatorVotes.create(redisClient);
             this.services.push(validatorVotes);
 
-            // APT Price
+            // APT Price - different API, can run in parallel with Aptos API calls
             const aptPrice = await CoinGeckoPrices.create(redisClient);
             this.services.push(aptPrice);
-
-            // BlockUpdateFetch
-            const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
-            this.services.push(blockUpdateFetch);
 
             // ValidatorPerformance
             const validatorPerformance = await ValidatorPerformance.create(redisClient);
             this.services.push(validatorPerformance);
 
+            // EpochHistory
+            const epochHistory = await EpochHistory.create(redisClient);
+            this.services.push(epochHistory);
+
+            // Commented out services
+            // Transactions
+            // const transactions = await Transactions.create(redisClient);
+            // this.services.push(transactions);
+
+            // BlockUpdateFetch
+            // const blockUpdateFetch = await BlockUpdateFetch.create(redisClient);
+            // this.services.push(blockUpdateFetch);
+
         } catch (err) {
-            console.error('Failed to start correctly:', err);
+            console.error(new Date(), padClassName('DevDaemons'), 'Failed to start correctly:', err);
             process.exit(1);
         }
     }

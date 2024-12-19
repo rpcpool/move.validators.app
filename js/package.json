@@ -4,7 +4,9 @@
   "description": "This is the js portion of the move validators app.",
   "scripts": {
     "test": "node lib/test/run-tests.js",
-    "dev-daemons": "nodemon --watch js/daemons --watch js/lib --watch js/queue --ignore js/lib/test --ignore js/test lib/dev-daemons.js"
+    "dev-daemons": "nodemon --watch daemons --watch lib --watch queue --ignore lib/test --ignore test lib/dev-daemons.js",
+    "monitor": "node daemons/cli/queue-monitor.js",
+    "test-queue": "node daemons/cli/test-queue.js"
   },
   "dependencies": {
     "@aptos-labs/aptos-cli": "^1.0.2",
@@ -15,9 +17,12 @@
     "dotenv-cli": "^7.4.2",
     "geoip2-api": "^1.0.8",
     "pm2": "^5.4.3",
-    "redis": "^4.7.0"
+    "redis": "^4.7.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "blessed": "^0.1.81",
     "nodemon": "^3.1.3"
   },
   "keywords": [],

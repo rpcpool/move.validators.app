@@ -29,14 +29,14 @@
       </dd>
     </div>
 
-    <!-- Last Epoch Blocks // This number is X out of 5000 (or max possible blocks) -->
+    <!-- Last Epoch Performance -->
     <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700"
-         data-validator-donut-chart-last-epoch-blocks-value="<%= number_with_precision(validator.last_epoch_perf, precision: 0) %>">
-      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.last_epoch_valid_blocks') %></dt>
+         data-validator-donut-chart-last-epoch-blocks-value="<%= number_with_precision(validator.last_epoch_perf, precision: 2) %>">
+      <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.last_epoch_performance') %></dt>
       <dd class="mt-1 flex items-center justify-center flex-col text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
         <canvas data-validator-donut-chart-target="lastEpochBlocks" width="100" height="100"></canvas>
         <div class="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
-          <%= number_with_precision(validator.last_epoch_perf, precision: 0) %>
+          <%= number_with_precision(validator.last_epoch_perf, precision: 2) %>
         </div>
       </dd>
     </div>

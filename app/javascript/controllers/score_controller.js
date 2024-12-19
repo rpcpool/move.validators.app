@@ -15,9 +15,17 @@ export default class extends Controller {
         const rect = event.currentTarget.getBoundingClientRect();
         const tooltip = this.infoTarget;
 
+        // Format value as percentage for specific metrics
+        let displayValue = value;
+        if (["Last Epoch Block", "Block Performance"].includes(name)) {
+            // Convert the value to a number, multiply by 100, and format with 2 decimal places
+            const percentValue = parseFloat(value).toFixed(2);
+            displayValue = `${percentValue}%`;
+        }
+
         // Ensure tooltip is visible briefly to calculate dimensions
         tooltip.classList.remove("hidden");
-        tooltip.textContent = `${name}: ${value}`;
+        tooltip.textContent = `${name}: ${displayValue}`;
 
         // Calculate tooltip dimensions AFTER it is unhidden
         const tooltipWidth = tooltip.offsetWidth;

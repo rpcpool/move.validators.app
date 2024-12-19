@@ -16,5 +16,6 @@
 #  index_prices_on_currency_and_created_at  (currency,created_at DESC)
 #
 class Price < ApplicationRecord
-
+  validates :coin, :currency, :price, presence: true
+  validates :price, numericality: { greater_than: 0 }
 end

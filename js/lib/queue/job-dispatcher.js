@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const {snakeCase} = require('case-anything');
+const {padClassName} = require('../utils');
 
 class JobDispatcher {
     constructor(redisClient) {
@@ -20,32 +21,52 @@ class JobDispatcher {
     }
 
     getQueueKey(queue) {
-        if (!queue) return "queue:default";
-        return `queue:${snakeCase(queue)}`;
+        const baseQueue = queue ? snakeCase(queue) : "default";
+        return `queue:${baseQueue}`;
     }
 
     async enqueue(workerClass, data) {
-        if (!this.redisClient.isReady) {
-            throw new Error("Redis client is not connected or ready.");
-        }
+        try {
+            if (!this.redisClient.isReady) {
+                throw new Error("Redis client is not connected or ready.");
+            }
 
-        const jid = await JobDispatcher.generateJobId();
+            const jid = await JobDispatcher.generateJobId();
 
-        const queue = this.getQueueKey(data.queue || 'default');
-        const payload = {
-            "class": workerClass,
-            jid,
-            queue,
-            args: [data],
-            at: data.at,
-            expires_in: 300
-        };
+            const queueName = data.queue || 'default';
+            const queue = this.getQueueKey(queueName);
+            const payload = {
+                class: workerClass,
+                jid,
+                queue: snakeCase(queueName),
+                args: [data],
+                expires_in: 300
+            };
 
-        if (payload.at) {
-            await this.redisClient.zAdd("schedule", payload.at, JSON.stringify(payload));
-        } else {
-            await this.redisClient.lPush(payload.queue, JSON.stringify(payload));
-            await this.redisClient.sAdd("queues", payload.queue);
+            // Ensure proper JSON serialization
+            const serializedPayload = JSON.stringify(payload);
+
+            // Log job details before enqueueing with padded class name
+            this.log(`[${jid}] > Enqueueing ${workerClass} job to ${queue}`);
+
+            if (data.at) {
+                await this.redisClient.zAdd("schedule", data.at, serializedPayload);
+                this.log(`[${jid}] > Scheduled ${workerClass} job for ${new Date(data.at).toISOString()}`);
+            } else {
+                // Add extra logging for ValidatorRewardsJob
+                if (workerClass === 'ValidatorRewardsJob') {
+                    this.log(`[${jid}] > ValidatorRewardsJob data: ${Object.keys(data).length} validators`);
+                }
+
+                await this.redisClient.lPush(queue, serializedPayload);
+                await this.redisClient.sAdd("queues", snakeCase(queueName));
+                this.log(`[${jid}] > Enqueued ${workerClass} job with ${Object.keys(data).length} data keys`);
+            }
+
+            return jid;
+        } catch (error) {
+            console.error("Error in JobDispatcher.enqueue:", error);
+            throw error; // Re-throw to allow caller to handle
         }
     }
 
@@ -55,7 +76,7 @@ class JobDispatcher {
         }
 
         const queueKey = this.getQueueKey(jobName);
-        this.log(` > ${jobName} Starting to listen on ${queueKey}`);
+        this.log(`> ${jobName} Starting to listen on ${queueKey}`);
 
         const processNextMessage = async () => {
             try {
@@ -64,7 +85,9 @@ class JobDispatcher {
                     const {element} = result;
                     const message = JSON.parse(element);
                     if (message.class === jobName) {
+                        this.log(`[${message.jid}] < Processing ${jobName} job`);
                         await callback(message.args[0]);
+                        this.log(`[${message.jid}] < Completed ${jobName} job`);
                     }
                 }
             } catch (error) {
@@ -95,7 +118,8 @@ class JobDispatcher {
     }
 
     log(message) {
-        console.log(`${new Date().toISOString()} ${message}`);
+        // Add space after timestamp
+        console.log(`${new Date().toISOString()} ${padClassName('JobDispatcher')} ${message}`);
     }
 }
 

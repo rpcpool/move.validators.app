@@ -11,7 +11,7 @@ export default class extends BaseAnalyticsChartController {
     }
 
     connect() {
-        this.loadChartData('week');
+        this.loadChartData('15epochs');
     }
 
     getChartColors() {
@@ -32,8 +32,11 @@ export default class extends BaseAnalyticsChartController {
         const response = await fetch(`/validators/${this.addressValue}/balance_vs_rewards?time_range=${timeRange}`);
         const data = await response.json();
 
-        if (data.available_ranges.length > 0) {
+        if (data?.available_ranges?.length > 0) {
             this.updateRangeOptions(data.available_ranges, data.current_range);
+        } else {
+            // Set default range option if no ranges available
+            this.updateRangeOptions([{ value: '15epochs', label: 'Last 15 Epochs' }], '15epochs');
         }
 
         if (this.chartInstances.has(this.chartTarget)) {
@@ -54,10 +57,6 @@ export default class extends BaseAnalyticsChartController {
         this.loadChartData(event.target.value);
     }
 
-    convertOctasToApt(octas) {
-        return parseFloat(octas) / 100000000;
-    }
-
     renderChart(data) {
         if (!data?.balance_rewards) return;
 
@@ -71,7 +70,7 @@ export default class extends BaseAnalyticsChartController {
                 datasets: [
                     {
                         label: 'Balance',
-                        data: data.balance_rewards.map(r => this.convertOctasToApt(r.balance)),
+                        data: data.balance_rewards.map(r => parseFloat(r.balance)),
                         borderColor: colors.balance.borderColor,
                         backgroundColor: colors.balance.backgroundColor,
                         borderWidth: 2,
@@ -81,7 +80,7 @@ export default class extends BaseAnalyticsChartController {
                     },
                     {
                         label: 'Cumulative Rewards',
-                        data: data.balance_rewards.map(r => this.convertOctasToApt(r.cumulative_rewards)),
+                        data: data.balance_rewards.map(r => parseFloat(r.cumulative_rewards)),
                         borderColor: colors.rewards.borderColor,
                         backgroundColor: colors.rewards.backgroundColor,
                         borderWidth: 2,
@@ -114,9 +113,16 @@ export default class extends BaseAnalyticsChartController {
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         ticks: {
-                            callback: (value) => `${(value / 1000).toFixed(1)}k`,
-                            color: isDark ? '#9CA3AF' : '#6B7280'
+                            callback: (value) => {
+                                if (value >= 1000) {
+                                    return `${(value / 1000).toFixed(1)}k`;
+                                }
+                                return value.toFixed(1);
+                            },
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            maxTicksLimit: 6
                         },
+                        min: 0,
                         grid: {
                             drawBorder: false,
                             color: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
@@ -133,9 +139,16 @@ export default class extends BaseAnalyticsChartController {
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
                         ticks: {
-                            callback: (value) => `${(value / 1000).toFixed(1)}k`,
-                            color: isDark ? '#9CA3AF' : '#6B7280'
+                            callback: (value) => {
+                                if (value >= 1000) {
+                                    return `${(value / 1000).toFixed(1)}k`;
+                                }
+                                return value.toFixed(1);
+                            },
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            maxTicksLimit: 6
                         },
+                        min: 0,
                         grid: {
                             display: false
                         }

@@ -25,6 +25,7 @@
 #  lng                   :decimal(10, 6)
 #  name                  :string(255)
 #  network_address       :string(255)
+#  operator_address      :string(255)
 #  overall_score         :float(24)
 #  performance           :float(24)
 #  region                :string(255)
@@ -42,7 +43,8 @@
 #
 # Indexes
 #
-#  index_validators_testnet_on_address  (address)
+#  index_validators_testnet_on_address           (address)
+#  index_validators_testnet_on_operator_address  (operator_address)
 #
 class Validator < ApplicationRecord
   include Services::Analytics::Normalizer
@@ -59,8 +61,9 @@ class Validator < ApplicationRecord
   has_one_attached :avatar
   has_many :validator_rewards, foreign_key: :validator_address, primary_key: :address
   has_many :validator_votes, foreign_key: :validator_address, primary_key: :address
-  has_many :validator_rewards, foreign_key: :validator_address, primary_key: :address
   has_many :blocks, foreign_key: :validator_address, primary_key: :address
+  has_many :validator_performances, foreign_key: "validators_#{network}_id"
+  has_many :validator_balances, foreign_key: :validator_address, primary_key: :address
 
   # I really didn't like this and probably a has_many_shardable helper needs to be added
   has_many :stake_histories,

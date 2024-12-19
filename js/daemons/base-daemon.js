@@ -1,6 +1,7 @@
 const {Aptos, AptosConfig, Network} = require("@aptos-labs/ts-sdk");
 const {createClient} = require("redis");
 const JobDispatcher = require("../lib/queue/job-dispatcher");
+const {padClassName} = require("../lib/utils");
 
 class BaseDaemon {
     constructor(redisClient, jobDispatcher, aptos) {
@@ -9,12 +10,12 @@ class BaseDaemon {
         this.jobDispatcher = jobDispatcher;
         this.aptos = aptos;
         this.running = false;
-        this.rateLimit = 300; // in ms
 
         this.pendingRequests = new Map();
         this.responseQueueKey = `response_queue:${this.constructor.name}`;
-        this.requestTimeout = 30000; // 30 seconds timeout
         this.popWait = 15; // seconds to wait for timeout
+        // Longest class prefix is '[ValidatorPerformance] ' which is 22 characters
+        this.classNamePadding = 22;
     }
 
     /**
@@ -34,7 +35,7 @@ class BaseDaemon {
                 redisClient = createClient({url: redisUrlOrClient});
                 await redisClient.connect();
             } catch (e) {
-                console.log(new Date(), 'Redis Client Error', e);
+                console.log(new Date(), padClassName('BaseDaemon'), 'Redis Client Error', e);
             }
         } else {
             redisClient = redisUrlOrClient;
@@ -54,12 +55,13 @@ class BaseDaemon {
 
         // Instantiate the daemon class (e.g., ValidatorsList, BlockInfo)
         const instance = new this(redisClient, jobDispatcher, aptos, ...args);
+
         // Make sure we connect the blocking client
         await instance.blockingClient.connect();
 
         // Start listening for responses
         await instance.listenForResponses();
-        console.log(new Date(), `${instance.constructor.name} listening for request responses..`);
+        console.log(new Date(), padClassName(instance.constructor.name), 'listening for request responses..');
 
         // Check if the subclass has a `start` method and call it
         if (typeof instance.start === 'function') {
@@ -74,7 +76,7 @@ class BaseDaemon {
      * @param {string} message - The message to log.
      */
     log(message) {
-        console.log(new Date(), message);
+        console.log(`${new Date().toISOString()} ${padClassName(this.constructor.name)} ${message}`);
     }
 
     /**
@@ -116,50 +118,6 @@ class BaseDaemon {
     }
 
     /**
-     * Generates a unique request ID
-     * @returns {string}
-     */
-    generateRequestId() {
-        return `${this.constructor.name}:${Date.now()}:${Math.random().toString(36).substr(2, 9)}`;
-    }
-
-    /**
-     * Submits a request to the queue
-     * @param {string} url
-     * @param {Object} options
-     * @returns {Promise<{requestId: string, promise: Promise}>}
-     */
-    async submitRequestToQueue(url, options = {}) {
-        const requestId = this.generateRequestId();
-        const requestData = {
-            id: requestId,
-            url,
-            options,
-            responseQueue: this.responseQueueKey, // Use the consistent queue key
-            source: this.constructor.name,        // Add source for debugging
-            timestamp: Date.now()
-        };
-
-        // Create promise and set up timeout as before
-        const responsePromise = new Promise((resolve, reject) => {
-            const timeout = setTimeout(() => {
-                this.pendingRequests.delete(requestId);
-                reject(new Error(`Request timeout: ${requestId}`));
-            }, this.requestTimeout);
-
-            this.pendingRequests.set(requestId, {resolve, reject, timeout});
-        });
-
-        this.log(` * pushing to request_queue: ${url}`);
-        await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
-
-        return {
-            requestId,
-            promise: responsePromise
-        };
-    }
-
-    /**
      * Sets up listen to the proper response queue
      */
     async listenForResponses() {
@@ -174,7 +132,6 @@ class BaseDaemon {
                     const pending = this.pendingRequests.get(response.requestId);
 
                     if (pending) {
-                        clearTimeout(pending.timeout);
                         this.pendingRequests.delete(response.requestId);
 
                         if (response.error) {
@@ -182,7 +139,8 @@ class BaseDaemon {
                         } else {
                             pending.resolve(response.data);
                         }
-                        this.log(`Completed processing response for: ${response.requestId}`);
+                        // Log response with ID for easier correlation with request
+                        this.log(`[${response.requestId}] < completed processing response`);
                     }
                 }
             } catch (error) {
@@ -206,25 +164,57 @@ class BaseDaemon {
      * @param url
      * @returns {JSON}
      */
-    async fetchWithQueue(url, rateLimit, debug = false) {
+    async fetchWithQueue(url, debug = false) {
+        const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        let requestResolve, requestReject;
+        const requestPromise = new Promise((resolve, reject) => {
+            requestResolve = resolve;
+            requestReject = reject;
+        });
+
+        // Create request object for tracking
+        const request = {
+            resolve: requestResolve,
+            reject: requestReject
+        };
+
+        // Add to pending requests
+        this.pendingRequests.set(requestId, request);
+
+        // Push request to queue
+        const requestData = {
+            id: requestId,
+            url,
+            source: this.constructor.name,
+            options: {
+                headers: {
+                    'Accept': 'application/json'
+                },
+                ...debug ? {debug} : {}
+            },
+            responseQueue: this.responseQueueKey
+        };
+
+        await this.redisClient.lPush('request_queue', JSON.stringify(requestData));
+
+        if (debug) {
+            this.log(`URL: ${url}`);
+        }
+
         try {
-            const {promise} = await this.submitRequestToQueue(url, {debug});
-            const response = await promise;
-
+            const response = await requestPromise;
             if (debug) {
-                console.log(" URL:", url);
-                console.log(" Response body:", response);
+                this.log(`Response: ${JSON.stringify(response)}`);
             }
-
             return response;
         } catch (error) {
             if (debug) {
-                console.log(" Error:", error.message);
+                this.log(`Error: ${error.message}`);
             }
             throw error;
         }
     }
-
 }
 
 module.exports = BaseDaemon;

@@ -1,0 +1,39 @@
+# == Schema Information
+#
+# Table name: validator_rewards_testnet
+#
+reward_one:
+  validator_address: "0x123abc" # matches validator_one
+  amount: "100000"
+  block_height: 1000000
+  block_timestamp: "2024-01-01T00:00:00Z"
+  reward_datetime: <%= Time.current %>
+  sequence: 1
+  version: 1000000
+
+reward_two:
+  validator_address: "0x123abc" # matches validator_one, older reward
+  amount: "90000"
+  block_height: 990000
+  block_timestamp: "2023-12-31T00:00:00Z"
+  reward_datetime: <%= 1.day.ago %>
+  sequence: 2
+  version: 990000
+
+reward_three:
+  validator_address: "0x456def" # matches validator_two
+  amount: "200000"
+  block_height: 1000000
+  block_timestamp: "2024-01-01T00:00:00Z"
+  reward_datetime: <%= Time.current %>
+  sequence: 3
+  version: 1000001
+
+reward_four:
+  validator_address: "0x456def" # matches validator_two, older reward
+  amount: "180000"
+  block_height: 990000
+  block_timestamp: "2023-12-31T00:00:00Z"
+  reward_datetime: <%= 1.day.ago %>
+  sequence: 4
+  version: 990001

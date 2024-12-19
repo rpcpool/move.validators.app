@@ -11,7 +11,7 @@ export default class extends BaseAnalyticsChartController {
     }
 
     connect() {
-        this.loadChartData('week');
+        this.loadChartData('15epochs');
     }
 
     getChartColors() {
@@ -51,12 +51,15 @@ export default class extends BaseAnalyticsChartController {
         this.loadChartData(event.target.value);
     }
 
-    convertOctasToApt(octas) {
-        return parseFloat(octas) / 100000000;
-    }
-
     renderChart(data) {
-        if (!data?.rewards) return;
+        if (!data?.rewards) {
+            data = {
+                rewards: [{
+                    datetime: new Date().toISOString(),
+                    amount: "0"
+                }]
+            };
+        }
 
         const isDark = this.isDarkMode();
         const colors = this.getChartColors();
@@ -67,7 +70,7 @@ export default class extends BaseAnalyticsChartController {
                 labels: data.rewards.map(r => new Date(r.datetime).toLocaleDateString()),
                 datasets: [{
                     label: 'Rewards',
-                    data: data.rewards.map(r => this.convertOctasToApt(r.amount)),
+                    data: data.rewards.map(r => parseFloat(r.amount)),
                     borderColor: colors.rewards.borderColor,
                     backgroundColor: colors.rewards.backgroundColor,
                     borderWidth: 2,

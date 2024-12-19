@@ -1,4 +1,19 @@
 class PublicController < ApplicationController
+  def terms
+  end
+
+  def privacy_policy
+  end
+
+  def cookie_policy
+  end
+
+  def about
+  end
+
+  def getting_started
+  end
+
   def home
     @apt_info = Price.order(created_at: :desc).where(currency: "usd").limit(1).first || Price.new # CoinGeckoClient.new.price
     @epoch = EpochHistory.order(epoch: :desc).limit(1).first

@@ -1,4 +1,3 @@
 web: bin/rails server
 css: bin/rails tailwindcss:watch
 worker: bundle exec sidekiq
-# dev-daemons: cd js && bin/bootstrap.sh pnpm run dev-daemons

@@ -39,7 +39,7 @@
       <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-700">
         <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-100"><%= t('public.validators.rewards') %></dt>
         <dd class="mt-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
-          <%= octas_to_apt(@validator.rewards, 8) %> APT
+          <%= octas_to_apt(@validator.rewards) %> APT
         </dd>
       </div>
     </dl>
@@ -54,12 +54,12 @@
 
   <div class="mt-8 flex justify-between items-center h-32"
        data-controller="rewards-sparkline"
-       data-rewards-sparkline-rewards="<%= @rewards.map { |r| (r.amount.to_i / 100_000_000.0).round(2) }.to_json %>"
+       data-rewards-sparkline-rewards="<%= @rewards.map { |r| octas_to_apt(r.amount, 2) }.to_json %>"
        data-rewards-sparkline-sequences="<%= @rewards.map { |r| r.sequence }.to_json %>">
     <div class="h-32">
       <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-200"><%= t('rewards') %></h2>
       <p class="text-sm text-gray-500 dark:text-gray-400">Total
-        <%= t('rewards') %>: <%= number_with_precision(@total_rewards, precision: 8) %> APT</p>
+        <%= t('rewards') %>: <%= octas_to_apt(@validator.rewards) %> APT</p>
     </div>
     <div class="w-[75%] h-32 flex flex-col items-center justify-center">
       <canvas data-rewards-sparkline-target="sparkline"></canvas>

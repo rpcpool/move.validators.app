@@ -1,11 +1,75 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: stake_histories_testnet
+#
+stake_history_one:
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_one) %>
+  active_stake: "2000000"
+  blockchain_timestamp: <%= Time.current %>
+  commission_percentage: "10"
+  epoch: 100
+  event_guid: "event_1"
+  event_type: "stake_added"
+  inactive_stake: "0"
+  operator_address: "0x123abc"
+  pending_active_stake: "0"
+  pending_inactive_stake: "0"
+  pool_address: "0x123abc"
+  version: "1000000"
+  voting_power: "1000000"
+  status: "active"
+  raw_data: { "type": "stake_added", "amount": "2000000" }
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+stake_history_two:
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_one) %>
+  active_stake: "1800000"
+  blockchain_timestamp: <%= 1.day.ago %>
+  commission_percentage: "10"
+  epoch: 99
+  event_guid: "event_2"
+  event_type: "stake_added"
+  inactive_stake: "0"
+  operator_address: "0x123abc"
+  pending_active_stake: "0"
+  pending_inactive_stake: "0"
+  pool_address: "0x123abc"
+  version: "990000"
+  voting_power: "950000"
+  status: "active"
+  raw_data: { "type": "stake_added", "amount": "1800000" }
+
+stake_history_three:
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_two) %>
+  active_stake: "4000000"
+  blockchain_timestamp: <%= Time.current %>
+  commission_percentage: "8"
+  epoch: 100
+  event_guid: "event_3"
+  event_type: "stake_added"
+  inactive_stake: "0"
+  operator_address: "0x456def"
+  pending_active_stake: "0"
+  pending_inactive_stake: "0"
+  pool_address: "0x456def"
+  version: "1000001"
+  voting_power: "2000000"
+  status: "active"
+  raw_data: { "type": "stake_added", "amount": "4000000" }
+
+stake_history_four:
+  validators_testnet_id: <%= ActiveRecord::FixtureSet.identify(:validator_two) %>
+  active_stake: "3800000"
+  blockchain_timestamp: <%= 1.day.ago %>
+  commission_percentage: "8"
+  epoch: 99
+  event_guid: "event_4"
+  event_type: "stake_added"
+  inactive_stake: "0"
+  operator_address: "0x456def"
+  pending_active_stake: "0"
+  pending_inactive_stake: "0"
+  pool_address: "0x456def"
+  version: "990001"
+  voting_power: "1900000"
+  status: "active"
+  raw_data: { "type": "stake_added", "amount": "3800000" }

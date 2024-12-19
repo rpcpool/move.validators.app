@@ -9,20 +9,7 @@
 
     <!-- Attribute Bars Section -->
     <div class="flex space-x-2">
-      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
-           data-action="mouseenter->score#show mouseleave->score#hide"
-           data-name="Voting Record"
-           data-value="<%= validator.voting_record %>">
-        <div class="bg-green-400 w-full" style="height: <%= validator.voting_record_percent %>%"></div>
-      </div>
-
-      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
-           data-action="mouseenter->score#show mouseleave->score#hide"
-           data-name="Last Epoch Blocks"
-           data-value="<%= validator.last_epoch_perf %>">
-        <div class="bg-red-400 w-full" style="height: <%= validator.last_epoch_perf %>%"></div>
-      </div>
-
+      <!-- Start Date moved to first position -->
       <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
            data-action="mouseenter->score#show mouseleave->score#hide"
            data-name="Start Date"
@@ -32,16 +19,30 @@
 
       <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
            data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Voting Record"
+           data-value="<%= validator.voting_record %>">
+        <div class="w-full" style="height: <%= validator.voting_record_percent %>%; background-color: #9F7AEA;"></div>
+      </div>
+
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
+           data-name="Last Epoch Blocks"
+           data-value="<%= validator.last_epoch_perf %>">
+        <div class="w-full" style="height: <%= validator.last_epoch_perf %>%; background-color: #667EEA;"></div>
+      </div>
+
+      <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
+           data-action="mouseenter->score#show mouseleave->score#hide"
            data-name="Block Performance"
            data-value="<%= validator.performance %>">
-        <div class="bg-indigo-400 w-full" style="height: <%= validator.performance %>%"></div>
+        <div class="w-full" style="height: <%= validator.performance %>%; background-color: #ED64A6;"></div>
       </div>
 
       <div class="w-1.5 h-12 border-2 border-black rounded-full overflow-hidden flex flex-col-reverse"
            data-action="mouseenter->score#show mouseleave->score#hide"
            data-name="Data Center"
            data-value="<%= validator.data_center_score %>">
-        <div class="bg-teal-400 w-full" style="height: <%= validator.data_center_score %>%"></div>
+        <div class="w-full" style="height: <%= validator.data_center_score %>%; background-color: #F6E05E;"></div>
       </div>
     </div>
 

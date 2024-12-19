@@ -11,7 +11,7 @@ export default class extends BaseAnalyticsChartController {
     }
 
     connect() {
-        this.loadChartData('week');
+        this.loadChartData('15epochs');
     }
 
     getChartColors() {
@@ -73,8 +73,8 @@ export default class extends BaseAnalyticsChartController {
                 datasets: [
                     {
                         type: 'bar',
-                        label: 'Daily Blocks',
-                        data: data.block_production.map(r => r.daily_blocks),
+                        label: 'Blocks per Epoch',
+                        data: data.block_production.map(r => r.epoch_blocks),
                         backgroundColor: colors.daily.backgroundColor,
                         borderRadius: 4,
                         yAxisID: 'y-daily',
@@ -111,7 +111,7 @@ export default class extends BaseAnalyticsChartController {
                         position: 'left',
                         title: {
                             display: true,
-                            text: 'Daily Blocks',
+                            text: 'Blocks per Epoch',
                             font: {size: 12},
                             color: isDark ? '#9CA3AF' : '#6B7280'
                         },
