@@ -1,5 +1,6 @@
 const FileLog = require('../lib/misc/file-log');
 const {padClassName} = require('../lib/utils');
+const {createClient} = require("redis");
 
 class RequestManager {
     constructor(redisClient) {
@@ -333,8 +334,12 @@ if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_E
     const redisUrl = process.env.REDIS_URL;
     console.log(new Date(), padClassName("RequestManager"), "service starting using redis url: ", redisUrl);
 
-    RequestManager.create(redisUrl).then(() => {
-        console.log(new Date(), padClassName("RequestManager"), "service start complete.");
+    // Because RequestManager does not extend BaseDaemon, we need to create the redit client manually
+    const redisClient = createClient({url: redisUrl});
+    redisClient.connect().then(() => {
+        RequestManager.create(redisUrl).then(() => {
+            console.log(new Date(), padClassName("RequestManager"), "service start complete.");
+        });
     });
 } else {
     console.log(new Date(), padClassName("RequestManager"), "detected test/development environment, not starting in systemd bootstrap.");
