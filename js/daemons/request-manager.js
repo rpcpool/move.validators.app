@@ -337,7 +337,7 @@ if (process.env.NODE_ENV && !["test", "development"].includes(process.env.NODE_E
     // Because RequestManager does not extend BaseDaemon, we need to create the redit client manually
     const redisClient = createClient({url: redisUrl});
     redisClient.connect().then(() => {
-        RequestManager.create(redisUrl).then(() => {
+        RequestManager.create(redisClient).then(() => {
             console.log(new Date(), padClassName("RequestManager"), "service start complete.");
         });
     });
