@@ -1,0 +1,18 @@
+@keyframes spinAndFade {
+  0% {
+    transform: rotate(0deg);
+    color: inherit;
+  }
+  50% {
+    transform: rotate(180deg);
+    color: #14B8A6;
+  }
+  100% {
+    transform: rotate(360deg);
+    color: inherit;
+  }
+}
+
+.animate-spin-and-fade {
+  animation: spinAndFade 1s ease-in-out;
+}
