@@ -67,6 +67,7 @@ module ApplicationHelper
   end
 
   def ellipsize(string, edge_length = 3)
+    return '-' if string.nil?
     return string if string.length <= edge_length * 2
 
     "#{string[0...edge_length]}...#{string[-edge_length..]}"
