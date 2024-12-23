@@ -1,18 +1,18 @@
 <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-  <div data-controller="analytics--balance-rewards-chart"
-       data-analytics--balance-rewards-chart-address-value="<%= validator.address %>">
+  <div data-controller="balance-rewards-chart"
+       data-balance-rewards-chart-address-value="<%= validator.address %>">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-semibold"><%= t('balance_vs_rewards') %></h2>
       <select
-        data-analytics--balance-rewards-chart-target="timeRange"
-        data-action="change->analytics--balance-rewards-chart#updateTimeRange"
+        data-balance-rewards-chart-target="timeRange"
+        data-action="change->balance-rewards-chart#updateTimeRange"
         class="bg-white border border-gray-300 rounded-md py-1 px-3 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200 w-42"
       >
         <%# Options will be populated by JavaScript %>
       </select>
     </div>
     <div>
-      <canvas data-analytics--balance-rewards-chart-target="chart" class="h-64"></canvas>
+      <canvas data-balance-rewards-chart-target="chart" class="h-64"></canvas>
     </div>
   </div>
 </div>

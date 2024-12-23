@@ -1,28 +1,28 @@
 <!--<div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">-->
 <!--  <h2 class="text-lg font-semibold mb-4">Block Production</h2>-->
-<!--  <div data-controller="analytics--block-production-chart"-->
-<!--       data-analytics--block-production-chart-address-value="<%#= validator.address %>"-->
+<!--  <div data-controller="block-production-chart"-->
+<!--       data-block-production-chart-address-value="<%#= validator.address %>"-->
 <!--  >-->
-<!--    <canvas data-analytics--block-production-chart-target="chart" class="h-64"></canvas>-->
+<!--    <canvas data-block-production-chart-target="chart" class="h-64"></canvas>-->
 <!--  </div>-->
 <!--</div>-->
 
 
 <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-  <div data-controller="analytics--block-production-chart"
-       data-analytics--block-production-chart-address-value="<%= validator.address %>">
+  <div data-controller="block-production-chart"
+       data-block-production-chart-address-value="<%= validator.address %>">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-semibold"><%= t('block_production') %></h2>
       <select
-        data-analytics--block-production-chart-target="timeRange"
-        data-action="change->analytics--block-production-chart#updateTimeRange"
+        data-block-production-chart-target="timeRange"
+        data-action="change->block-production-chart#updateTimeRange"
         class="bg-white border border-gray-300 rounded-md py-1 px-3 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200 w-42"
       >
         <%# Options will be populated by JavaScript %>
       </select>
     </div>
     <div>
-      <canvas data-analytics--block-production-chart-target="chart" class="h-64"></canvas>
+      <canvas data-block-production-chart-target="chart" class="h-64"></canvas>
     </div>
   </div>
 </div>
