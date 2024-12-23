@@ -1,5 +1,5 @@
 // app/javascript/controllers/analytics/voting_participation_chart_controller.js
-import BaseAnalyticsChartController from "./base_analytics_chart_controller.js"
+import BaseAnalyticsChartController from "controllers/base_analytics_chart_controller"
 import {Chart} from "chart.js"
 
 export default class extends BaseAnalyticsChartController {

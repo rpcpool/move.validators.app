@@ -1,6 +1,6 @@
 import {Controller} from "@hotwired/stimulus"
 import {Chart, registerables} from "chart.js"
-import BaseAnalyticsChartController from "./base_analytics_chart_controller.js"
+import BaseAnalyticsChartController from "controllers/base_analytics_chart_controller"
 
 Chart.register(...registerables)
 
