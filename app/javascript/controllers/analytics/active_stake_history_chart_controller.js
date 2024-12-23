@@ -1,4 +1,4 @@
-import BaseAnalyticsChartController from "./base_analytics_chart_controller.js"
+import BaseAnalyticsChartController from "../base_analytics_chart_controller.js"
 import {Chart} from "chart.js"
 
 export default class extends BaseAnalyticsChartController {
