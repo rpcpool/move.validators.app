@@ -1,18 +1,18 @@
 <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-700">
-  <div data-controller="analytics--rewards-history-chart"
-       data-analytics--rewards-history-chart-address-value="<%= validator.address %>">
+  <div data-controller="rewards-history-chart"
+       data-rewards-history-chart-address-value="<%= validator.address %>">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-semibold"><%= t('rewards_history') %></h2>
       <select
-        data-analytics--rewards-history-chart-target="timeRange"
-        data-action="change->analytics--rewards-history-chart#updateTimeRange"
+        data-rewards-history-chart-target="timeRange"
+        data-action="change->rewards-history-chart#updateTimeRange"
         class="bg-white border border-gray-300 rounded-md py-1 px-3 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200 w-42"
       >
         <%# Options will be populated by JavaScript %>
       </select>
     </div>
     <div>
-      <canvas data-analytics--rewards-history-chart-target="chart" class="h-64"></canvas>
+      <canvas data-rewards-history-chart-target="chart" class="h-64"></canvas>
     </div>
   </div>
 </div>
